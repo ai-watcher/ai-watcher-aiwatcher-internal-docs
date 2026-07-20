@@ -1,6 +1,6 @@
 # Platform Coverage
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Workflows](workflows.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Gaps](gaps.md) · [Release Checklist](release-checklist.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
 
 > Do not claim universal interception. Verify each platform with hook-status or live behavior. Where hooks do not exist, use Prompt Companion, MCP, wrappers, or thin extensions through the local preflight API.
 

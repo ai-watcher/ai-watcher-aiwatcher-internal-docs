@@ -1,6 +1,6 @@
 # AIWatcher Local Review Home
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Workflows](workflows.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Gaps](gaps.md) · [Release Checklist](release-checklist.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
 
 Updated: `2026-07-12`
 
@@ -45,14 +45,11 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 | --- | --- |
 | [Scope](scope.md) | Product boundary, strategic filter, and acceptance rules. |
 | [Requirements](requirements.md) | Lifecycle requirement matrix and coverage. |
-| [Workflows](workflows.md) | User-facing workflows and concrete examples. |
 | [Platforms](platforms.md) | Coverage by Claude, Codex, Cursor, browser, VS Code, and terminal surfaces. |
-| [Test Cases](test-cases.md) | Full scenario checklist with expected behavior and value. |
-| [Gaps](gaps.md) | Open work and decisions. |
-| [Release Checklist](release-checklist.md) | Launch checklist grouped by gap, partial, and to-verify status. |
+| [Test Cases](test-cases.md) | Full scenario checklist, status summary, open gaps, UX workflows, examples, and decisions. |
 
 ## Interactive HTML
 
 `index.html` is still generated for the tabbed local browser experience. GitHub displays HTML files as source, so use these Markdown pages for normal GitHub review.
 
-Generated from `aiwatcher-local/scenarios.json`. Do not edit generated files by hand.
+Generated from `aiwatcher-local/scenarios.json`. The JSON is the private source of truth; the Markdown and HTML files are generated.

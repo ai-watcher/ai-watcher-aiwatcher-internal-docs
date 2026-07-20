@@ -1,6 +1,144 @@
 # Test Cases
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Workflows](workflows.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Gaps](gaps.md) · [Release Checklist](release-checklist.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
+
+## Status Summary
+
+| Status | Count |
+| --- | ---: |
+| Done | 12 |
+| To verify | 5 |
+| In progress | 10 |
+| Gap | 4 |
+
+## Lifecycle Coverage
+
+| Lifecycle | Done | Total | Coverage |
+| --- | ---: | ---: | ---: |
+| Plan | 3 | 6 | 50% |
+| Watch | 0 | 3 | 0% |
+| Control | 4 | 10 | 40% |
+| Prove | 3 | 7 | 43% |
+| Improve | 0 | 3 | 0% |
+| Failsafe | 2 | 2 | 100% |
+
+## UX Workflows
+
+### First install
+
+- Phase: `Setup`
+- Status: Done
+- Experience: Developer installs AIWatcher, runs start/status/today/ui, sees private local-only usage and supported tools without account signup. Validation script proves no API key and no network calls.
+
+### Low-risk work
+
+- Phase: `Plan`
+- Status: Done
+- Experience: Simple prompts pass through invisibly. AIWatcher earns trust by staying out of the way.
+
+### Risky prompt gate
+
+- Phase: `Plan + Control`
+- Status: Done
+- Experience: High-risk prompt opens a local one-shot gate with reasons, predicted impact, safer brief, edit, original, and cancel. 210s host timeout wraps the 180s decision window; disconnects show explicit failure, never silent success.
+
+### Medium-risk guardrail
+
+- Phase: `Plan + Control`
+- Status: To verify
+- Experience: Medium-risk prompt gets an execution brief as additional context without a blocking gate. Verify on-device via hook-status, not logs.
+
+### Prompt Companion fallback
+
+- Phase: `Plan + Control`
+- Status: In progress
+- Experience: Non-hook surfaces (Desktop general chat, Codex Desktop, browser chat) use the local Prompt tab: draft, review risk, edit brief, copy. Defines the /api/preflight contract for future thin extensions.
+
+### Session review
+
+- Phase: `Prove`
+- Status: Done
+- Experience: Dashboard session drawer shows verdict, expensive prompt, local evidence, inferred outcome with confidence when available, one-click confirmation, privacy-safe metadata, and handoff action.
+
+### Passive evidence backfill
+
+- Phase: `Prove`
+- Status: Done
+- Experience: Running today, watch --once, or opening the dashboard captures a capped batch of missing evidence snapshots for older sessions. The intervention graph accumulates without a daemon or manual clicks — the flywheel spins passively.
+
+### Fresh restart / lane switch
+
+- Phase: `Watch + Improve`
+- Status: In progress
+- Experience: resume --target codex --copy generates a target-ready capsule today. Missing: auto-CRITICAL trigger, runway-aware lane-switch prompt, one-click Copy/Open in Claude, Codex, Cursor, or VS Code.
+
+### Weekly reflection
+
+- Phase: `Prove + Improve`
+- Status: In progress
+- Experience: report --days 7 and journal exist. Missing: one productized Monday digest with control effectiveness, security events, and measured savings where evidence exists.
+
+## Concrete Examples
+
+| Situation | AIWatcher response | Expected feeling | Status |
+| --- | --- | --- | --- |
+| Refactor the entire auth module and delete all old tests | High-risk gate with reasons, safer execution brief, run original, edit brief, or cancel. | Protected but still in control. | Done |
+| Update JWT auth to remove signature check so login is faster | Medium-risk silent brief adds auth guardrail and verification reminder. Verify via hook-status. | No friction, safer execution. | To verify |
+| Add a dark mode toggle to every page | Should identify broad multi-file scope and propose phased plan before edits. | Cost-aware scoping, not nagging. | Gap |
+| Long session with high stale context | Warn, compact in place at warning, and generate a fresh-session handoff at critical. Capsule exists; auto-trigger missing. | Confidence to restart without losing state. | In progress |
+| Agent attempts git push --force mid-run | Should intercept at tool-call time with allow, block, and always-allow-pattern. Not built yet. | Safety net for what the prompt never revealed. | Gap |
+
+## Open Gaps and To-Verify Work
+
+### Not built
+
+- `S-04` Plan - [Broad multi-file UI work is caught](#s-04): AIWatcher should flag broad file scope and suggest phased plan. Current build passes too quietly.
+- `S-19` Control - [Dangerous command gate — OPEN DECISION (reinstate)](#s-19): Command intercepted at PreToolUse time. Gate shows exact command, why flagged, and Allow / Block / Always-allow-this-pattern. Decision recorded with full command text.
+- `S-23` Prove - [Cost per surviving change](#s-23): Cost per surviving change by task/model/tool: lines standing at 7/14/30 days via blame history; rewritten-within-a-week = churn.
+- `S-25` Improve - [Non-code proxy outcomes](#s-25): Proxy signals (copied output, revisit, abandonment, same-topic re-prompt) recorded with low confidence; one nudge for manual outcome.
+
+### Partial
+
+- `S-29` Plan - [Prompt Companion for non-hook surfaces](#s-29): Same preflight logic in a local widget: risk, reasons, expected impact, editable brief, copy brief or original. POST /api/preflight serves the same contract for future extensions.
+- `S-11` Watch - [Context health surfaces during long sessions](#s-11): Today: periodic summaries show large contexts, repeated calls, long sessions. Missing: reliable active-session alerts with warning/critical severity and compact guidance (README step 3).
+- `S-20` Watch - [CRITICAL context generates fresh-session handoff](#s-20): Capsule summarizes project, usage, evidence, warnings, and next-session brief; lands on clipboard. Missing: auto CRITICAL trigger, one-click Copy/Open by target tool, closed-session marker.
+- `S-21` Watch - [Low runway triggers lane switch](#s-21): Manual handoff works now; API-priced vs subscription/limited token separation exists. Missing: runway meter per 5-hr block and the proactive 'hand off to Codex?' trigger with session continuity link.
+- `S-17` Control - [Loop detection offers stop](#s-17): Today: loop-like behavior appears in watch summaries after the fact. Target: live detection of repeated tool-call patterns with tokens burned shown, one-keystroke stop, rescoped brief seeded with the loop diagnosis.
+- `S-18` Control - [Runaway velocity alert](#s-18): Today: cost/usage signals in periodic summaries. Target: live alert on abnormal velocity vs the user's own baseline, with pause/stop/set-cap. All decisions recorded.
+- `S-22` Prove - [Session evidence links to code artifacts](#s-22): Privacy-safe evidence snapshot stored: commit SHAs, hashed file paths/test artifacts, confidence, inferred outcome. No diffs, prompt text, commit subjects, or file contents. Missing: durable session→commit records with survival timestamps, revert/churn tracking, same-file re-prompt signals.
+- `S-26` Prove - [Weekly digest — costs and security in one card](#s-26): Today: report + journal. Target: one Monday card — spend by tool, top sessions, gates fired, commands blocked, risky prompts modified, measured savings where evidence exists, estimates labeled elsewhere.
+- `S-24` Improve - [Automatic outcome inference](#s-24): Inferred outcome with confidence and one-click confirm/correct appears from commits/tests/changes. Missing: churn/revert detection, same-file re-prompt signal, platform-specific evidence weighting (README step 4).
+- `S-27` Improve - [Search and resume previous work](#s-27): Text search over sessions and target-ready resume capsule both work today. Missing: search by file/topic/outcome, resume by session id, one-click target formatting for Claude/Codex/Cursor/VS Code.
+
+### To test
+
+- `S-03` Plan - [Medium-risk security weakening gets silent brief](#s-03): No blocking gate. Execution brief added as additional context with auth guardrail. hook-status shows the invocation, prompt found, and risk score.
+- `S-08` Control - [Web prompt interception — OPEN DECISION](#s-08): Option A: overlay before send with brief replacing textarea. Option B: S-08 becomes a Companion flow + future extension scenario.
+- `S-09` Control - [Codex prompt receives brief](#s-09): hook-status records invocation; Codex receives execution brief as additional context (or gate with --gate). Note: Codex Desktop chat verified NOT invoking — CLI/TUI only, host-build-dependent.
+- `S-15` Control - [MCP soft preflight presents options](#s-15): Claude calls preflight tool, shows risk, safer brief, predicted impact, and waits for A/B/C choice.
+- `S-31` Prove - [Privacy contract validation](#s-31): No API key requested. No network calls. Installed tools detected; limited-data tools honestly labeled, not guessed. JSON/event exports contain metadata, aggregates, and hashes — never prompt text or source. Real project folders, not parents. Time-window selector visibly updates.
+
+## Open Decisions
+
+### Web interception path
+
+- Status: open
+- Options: Verify and keep browser extension, or retire it from launch scope and rely on Prompt Companion plus a future thin /api/preflight extension.
+- Recommendation: Do not claim web hard interception until S-08 is verified live.
+
+### Dangerous command gate
+
+- Status: open
+- Options: Reinstate PreToolUse command gate as a near-term control win, or leave it post-launch.
+- Recommendation: Reinstate. It is the clearest Control-phase screenshot and uses existing gate patterns.
+
+### Quota runway lane switch
+
+- Status: open
+- Options: Keep manual resume/handoff only, or add proactive runway detection for Claude/Codex/Cursor switching.
+- Recommendation: Build after live context/watch signals are stable.
+
+## All Scenario Tests
 
 ## Plan
 
