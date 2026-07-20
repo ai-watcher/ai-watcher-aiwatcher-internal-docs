@@ -11,13 +11,35 @@ surfaces here instead of in the OSS repo.
 ```text
 aiwatcher-local/
   scenarios.json
+  README.md
+  scope.md
+  requirements.md
+  platforms.md
+  test-cases.md
   index.html
-  scenario-status.md
-  release-checklist.md
+
+enterprise/
+  scenarios.json
+  README.md
+  scope.md
+  requirements.md
+  platforms.md
+  test-cases.md
+  propagation-matrix.md
+  index.html
 ```
 
-- `aiwatcher-local/scenarios.json` is the source of truth.
-- `index.html`, `scenario-status.md`, and `release-checklist.md` are generated.
+- `*/scenarios.json` is the source of truth.
+- `README.md`, `scope.md`, `requirements.md`, `platforms.md`,
+  `test-cases.md`, `propagation-matrix.md`, and `index.html` are generated or
+  derived review surfaces.
+- Use Markdown pages for GitHub review.
+- Use `index.html` for offline interactive viewing.
 - Do not put secrets in this repo. GitHub Actions secrets stay on the public
-  `ai-watcher/aiwatcher-local` repo.
+  `ai-watcher/aiwatcher-local` repo or the private enterprise repo.
 
+## Review Hubs
+
+- [AIWatcher Local](aiwatcher-local/README.md)
+- [AIWatcher Enterprise](enterprise/README.md)
+- [OSS to Enterprise Propagation Matrix](enterprise/propagation-matrix.md)
