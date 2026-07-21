@@ -1,7 +1,7 @@
 {
   "schema": "aiwatcher.scenario_suite.v1",
   "title": "AIWatcher Local - Lifecycle Requirements and Scenario Test Suite",
-  "updated": "2026-07-12",
+  "updated": "2026-07-21",
   "summary": "Plan, Watch, Control, Prove, and Improve coverage for AIWatcher Local.",
   "scope": {
     "position": "AIWatcher Local is a private control loop for individual AI work, not another dashboard. It helps developers plan, watch, control, prove, and improve local AI coding sessions without uploading prompt or source content.",
@@ -613,7 +613,7 @@
       "do": "Open Receipts/Today; click into the session.",
       "expected": "Receipt links decision → observed session usage, risk reduction, and outcome when linkable. Hashes, not prompt text.",
       "value": "Evidence of AIWatcher impact.",
-      "why": "Prove phase needs a local ledger, not memory. Intervention-to-session matching across concurrent sessions still improving (README step 2)."
+      "why": "Prove phase needs a local ledger, not memory. Hook-provided session_id (Claude/Codex/Cursor, when the payload includes it) now links deterministically; correlate.py tool+project+time heuristic remains the fallback for hooks that do not supply one. The Receipts UI does not yet distinguish a hook-verified link from a heuristic-matched one (tracked separately)."
     },
     {
       "id": "S-13",
@@ -743,7 +743,7 @@
       "title": "hook-status proves invocation",
       "go": "Use any AI surface after installing hooks.",
       "do": "Run aiwatcher hook-status.",
-      "expected": "Recent event = hook ran on that surface, showing whether prompt text was found and which risk score computed. No recent event = surface did not invoke the hook. Verified boundaries: Claude CLI + Desktop Code tab yes; Desktop general chat no; Codex Desktop no; Codex CLI/TUI build-dependent.",
+      "expected": "Recent event = hook ran on that surface, showing whether prompt text was found and which risk score computed. No recent event = surface did not invoke the hook. Verified boundaries: Claude CLI + Desktop Code tab yes; Desktop general chat no; Codex Desktop no; Codex CLI/TUI build-dependent. Also shows the linked session_id when the hook payload provided one, directly proving which session a decision belongs to instead of relying on post-hoc correlation.",
       "value": "Platform claims become provable instead of asserted. The arbiter for every coverage row in this suite.",
       "why": "Not every surface uses the same hook runtime. Verify per surface, never per vendor name."
     }
