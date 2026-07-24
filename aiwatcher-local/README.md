@@ -2,7 +2,7 @@
 
 [Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
 
-Updated: `2026-07-12`
+Updated: `2026-07-24`
 
 AIWatcher Local is a private control loop for individual AI work, not another dashboard. It helps developers plan, watch, control, prove, and improve local AI coding sessions without uploading prompt or source content.
 
@@ -10,34 +10,32 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 
 | Status | Count |
 | --- | ---: |
-| Done | 12 |
-| To verify | 5 |
-| In progress | 10 |
-| Gap | 4 |
+| Done | 23 |
+| To verify | 4 |
+| In progress | 3 |
+| Gap | 1 |
 
 ## Lifecycle Coverage
 
 | Lifecycle | Done | Total | Coverage |
 | --- | ---: | ---: | ---: |
-| Plan | 3 | 6 | 50% |
-| Watch | 0 | 3 | 0% |
-| Control | 4 | 10 | 40% |
-| Prove | 3 | 7 | 43% |
-| Improve | 0 | 3 | 0% |
+| Plan | 6 | 6 | 100% |
+| Watch | 3 | 3 | 100% |
+| Control | 5 | 10 | 50% |
+| Prove | 6 | 7 | 86% |
+| Improve | 1 | 3 | 33% |
 | Failsafe | 2 | 2 | 100% |
 
 ## What To Review First
 
-- `S-04` Plan - Gap: [Broad multi-file UI work is caught](test-cases.md#s-04)
-- `S-19` Control - Gap: [Dangerous command gate — OPEN DECISION (reinstate)](test-cases.md#s-19)
-- `S-23` Prove - Gap: [Cost per surviving change](test-cases.md#s-23)
 - `S-25` Improve - Gap: [Non-code proxy outcomes](test-cases.md#s-25)
-- `S-11` Watch - In progress: [Context health surfaces during long sessions](test-cases.md#s-11)
-- `S-17` Control - In progress: [Loop detection offers stop](test-cases.md#s-17)
-- `S-18` Control - In progress: [Runaway velocity alert](test-cases.md#s-18)
-- `S-20` Watch - In progress: [CRITICAL context generates fresh-session handoff](test-cases.md#s-20)
-- `S-21` Watch - In progress: [Low runway triggers lane switch](test-cases.md#s-21)
-- `S-22` Prove - In progress: [Session evidence links to code artifacts](test-cases.md#s-22)
+- `S-17` Control - Partial: [Loop detection offers stop](test-cases.md#s-17) — detection built, live one-keystroke stop deliberately deferred
+- `S-18` Control - Partial: [Runaway velocity alert](test-cases.md#s-18) — alert built, live pause/stop/set-cap deliberately deferred
+- `S-24` Improve - Partial: [Automatic outcome inference](test-cases.md#s-24) — platform-specific evidence weighting still missing
+- `S-08` Control - To verify: [Web prompt interception — OPEN DECISION](test-cases.md#s-08)
+- `S-09` Control - To verify: [Codex prompt receives brief](test-cases.md#s-09)
+- `S-15` Control - To verify: [MCP soft preflight presents options](test-cases.md#s-15)
+- `S-31` Prove - To verify: [Privacy contract validation](test-cases.md#s-31)
 
 ## Review Sections
 

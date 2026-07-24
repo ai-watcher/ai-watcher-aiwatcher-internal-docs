@@ -16,24 +16,24 @@
 | Requirement | Lifecycle | User value | Status | Covered by |
 | --- | --- | --- | --- | --- |
 | Prompt preflight with risk scoring | Plan | Prevents broad or dangerous work from starting blindly. | Done | S-01, S-02, S-16 |
-| Silent brief for medium risk | Plan | No-friction guardrails; provable via hook-status. | To verify | S-03 |
-| Breadth heuristic for multi-file product/UI work | Plan | Stops expensive broad refactors even without security words. | Gap | S-04 |
-| Prompt Companion for non-hook surfaces | Plan | Same preflight logic where no lifecycle hook exists; defines the /api/preflight contract. | In progress | S-29 |
-| Context health and compaction guidance | Watch | Warns when long sessions degrade and cost rises. Live alerts pending. | In progress | S-11 |
-| Fresh-session handoff capsule | Watch | Restart without losing state. Auto-CRITICAL trigger missing. | In progress | S-20 |
-| Quota runway and lane switching | Watch | API vs subscription meters exist; runway trigger missing. | In progress | S-21 |
+| Silent brief for medium risk | Plan | No-friction guardrails; provable via hook-status. | Done | S-03 |
+| Breadth heuristic for multi-file product/UI work | Plan | Stops expensive broad refactors even without security words. | Done | S-04 |
+| Prompt Companion for non-hook surfaces | Plan | Same preflight logic where no lifecycle hook exists; defines the /api/preflight contract. | Done | S-29 |
+| Context health and compaction guidance | Watch | Warns when long sessions degrade and cost rises, for every session in the window. | Done | S-11 |
+| Fresh-session handoff capsule | Watch | Restart without losing state. Auto-CRITICAL trigger, clipboard copy, and target formatting all built. | Done | S-20 |
+| Quota runway and lane switching | Watch | Runway trigger built: names a concrete alternate tool and emits a ready resume command. | Done | S-21 |
 | Hard gate decisions | Control | User chooses original, safer brief, edit, or cancel — with timeout honesty. | Done | S-05, S-06, S-07 |
 | Cross-surface interception | Control | Protects work where hooks exist; verified boundary documented. | In progress | S-08, S-09, S-10, S-15 |
-| Mid-session loop/runaway control | Control | Stops waste after the run starts. Signals exist; detection and stop do not. | In progress | S-17, S-18 |
-| Dangerous command gate | Control | Tool-call-time protection for destructive commands. Off the roadmap — reinstate. | Gap | S-19 |
+| Mid-session loop/runaway control | Control | Stops waste after the run starts. Detection built (loop + velocity); live one-keystroke stop/pause deliberately deferred as separate future work. | Partial | S-17, S-18 |
+| Dangerous command gate | Control | Tool-call-time protection for destructive commands. Reinstated, Claude Code only. | Done | S-19 |
 | Decision ledger and receipts | Prove | Links decision to observed usage, risk reduction, and outcome. | Done | S-12 |
 | Manual outcome review | Prove | useful / rework / abandoned, stored locally. | Done | S-13 |
-| Durable session-to-commit linkage | Prove | Evidence snapshots + passive backfill exist; survival timestamps and churn missing. | In progress | S-22, S-30 |
-| Cost per surviving change | Prove | Measures value, not token volume. | Gap | S-23 |
-| Weekly digest | Prove | report/journal exist; one Monday card missing. Promoted to P2. | In progress | S-26 |
+| Durable session-to-commit linkage | Prove | Evidence snapshots + passive backfill + survival timestamps + churn tracking all built. | Done | S-22, S-30 |
+| Cost per surviving change | Prove | Measures value, not token volume. 7/14/30-day buckets, honesty-gated. | Done | S-23 |
+| Weekly digest | Prove | One Monday card: outcomes, top sessions, gates, risky-prompts-modified, measured cost-per-surviving-change. | Done | S-26 |
 | Privacy contract validation | Prove | Testable trust: no API key, no network calls, hash-only exports. | To verify | S-31 |
-| Automatic outcome inference | Improve | Inferred outcome + confidence + one-click confirm live; churn/revert/re-prompt missing. | In progress | S-24 |
+| Automatic outcome inference | Improve | Inferred outcome + confidence + one-click confirm + churn/revert + re-prompt signal live; platform-specific evidence weighting still missing. | Partial | S-24 |
 | Non-code outcome proxies | Improve | Extends outcome thinking to writing and planning work. | Gap | S-25 |
-| Session search and resume | Improve | sessions --search and resume --target --copy live; by-outcome search and resume-by-id missing. | In progress | S-27 |
+| Session search and resume | Improve | sessions/resume --search (incl. file/topic fallback), --outcome, --evidence, --target all live. | Done | S-27 |
 | Hook invocation verification | Failsafe | hook-status proves platform claims instead of inferring from logs. | Done | S-28 |
 | Non-destructive install | Failsafe | Install adds only AIWatcher; uninstall removes only AIWatcher. | Done | S-14 |

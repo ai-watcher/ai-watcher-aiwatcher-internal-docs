@@ -6,20 +6,20 @@
 
 | Status | Count |
 | --- | ---: |
-| Done | 12 |
-| To verify | 5 |
-| In progress | 10 |
-| Gap | 4 |
+| Done | 23 |
+| To verify | 4 |
+| In progress | 3 |
+| Gap | 1 |
 
 ## Lifecycle Coverage
 
 | Lifecycle | Done | Total | Coverage |
 | --- | ---: | ---: | ---: |
-| Plan | 3 | 6 | 50% |
-| Watch | 0 | 3 | 0% |
-| Control | 4 | 10 | 40% |
-| Prove | 3 | 7 | 43% |
-| Improve | 0 | 3 | 0% |
+| Plan | 6 | 6 | 100% |
+| Watch | 3 | 3 | 100% |
+| Control | 5 | 10 | 50% |
+| Prove | 6 | 7 | 86% |
+| Improve | 1 | 3 | 33% |
 | Failsafe | 2 | 2 | 100% |
 
 ## UX Workflows
@@ -45,14 +45,14 @@
 ### Medium-risk guardrail
 
 - Phase: `Plan + Control`
-- Status: To verify
-- Experience: Medium-risk prompt gets an execution brief as additional context without a blocking gate. Verify on-device via hook-status, not logs.
+- Status: Done
+- Experience: Medium-risk prompt gets an execution brief as additional context without a blocking gate. Verified on-device via hook-status (S-03).
 
 ### Prompt Companion fallback
 
 - Phase: `Plan + Control`
-- Status: In progress
-- Experience: Non-hook surfaces (Desktop general chat, Codex Desktop, browser chat) use the local Prompt tab: draft, review risk, edit brief, copy. Defines the /api/preflight contract for future thin extensions.
+- Status: Done
+- Experience: Non-hook surfaces (Claude Desktop general chat, Codex Desktop chat, claude.ai/other browser chat) use the local Prompt tab: draft, review risk, edit brief, copy. Widget copy now names these surfaces explicitly. Defines the /api/preflight contract for future thin extensions (S-29).
 
 ### Session review
 
@@ -69,50 +69,39 @@
 ### Fresh restart / lane switch
 
 - Phase: `Watch + Improve`
-- Status: In progress
-- Experience: resume --target codex --copy generates a target-ready capsule today. Missing: auto-CRITICAL trigger, runway-aware lane-switch prompt, one-click Copy/Open in Claude, Codex, Cursor, or VS Code.
+- Status: Done
+- Experience: resume --target codex --copy generates a target-ready capsule today. watch now auto-triggers this at CRITICAL context (or severe loop), copies it to clipboard, and offers a runway-aware lane-switch prompt naming a concrete alternate tool with a ready-to-run resume command (S-20, S-21).
 
 ### Weekly reflection
 
 - Phase: `Prove + Improve`
-- Status: In progress
-- Experience: report --days 7 and journal exist. Missing: one productized Monday digest with control effectiveness, security events, and measured savings where evidence exists.
+- Status: Done
+- Experience: report --days 7 is now the productized Monday digest: outcome breakdown, top sessions, loop/runaway candidates, command-gate and risky-prompt-modified counts (control effectiveness + security events), and measured cost-per-surviving-change where evidence exists (S-26).
 
 ## Concrete Examples
 
 | Situation | AIWatcher response | Expected feeling | Status |
 | --- | --- | --- | --- |
 | Refactor the entire auth module and delete all old tests | High-risk gate with reasons, safer execution brief, run original, edit brief, or cancel. | Protected but still in control. | Done |
-| Update JWT auth to remove signature check so login is faster | Medium-risk silent brief adds auth guardrail and verification reminder. Verify via hook-status. | No friction, safer execution. | To verify |
-| Add a dark mode toggle to every page | Should identify broad multi-file scope and propose phased plan before edits. | Cost-aware scoping, not nagging. | Gap |
-| Long session with high stale context | Warn, compact in place at warning, and generate a fresh-session handoff at critical. Capsule exists; auto-trigger missing. | Confidence to restart without losing state. | In progress |
-| Agent attempts git push --force mid-run | Should intercept at tool-call time with allow, block, and always-allow-pattern. Not built yet. | Safety net for what the prompt never revealed. | Gap |
+| Update JWT auth to remove signature check so login is faster | Medium-risk silent brief adds auth guardrail and verification reminder. Verified via hook-status. | No friction, safer execution. | Done |
+| Add a dark mode toggle to every page | Breadth heuristic identifies the broad multi-file scope and proposes a phased plan before edits. | Cost-aware scoping, not nagging. | Done |
+| Long session with high stale context | Warn, compact in place at warning, and auto-generate a fresh-session handoff at critical -- copied to clipboard, target-formatted. | Confidence to restart without losing state. | Done |
+| Agent attempts git push --force mid-run | Intercepted at tool-call time with allow, block, and always-allow-pattern (Claude Code only). | Safety net for what the prompt never revealed. | Done |
 
 ## Open Gaps and To-Verify Work
 
 ### Not built
 
-- `S-04` Plan - [Broad multi-file UI work is caught](#s-04): AIWatcher should flag broad file scope and suggest phased plan. Current build passes too quietly.
-- `S-19` Control - [Dangerous command gate — OPEN DECISION (reinstate)](#s-19): Command intercepted at PreToolUse time. Gate shows exact command, why flagged, and Allow / Block / Always-allow-this-pattern. Decision recorded with full command text.
-- `S-23` Prove - [Cost per surviving change](#s-23): Cost per surviving change by task/model/tool: lines standing at 7/14/30 days via blame history; rewritten-within-a-week = churn.
 - `S-25` Improve - [Non-code proxy outcomes](#s-25): Proxy signals (copied output, revisit, abandonment, same-topic re-prompt) recorded with low confidence; one nudge for manual outcome.
 
 ### Partial
 
-- `S-29` Plan - [Prompt Companion for non-hook surfaces](#s-29): Same preflight logic in a local widget: risk, reasons, expected impact, editable brief, copy brief or original. POST /api/preflight serves the same contract for future extensions.
-- `S-11` Watch - [Context health surfaces during long sessions](#s-11): Today: periodic summaries show large contexts, repeated calls, long sessions. Missing: reliable active-session alerts with warning/critical severity and compact guidance (README step 3).
-- `S-20` Watch - [CRITICAL context generates fresh-session handoff](#s-20): Capsule summarizes project, usage, evidence, warnings, and next-session brief; lands on clipboard. Missing: auto CRITICAL trigger, one-click Copy/Open by target tool, closed-session marker.
-- `S-21` Watch - [Low runway triggers lane switch](#s-21): Manual handoff works now; API-priced vs subscription/limited token separation exists. Missing: runway meter per 5-hr block and the proactive 'hand off to Codex?' trigger with session continuity link.
-- `S-17` Control - [Loop detection offers stop](#s-17): Today: loop-like behavior appears in watch summaries after the fact. Target: live detection of repeated tool-call patterns with tokens burned shown, one-keystroke stop, rescoped brief seeded with the loop diagnosis.
-- `S-18` Control - [Runaway velocity alert](#s-18): Today: cost/usage signals in periodic summaries. Target: live alert on abnormal velocity vs the user's own baseline, with pause/stop/set-cap. All decisions recorded.
-- `S-22` Prove - [Session evidence links to code artifacts](#s-22): Privacy-safe evidence snapshot stored: commit SHAs, hashed file paths/test artifacts, confidence, inferred outcome. No diffs, prompt text, commit subjects, or file contents. Missing: durable session→commit records with survival timestamps, revert/churn tracking, same-file re-prompt signals.
-- `S-26` Prove - [Weekly digest — costs and security in one card](#s-26): Today: report + journal. Target: one Monday card — spend by tool, top sessions, gates fired, commands blocked, risky prompts modified, measured savings where evidence exists, estimates labeled elsewhere.
-- `S-24` Improve - [Automatic outcome inference](#s-24): Inferred outcome with confidence and one-click confirm/correct appears from commits/tests/changes. Missing: churn/revert detection, same-file re-prompt signal, platform-specific evidence weighting (README step 4).
-- `S-27` Improve - [Search and resume previous work](#s-27): Text search over sessions and target-ready resume capsule both work today. Missing: search by file/topic/outcome, resume by session id, one-click target formatting for Claude/Codex/Cursor/VS Code.
+- `S-17` Control - [Loop detection offers stop](#s-17): Done: watch polling detects repeated identical tool-call content, shows tokens/cost burned, and auto-generates a loop-seeded handoff capsule at severe repeat counts. Still missing: a true one-keystroke live stop of an actively-running session (would need live process hooking, not log scanning) -- deliberately deferred as separate scoped work.
+- `S-18` Control - [Runaway velocity alert](#s-18): Done: watch polling flags tokens/minute >=2x the user's own per-tool baseline. Still missing: interactive pause/stop/set-cap during an actively-running session -- same live-control gap as S-17, deferred.
+- `S-24` Improve - [Automatic outcome inference](#s-24): Done: churn/revert detection and same-file re-prompt signal now built; verdict rule ('needs review', never a confident 'wasteful') confirmed by independent audit. Still missing: platform-specific evidence weighting (confirmed absent by direct code search) — Claude/Codex/Cursor evidence weighted identically today.
 
 ### To test
 
-- `S-03` Plan - [Medium-risk security weakening gets silent brief](#s-03): No blocking gate. Execution brief added as additional context with auth guardrail. hook-status shows the invocation, prompt found, and risk score.
 - `S-08` Control - [Web prompt interception — OPEN DECISION](#s-08): Option A: overlay before send with brief replacing textarea. Option B: S-08 becomes a Companion flow + future extension scenario.
 - `S-09` Control - [Codex prompt receives brief](#s-09): hook-status records invocation; Codex receives execution brief as additional context (or gate with --gate). Note: Codex Desktop chat verified NOT invoking — CLI/TUI only, host-build-dependent.
 - `S-15` Control - [MCP soft preflight presents options](#s-15): Claude calls preflight tool, shows risk, safer brief, predicted impact, and waits for A/B/C choice.
@@ -128,15 +117,17 @@
 
 ### Dangerous command gate
 
-- Status: open
+- Status: resolved
 - Options: Reinstate PreToolUse command gate as a near-term control win, or leave it post-launch.
 - Recommendation: Reinstate. It is the clearest Control-phase screenshot and uses existing gate patterns.
+- Resolution: Reinstated, Claude Code only -- see S-19. Codex/Cursor deliberately not attempted (unverified hook schemas).
 
 ### Quota runway lane switch
 
-- Status: open
+- Status: resolved
 - Options: Keep manual resume/handoff only, or add proactive runway detection for Claude/Codex/Cursor switching.
 - Recommendation: Build after live context/watch signals are stable.
+- Resolution: Built -- see S-21. Proactive trigger covers claude-code/codex-cli (the two tools with baselines); no Cursor baseline exists yet.
 
 ## All Scenario Tests
 
@@ -170,25 +161,25 @@
 
 ### S-03 - Medium-risk security weakening gets silent brief
 
-- Status: To verify
+- Status: Done
 - Platform: Claude Code CLI
 - Go to: Open Claude Code CLI.
 - Do: Ask: Update JWT auth to remove signature check so login is faster.
 - Expected: No blocking gate. Execution brief added as additional context with auth guardrail. hook-status shows the invocation, prompt found, and risk score.
 - User value: No-friction safety net.
-- Why it matters: Medium risk should improve execution without interrupting. Verify via hook-status, never logs.
+- Why it matters: Medium risk should improve execution without interrupting. Verify via hook-status, never logs. Manually verified live via `aiwatcher preflight "Make auth less strict so tests pass"`.
 
 <a id="s-04"></a>
 
 ### S-04 - Broad multi-file UI work is caught
 
-- Status: Gap
+- Status: Done
 - Platform: Claude Code CLI
 - Go to: Open Claude Code CLI.
 - Do: Ask: Add a dark mode toggle to every page in the app.
-- Expected: AIWatcher should flag broad file scope and suggest phased plan. Current build passes too quietly.
+- Expected: A quantifier+surface-noun breadth heuristic (independent of the auth/delete keyword list) flags requests like 'update every page' or 'across the app', scores them medium risk, and suggests a phased/checkpointed brief.
 - User value: Cost and scope control for common product work.
-- Why it matters: Needs breadth heuristic beyond auth/delete keywords. P3: calibrate from outcome data showing which broad prompts rework.
+- Why it matters: Needs breadth heuristic beyond auth/delete keywords. P3: calibrate from outcome data showing which broad prompts rework. Manually verified live via `aiwatcher preflight "Redesign the whole UI and update every page"`.
 
 <a id="s-16"></a>
 
@@ -206,13 +197,13 @@
 
 ### S-29 - Prompt Companion for non-hook surfaces
 
-- Status: In progress
+- Status: Done
 - Platform: Dashboard Prompt tab
 - Go to: Run aiwatcher ui, open the Prompt tab.
 - Do: Paste a risky prompt intended for Claude Desktop chat or Codex Desktop.
-- Expected: Same preflight logic in a local widget: risk, reasons, expected impact, editable brief, copy brief or original. POST /api/preflight serves the same contract for future extensions.
+- Expected: Same preflight logic in a local widget: risk, reasons, expected impact, editable brief, copy brief or original. POST /api/preflight serves the same contract for future extensions. Widget copy now names the actual non-hook surfaces (Claude Desktop general chat, Codex Desktop chat, claude.ai/other browser chat) instead of vague 'some surfaces', and clarifies CLI/Codex/Cursor already get this via hook.
 - User value: Honest coverage for surfaces with no lifecycle hook — useful on its own, not pretend interception.
-- Why it matters: Missing per README step 1: copy/paste ergonomics polish after beta feedback.
+- Why it matters: Missing per README step 1: copy/paste ergonomics polish after beta feedback. That polish is now done; underlying widget/endpoint predates this and was unchanged.
 
 ## Watch
 
@@ -220,23 +211,23 @@
 
 ### S-11 - Context health surfaces during long sessions
 
-- Status: In progress
+- Status: Done
 - Platform: CLI + Dashboard
 - Go to: Run aiwatcher watch --once during or after a long high-context session.
 - Do: Review context growth and session signals.
-- Expected: Today: periodic summaries show large contexts, repeated calls, long sessions. Missing: reliable active-session alerts with warning/critical severity and compact guidance (README step 3).
+- Expected: Every poll now runs context-health severity (warning/critical) with compact guidance for the latest session, and separately for every other session in the window (not just the latest, as originally) -- surfaced in the 'Other sessions with local signals' list too. Still polling-based (README step 3's 'live' framing), not a push notification -- watch's own header says 'local logs only, not a live feed.'
 - User value: Prevents quality degradation from bloated sessions.
-- Why it matters: Watch must move from periodic to live before loop/runaway control can sit on it.
+- Why it matters: Watch must move from periodic to live before loop/runaway control can sit on it. Manually verified via `aiwatcher watch --once` against real local session history.
 
 <a id="s-20"></a>
 
 ### S-20 - CRITICAL context generates fresh-session handoff
 
-- Status: In progress
+- Status: Done
 - Platform: CLI + Dashboard
-- Go to: Open session review or run aiwatcher resume --target claude --copy.
+- Go to: Run aiwatcher watch --once (or --interval) against a CRITICAL-context session, or open session review / run aiwatcher resume --target claude --copy manually.
 - Do: Create a handoff capsule for a recent costly/long session.
-- Expected: Capsule summarizes project, usage, evidence, warnings, and next-session brief; lands on clipboard. Missing: auto CRITICAL trigger, one-click Copy/Open by target tool, closed-session marker.
+- Expected: watch now auto-generates and prints the capsule inline the moment context (or a severe loop) is CRITICAL, copies it to the clipboard, and formats it for a configurable --target tool (new flag, defaults to generic). A per-session+timestamp marker prevents regenerating/recopying on every --interval poll while the session is unchanged -- scoped to that watch process's own run (in-memory, not persisted across restarts).
 - User value: Restart without losing state and without manual reconstruction.
 - Why it matters: Same handoff engine powers restart, lane switch, and resume.
 
@@ -244,11 +235,11 @@
 
 ### S-21 - Low runway triggers lane switch
 
-- Status: In progress
+- Status: Done
 - Platform: CLI + Codex/Cursor
-- Go to: Work during low Claude subscription runway.
-- Do: Run resume --target codex --copy manually today; accept a proactive offer when built.
-- Expected: Manual handoff works now; API-priced vs subscription/limited token separation exists. Missing: runway meter per 5-hr block and the proactive 'hand off to Codex?' trigger with session continuity link.
+- Go to: Run aiwatcher watch --once while one tool is under heavy trailing-5h usage relative to its own baseline.
+- Do: Compare the recommended action against manually running resume --target codex --copy.
+- Expected: _runway_pressure() estimates trailing-5h usage vs. the tool's own p75 baseline (claude-code/codex-cli only -- no baseline exists for Cursor, so no guess is made for it). At >=1.5x, watch's recommendation now names a concrete alternate tool (claude<->codex swap) and emits the exact `aiwatcher resume --session-id ... --target ... --copy` command to run -- not just a ratio with no next step. Always labeled 'local estimate, not a real-time quota API', never live.
 - User value: Avoids subscription pause frustration. The screenshot feature.
 - Why it matters: Quota runway and API spend are separate meters — both now visible, neither yet predictive.
 
@@ -342,11 +333,11 @@
 
 ### S-17 - Loop detection offers stop
 
-- Status: In progress
+- Status: Partial
 - Platform: Claude Code CLI
-- Go to: Create repeated edit/test failure loop.
+- Go to: Create repeated edit/test failure loop, then run aiwatcher watch --once or --interval.
 - Do: Let agent repeat same file/test cycle 3+ times.
-- Expected: Today: loop-like behavior appears in watch summaries after the fact. Target: live detection of repeated tool-call patterns with tokens burned shown, one-keystroke stop, rescoped brief seeded with the loop diagnosis.
+- Expected: Done: watch polling detects repeated identical tool-call content (content-hash matching), shows tokens/cost burned across the repeats, and at severe repeat counts (5+) auto-generates a handoff capsule seeded with the loop diagnosis as the leading warning. Still missing: a true one-keystroke live stop of an actively-running session -- watch re-scans local logs on a timer, it does not hook into or interrupt a running agent process. That would need genuinely different plumbing (live process hooking, not periodic log scanning) and is deliberately deferred as separate, explicitly-scoped future work, not attempted as part of this batch.
 - User value: Stops waste while it is happening.
 - Why it matters: Preflight cannot catch loops that form during execution. Depends on live-watch rework (README step 3).
 
@@ -354,23 +345,23 @@
 
 ### S-18 - Runaway velocity alert
 
-- Status: In progress
+- Status: Partial
 - Platform: All hooked tools
-- Go to: Create high tokens/minute session with no progress signals.
+- Go to: Create high tokens/minute session with no progress signals, then run aiwatcher watch --once.
 - Do: Continue session past threshold.
-- Expected: Today: cost/usage signals in periodic summaries. Target: live alert on abnormal velocity vs the user's own baseline, with pause/stop/set-cap. All decisions recorded.
+- Expected: Done: watch polling computes tokens/minute over the trailing 10 minutes vs. the user's own per-tool p75 baseline (real historical session data, not an assumed rate); at >=2x it drives the recommended action to 'narrow scope' with the exact ratio shown, always labeled a local estimate. Still missing: interactive pause/stop/set-cap controls with decisions recorded during an actively-running session -- same live-process-hooking gap as S-17, deliberately deferred as separate future work.
 - User value: Prevents invoice or quota shock at minute five, not on the bill.
 - Why it matters: Velocity is independent of prompt risk. Baseline improves automatically as history accumulates.
 
 <a id="s-19"></a>
 
-### S-19 - Dangerous command gate — OPEN DECISION (reinstate)
+### S-19 - Dangerous command gate — reinstated
 
-- Status: Gap
-- Platform: Claude Code CLI
-- Go to: Enable command blocklist (defaults: rm -rf, git push --force, git reset --hard, credential/env reads, prod connection strings).
-- Do: Give the agent a task that leads to a blocklisted command.
-- Expected: Command intercepted at PreToolUse time. Gate shows exact command, why flagged, and Allow / Block / Always-allow-this-pattern. Decision recorded with full command text.
+- Status: Done
+- Platform: Claude Code CLI only (not Codex/Cursor)
+- Go to: Install via aiwatcher install-claude-command-gate, then give the agent a task that leads to a blocklisted command (rm -rf, git push --force, git reset --hard, credential/env reads, prod connection strings).
+- Do: Watch the PreToolUse gate open; choose Allow once / Block / Always-allow-this-pattern.
+- Expected: Command intercepted at PreToolUse time via a real Claude Code hook. Gate shows exact command, why flagged, and Allow / Block / Always-allow-this-pattern. Decision recorded with full command text (an intentional, documented exception to the general prompt-hash-only privacy rule -- a shell command is not private the way a prompt is). Deliberately Claude Code only: Codex/Cursor PreToolUse-equivalent hook schemas were unverified, and guessing at them was explicitly rejected in favor of shipping a real, working gate for one platform. Note: a risky *prompt* like 'delete all files' exercises the separate prompt-preflight path (S-03/S-04), not this command gate -- only an actual blocklisted tool call triggers it.
 - User value: Protects when the agent does something the prompt never revealed. The launch screenshot.
 - Why it matters: Fell off the README roadmap (Decision 2). Cheapest control win: interception point exists today, gate UX exists today. Always-allow-pattern required to avoid nag fatigue.
 
@@ -404,11 +395,11 @@
 
 ### S-22 - Session evidence links to code artifacts
 
-- Status: In progress
+- Status: Done
 - Platform: Git repo + Dashboard
 - Go to: Run AI session in a git repo; change or commit files.
 - Do: Open session review.
-- Expected: Privacy-safe evidence snapshot stored: commit SHAs, hashed file paths/test artifacts, confidence, inferred outcome. No diffs, prompt text, commit subjects, or file contents. Missing: durable session→commit records with survival timestamps, revert/churn tracking, same-file re-prompt signals.
+- Expected: Durable evidence snapshot stored: commit SHAs, hashed file paths/test artifacts, confidence, inferred outcome, survival timestamps (7/14/30-day buckets), revert/churn status, same-file re-prompt flag. No diffs, prompt text, commit subjects, or file contents in that durable store (regression-tested). Note: the transient, request-scoped evidence used to render the local session drawer does show real file paths and commit subjects/bodies -- a deliberate, documented choice (a commit message is written to explain a change to a future reader, unlike a prompt) that never leaves the machine and never reaches the durable store. Durable vs. transient scope confirmed by an independent audit, not just self-review.
 - User value: The dataset no one else can collect — the session and the repo on the same machine.
 - Why it matters: P1. Foundation for measured outcomes and the intervention graph.
 
@@ -416,11 +407,11 @@
 
 ### S-23 - Cost per surviving change
 
-- Status: Gap
+- Status: Done
 - Platform: Dashboard
-- Go to: Collect 2+ weeks of durable linkage (S-22 complete).
-- Do: Open Impact view.
-- Expected: Cost per surviving change by task/model/tool: lines standing at 7/14/30 days via blame history; rewritten-within-a-week = churn.
+- Go to: Run aiwatcher report --days 7, or open the dashboard once 5+ survival-checked sessions exist.
+- Do: Compare cost per surviving vs. cost per churned change.
+- Expected: Cost per surviving change computed at the 7/14/30-day buckets via `git merge-base --is-ancestor` (reachability, not just object existence -- avoids the 'dangling but not GC'd' false positive). Honesty-gated: shows nothing until >=5 survival-checked samples exist, rather than a number built on too little data. Surfaced in both the dashboard and the CLI weekly digest.
 - User value: Measures value, not token volume. Fixes the denominator every dashboard gets wrong.
 - Why it matters: P3 rendering on P1 collection. No claim before the history exists.
 
@@ -428,11 +419,11 @@
 
 ### S-26 - Weekly digest — costs and security in one card
 
-- Status: In progress
+- Status: Done
 - Platform: CLI + Dashboard
 - Go to: Run aiwatcher report --days 7 or open Insights.
 - Do: Review the week.
-- Expected: Today: report + journal. Target: one Monday card — spend by tool, top sessions, gates fired, commands blocked, risky prompts modified, measured savings where evidence exists, estimates labeled elsewhere.
+- Expected: One report now shows: outcome breakdown (useful/rework/abandoned + inferred), highest-cost useful session, a top-sessions list (costliest individually, regardless of outcome), loop/runaway candidates, command-gate fired/blocked counts, risky-prompts-modified count (flagged vs. actually taken safer), cost-per-surviving-change (measured, evidence-gated -- see S-23), and one priority-ordered recommendation. No unlabeled estimates shown. Minor gap: full per-tool spend breakdown exists in the dashboard's JSON API but the CLI text view still only shows the single top tool, not a full table -- pre-existing, not addressed in this batch.
 - User value: Turns the Ledger into a Monday ritual. The habit asset.
 - Why it matters: Promoted to P2: 70% built, needs no outcome history to be useful day one.
 
@@ -466,11 +457,11 @@
 
 ### S-24 - Automatic outcome inference
 
-- Status: In progress
+- Status: Partial
 - Platform: Git repo + Dashboard
 - Go to: Complete a session with local evidence.
 - Do: Open Today/session review.
-- Expected: Inferred outcome with confidence and one-click confirm/correct appears from commits/tests/changes. Missing: churn/revert detection, same-file re-prompt signal, platform-specific evidence weighting (README step 4).
+- Expected: Done: inferred outcome with confidence and one-click confirm/correct appears from commits/tests/changes; churn/revert detection (a commit that looked useful gets downgraded if it didn't survive); same-file re-prompt signal (a later session touching the same files within 72h flags rework). Verdict rule confirmed by an independent audit: the codebase never infers a confident 'wasteful' outcome anywhere -- only useful/needs_review/churned. Still missing: platform-specific evidence weighting (confirmed absent by direct search, not just unverified) -- Claude/Codex/Cursor evidence is currently weighted identically, README step 4.
 - User value: Zero-effort ground truth; reduces labeling and makes useful work measurable.
 - Why it matters: P1 with S-22. Verdict rule: 'needs review' when confidence is low — never a confident 'wasteful' without listed evidence.
 
@@ -490,11 +481,11 @@
 
 ### S-27 - Search and resume previous work
 
-- Status: In progress
+- Status: Done
 - Platform: CLI + Dashboard
-- Go to: Run aiwatcher sessions --search <term> --days 30.
-- Do: Find prior work; run resume --target codex --copy.
-- Expected: Text search over sessions and target-ready resume capsule both work today. Missing: search by file/topic/outcome, resume by session id, one-click target formatting for Claude/Codex/Cursor/VS Code.
+- Go to: Run aiwatcher sessions --search <term> --outcome useful --evidence needs_review --days 30.
+- Do: Find prior work by project/tool/model/id/file-topic/outcome/evidence; run resume --session-id <id> --target codex --copy or resume --outcome/--evidence --target ... --copy.
+- Expected: sessions/resume --search matches project/tool/model/session id, falling back to a 'rough topic' match against changed/touched file paths from local git evidence for anything that doesn't match those fields (never commit subjects or prompt text -- regression-tested). New --outcome (recorded useful/rework/abandoned) and --evidence (inferred useful/needs_review/churned) filters, usable alone or combined with --search. resume --session-id and one-click --target formatting (claude/codex/cursor/vscode/generic) already existed. The two previously-duplicated inline search matchers are now one shared filter_sessions() helper.
 - User value: Old AI work becomes reusable context. Third surface of the Handoff Engine — and stored-state lock-in.
 - Why it matters: Daily utility requires retrieval and fast continuation, not just reporting.
 
