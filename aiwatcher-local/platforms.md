@@ -2,7 +2,7 @@
 
 [Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
 
-> Do not claim universal interception. Verify each platform with hook-status or live behavior. Where hooks do not exist, use Prompt Companion, MCP, wrappers, or thin extensions through the local preflight API.
+> Do not claim universal interception. Verify each platform with hook-status, live behavior, or supported local companion surfaces. Where hooks do not exist, use Prompt Companion, MCP, wrappers, notifications, editor extensions, or thin clients through the local preflight/watch APIs.
 
 | Surface | Current mechanism | Coverage | Status | What to verify |
 | --- | --- | --- | --- | --- |
@@ -14,5 +14,6 @@
 | Codex Desktop chat | Verified: does NOT invoke the configured hook | Prompt Companion fallback only | In progress | Boundary confirmed. Document fallback; recheck after Codex Desktop updates. |
 | Cursor IDE | Cursor hook: blocks risky submission, returns scoped brief for resubmission; cannot rewrite composer in place | Paused gate | Done | Gate behavior verified per repo. Token/cost detail intentionally marked limited — do not guess. |
 | VS Code | Manual extension commands calling local preflight API | Manual preflight + resume helper | In progress | Run preflight selection/input/clipboard commands; verify handoff/resume pastes in one action. |
+| Local notification/tray/editor companions | Not built: background watcher should emit local OS notifications and deep-link into dashboard/session review; tray/editor surfaces should consume the same local Watch API. | Planned ambient Watch delivery | Gap | Start one watcher, create or replay a critical context/session signal, confirm a native notification appears, opens the right local page, and records no prompt/source upload. |
 | Windsurf | No current adapter | None | Gap | Define whether hook, extension, or log collector is possible. Post-launch. |
 | Terminal CLI | aiwatcher preflight, claude/codex wrappers, watch, handoff, resume, outcome, export | Manual and wrapped control | Done | Run validation script; verify local-only state, honest limited-data labeling, hash-only exports. |

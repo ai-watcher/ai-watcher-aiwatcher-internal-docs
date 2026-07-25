@@ -1,7 +1,7 @@
 {
   "schema": "aiwatcher.scenario_suite.v1",
   "title": "AIWatcher Local - Lifecycle Requirements and Scenario Test Suite",
-  "updated": "2026-07-21",
+  "updated": "2026-07-25",
   "summary": "Plan, Watch, Control, Prove, and Improve coverage for AIWatcher Local.",
   "scope": {
     "position": "AIWatcher Local is a private control loop for individual AI work, not another dashboard. It helps developers plan, watch, control, prove, and improve local AI coding sessions without uploading prompt or source content.",
@@ -64,6 +64,12 @@
       "status": "partial"
     },
     {
+      "situation": "Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky",
+      "response": "Should notify the developer through a local background watcher, tray/menu bar, dashboard deep link, or editor companion without requiring a manual watch command.",
+      "feeling": "AIWatcher is present during work, not a report I remember to check later.",
+      "status": "gap"
+    },
+    {
       "situation": "Agent attempts git push --force mid-run",
       "response": "Should intercept at tool-call time with allow, block, and always-allow-pattern. Not built yet.",
       "feeling": "Safety net for what the prompt never revealed.",
@@ -88,6 +94,12 @@
       "status": "open",
       "options": "Keep manual resume/handoff only, or add proactive runway detection for Claude/Codex/Cursor switching.",
       "recommendation": "Build after live context/watch signals are stable."
+    },
+    {
+      "decision": "Ambient watch delivery",
+      "status": "open",
+      "options": "Ship a background watcher with OS notifications first, then add dashboard deep links, tray/menu bar, and editor companions where platform APIs permit.",
+      "recommendation": "Do not depend on unsupported desktop UI injection. Deliver Watch signals through supported local surfaces and prove each platform boundary with hook-status or live notification tests."
     }
   ],
   "requirements": [
@@ -139,6 +151,13 @@
       "user_value": "API vs subscription meters exist; runway trigger missing.",
       "status": "partial",
       "covered_by": "S-21"
+    },
+    {
+      "requirement": "Ambient watch delivery",
+      "lifecycle": "Watch",
+      "user_value": "Developers should see context/runway/loop warnings while working, without babysitting a terminal.",
+      "status": "gap",
+      "covered_by": "S-32"
     },
     {
       "requirement": "Hard gate decisions",
@@ -296,6 +315,12 @@
       "body": "resume --target codex --copy generates a target-ready capsule today. Missing: auto-CRITICAL trigger, runway-aware lane-switch prompt, one-click Copy/Open in Claude, Codex, Cursor, or VS Code."
     },
     {
+      "title": "Ambient Watch surface",
+      "phase": "Watch",
+      "status": "gap",
+      "body": "Watch signals should reach the developer through native notifications, local dashboard deep links, tray/menu bar, or editor companions. Today the engine is CLI-first; the next UX step is reducing the need to manually run watch --once."
+    },
+    {
       "title": "Weekly reflection",
       "phase": "Prove + Improve",
       "status": "partial",
@@ -358,6 +383,13 @@
       "coverage": "Manual preflight + resume helper",
       "status": "partial",
       "verify": "Run preflight selection/input/clipboard commands; verify handoff/resume pastes in one action."
+    },
+    {
+      "surface": "Local notification/tray/editor companions",
+      "mechanism": "Not built: background watcher should emit local OS notifications and deep-link into dashboard/session review; tray/editor surfaces should consume the same local Watch API.",
+      "coverage": "Planned ambient Watch delivery",
+      "status": "gap",
+      "verify": "Start one watcher, create or replay a critical context/session signal, confirm a native notification appears, opens the right local page, and records no prompt/source upload."
     },
     {
       "surface": "Windsurf",
@@ -482,6 +514,18 @@
       "expected": "Manual handoff works now; API-priced vs subscription/limited token separation exists. Missing: runway meter per 5-hr block and the proactive 'hand off to Codex?' trigger with session continuity link.",
       "value": "Avoids subscription pause frustration. The screenshot feature.",
       "why": "Quota runway and API spend are separate meters — both now visible, neither yet predictive."
+    },
+    {
+      "id": "S-32",
+      "status": "gap",
+      "phase": "Watch",
+      "platform": "Local notifications + dashboard + editor companions",
+      "title": "Watch signals reach the developer without manual CLI polling",
+      "go": "Run AIWatcher once as a background watcher or local companion while working in Claude, Codex, Cursor, or VS Code.",
+      "do": "Continue a session until context health, runway, or loop pressure crosses warning/critical thresholds.",
+      "expected": "A local OS notification, tray/menu item, dashboard deep link, or editor panel surfaces the warning with the current risk, estimated pressure, and next action: keep going, compact/handoff, switch lane, or open session review. No unsupported desktop UI injection and no prompt/source upload.",
+      "value": "Turns Watch from a terminal report into an ambient safety layer developers can feel during real work.",
+      "why": "PR23 builds the CLI Watch engine. Daily OSS value needs delivery in the user's workflow, while staying honest about platform limits."
     },
     {
       "id": "S-05",
@@ -613,7 +657,7 @@
       "do": "Open Receipts/Today; click into the session.",
       "expected": "Receipt links decision → observed session usage, risk reduction, and outcome when linkable. Hashes, not prompt text.",
       "value": "Evidence of AIWatcher impact.",
-      "why": "Prove phase needs a local ledger, not memory. Hook-provided session_id (Claude/Codex/Cursor, when the payload includes it) now links deterministically; correlate.py tool+project+time heuristic remains the fallback for hooks that do not supply one. The Receipts UI does not yet distinguish a hook-verified link from a heuristic-matched one (tracked separately)."
+      "why": "Prove phase needs a local ledger, not memory. Intervention-to-session matching across concurrent sessions still improving (README step 2)."
     },
     {
       "id": "S-13",
@@ -743,7 +787,7 @@
       "title": "hook-status proves invocation",
       "go": "Use any AI surface after installing hooks.",
       "do": "Run aiwatcher hook-status.",
-      "expected": "Recent event = hook ran on that surface, showing whether prompt text was found and which risk score computed. No recent event = surface did not invoke the hook. Verified boundaries: Claude CLI + Desktop Code tab yes; Desktop general chat no; Codex Desktop no; Codex CLI/TUI build-dependent. Also shows the linked session_id when the hook payload provided one, directly proving which session a decision belongs to instead of relying on post-hoc correlation.",
+      "expected": "Recent event = hook ran on that surface, showing whether prompt text was found and which risk score computed. No recent event = surface did not invoke the hook. Verified boundaries: Claude CLI + Desktop Code tab yes; Desktop general chat no; Codex Desktop no; Codex CLI/TUI build-dependent.",
       "value": "Platform claims become provable instead of asserted. The arbiter for every coverage row in this suite.",
       "why": "Not every surface uses the same hook runtime. Verify per surface, never per vendor name."
     }
