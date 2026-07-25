@@ -29,15 +29,15 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 ## What To Review First
 
 - `S-04` Plan - Gap: [Broad multi-file UI work is caught](test-cases.md#s-04)
-- `S-32` Watch - Gap: [Watch signals reach the developer without manual CLI polling](test-cases.md#s-32)
 - `S-19` Control - Gap: [Dangerous command gate — OPEN DECISION (reinstate)](test-cases.md#s-19)
 - `S-23` Prove - Gap: [Cost per surviving change](test-cases.md#s-23)
 - `S-25` Improve - Gap: [Non-code proxy outcomes](test-cases.md#s-25)
-- `S-29` Plan - In progress: [Prompt Companion for non-hook surfaces](test-cases.md#s-29)
+- `S-32` Watch - Gap: [Watch signals reach the developer without manual CLI polling](test-cases.md#s-32)
 - `S-11` Watch - In progress: [Context health surfaces during long sessions](test-cases.md#s-11)
+- `S-17` Control - In progress: [Loop detection offers stop](test-cases.md#s-17)
+- `S-18` Control - In progress: [Runaway velocity alert](test-cases.md#s-18)
 - `S-20` Watch - In progress: [CRITICAL context generates fresh-session handoff](test-cases.md#s-20)
 - `S-21` Watch - In progress: [Low runway triggers lane switch](test-cases.md#s-21)
-- `S-17` Control - In progress: [Loop detection offers stop](test-cases.md#s-17)
 
 ## Review Sections
 
@@ -45,7 +45,7 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 | --- | --- |
 | [Scope](scope.md) | Product boundary, strategic filter, and acceptance rules. |
 | [Requirements](requirements.md) | Lifecycle requirement matrix and coverage. |
-| [Platforms](platforms.md) | Coverage by Claude, Codex, Cursor, browser, VS Code, terminal, and companion surfaces. |
+| [Platforms](platforms.md) | Coverage by Claude, Codex, Cursor, browser, VS Code, and terminal surfaces. |
 | [Test Cases](test-cases.md) | Full scenario checklist, status summary, open gaps, UX workflows, examples, and decisions. |
 
 ## Interactive HTML
