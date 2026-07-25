@@ -4,7 +4,9 @@ on:
   pull_request:
     paths:
       - ".github/product-docs.json"
+      - ".github/workflows/product-docs-review.yml"
       - ".github/workflows/validate-generated-docs.yml"
+      - "README.md"
       - "aiwatcher-local/**"
       - "enterprise/**"
       - "scripts/**"
@@ -12,7 +14,9 @@ on:
     branches: [main]
     paths:
       - ".github/product-docs.json"
+      - ".github/workflows/product-docs-review.yml"
       - ".github/workflows/validate-generated-docs.yml"
+      - "README.md"
       - "aiwatcher-local/**"
       - "enterprise/**"
       - "scripts/**"

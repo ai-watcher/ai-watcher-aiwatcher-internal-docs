@@ -37,7 +37,7 @@ enterprise/
 - Use `index.html` for offline interactive viewing.
 - Product docs review records live under `reviews/`.
 - Product automation is configured by `.github/product-docs.json`.
-- Do not put secrets in this repo. GitHub Actions secrets stay in repository
+- Do not put secret values in git. GitHub Actions secrets stay in repository
   or organization Actions secrets.
 
 ## Review Hubs
@@ -76,3 +76,20 @@ repository dispatch event. The payload should contain source metadata only:
 
 Private product content stays in this repo. Public and enterprise code repos
 send metadata; they do not edit these docs directly.
+
+### Required Secrets
+
+Source repos that dispatch review requests need:
+
+- `AIWATCHER_PRIVATE_DOCS_REPO`: `ai-watcher/ai-watcher-aiwatcher-internal-docs`
+- `AIWATCHER_PRIVATE_DOCS_TOKEN`: fine-grained PAT with `Contents: Read and write`
+  on this private docs repo, so it can send `repository_dispatch`.
+
+This private docs repo also needs `AIWATCHER_PRIVATE_DOCS_TOKEN`. The
+organization blocks PR creation with the default `GITHUB_TOKEN`, so the token
+used here must have:
+
+- `Contents: Read and write`
+- `Pull requests: Read and write`
+
+Limit the token to `ai-watcher/ai-watcher-aiwatcher-internal-docs`.

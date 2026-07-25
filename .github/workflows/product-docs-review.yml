@@ -36,6 +36,7 @@ jobs:
       group: product-docs-${{ github.event.client_payload.product || inputs.product }}-${{ github.event.client_payload.source_pr || github.event.client_payload.source_sha || inputs.source_pr || inputs.source_sha || github.run_id }}
       cancel-in-progress: false
     env:
+      PRODUCT_DOCS_BOT_TOKEN: ${{ secrets.AIWATCHER_PRIVATE_DOCS_TOKEN }}
       PRODUCT_DOCS_PRODUCT: ${{ github.event.client_payload.product || inputs.product }}
       PRODUCT_DOCS_SOURCE_REPO: ${{ github.event.client_payload.source_repo || inputs.source_repo }}
       PRODUCT_DOCS_SOURCE_PR: ${{ github.event.client_payload.source_pr || inputs.source_pr }}
@@ -54,9 +55,15 @@ jobs:
         run: python3 scripts/record_docs_review.py
       - name: Regenerate product docs
         run: python3 scripts/render_product_docs.py --product "$PRODUCT_DOCS_PRODUCT"
+      - name: Require product docs bot token
+        if: ${{ env.PRODUCT_DOCS_BOT_TOKEN == '' }}
+        run: |
+          echo "::error::AIWATCHER_PRIVATE_DOCS_TOKEN is required in this private docs repo because the organization blocks pull requests created with GITHUB_TOKEN. The token needs Contents: Read and write plus Pull requests: Read and write on this repo."
+          exit 1
       - name: Create or update docs review PR
         uses: peter-evans/create-pull-request@v6
         with:
+          token: ${{ env.PRODUCT_DOCS_BOT_TOKEN }}
           branch: ${{ steps.review.outputs.branch }}
           title: ${{ steps.review.outputs.pr_title }}
           commit-message: ${{ steps.review.outputs.commit_message }}
