@@ -9,14 +9,14 @@
 | Done | 12 |
 | To verify | 5 |
 | In progress | 10 |
-| Gap | 4 |
+| Gap | 5 |
 
 ## Lifecycle Coverage
 
 | Lifecycle | Done | Total | Coverage |
 | --- | ---: | ---: | ---: |
 | Plan | 3 | 6 | 50% |
-| Watch | 0 | 3 | 0% |
+| Watch | 0 | 4 | 0% |
 | Control | 4 | 10 | 40% |
 | Prove | 3 | 7 | 43% |
 | Improve | 0 | 3 | 0% |
@@ -72,6 +72,12 @@
 - Status: In progress
 - Experience: resume --target codex --copy generates a target-ready capsule today. Missing: auto-CRITICAL trigger, runway-aware lane-switch prompt, one-click Copy/Open in Claude, Codex, Cursor, or VS Code.
 
+### Ambient Watch surface
+
+- Phase: `Watch`
+- Status: Gap
+- Experience: Watch signals should reach the developer through native notifications, local dashboard deep links, tray/menu bar, or editor companions. Today the engine is CLI-first; the next UX step is reducing the need to manually run watch --once.
+
 ### Weekly reflection
 
 - Phase: `Prove + Improve`
@@ -86,6 +92,7 @@
 | Update JWT auth to remove signature check so login is faster | Medium-risk silent brief adds auth guardrail and verification reminder. Verify via hook-status. | No friction, safer execution. | To verify |
 | Add a dark mode toggle to every page | Should identify broad multi-file scope and propose phased plan before edits. | Cost-aware scoping, not nagging. | Gap |
 | Long session with high stale context | Warn, compact in place at warning, and generate a fresh-session handoff at critical. Capsule exists; auto-trigger missing. | Confidence to restart without losing state. | In progress |
+| Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky | Should notify the developer through a local background watcher, tray/menu bar, dashboard deep link, or editor companion without requiring a manual watch command. | AIWatcher is present during work, not a report I remember to check later. | Gap |
 | Agent attempts git push --force mid-run | Should intercept at tool-call time with allow, block, and always-allow-pattern. Not built yet. | Safety net for what the prompt never revealed. | Gap |
 
 ## Open Gaps and To-Verify Work
@@ -93,6 +100,7 @@
 ### Not built
 
 - `S-04` Plan - [Broad multi-file UI work is caught](#s-04): AIWatcher should flag broad file scope and suggest phased plan. Current build passes too quietly.
+- `S-32` Watch - [Watch signals reach the developer without manual CLI polling](#s-32): A local OS notification, tray/menu item, dashboard deep link, or editor panel surfaces the warning with the current risk, estimated pressure, and next action: keep going, compact/handoff, switch lane, or open session review. No unsupported desktop UI injection and no prompt/source upload.
 - `S-19` Control - [Dangerous command gate — OPEN DECISION (reinstate)](#s-19): Command intercepted at PreToolUse time. Gate shows exact command, why flagged, and Allow / Block / Always-allow-this-pattern. Decision recorded with full command text.
 - `S-23` Prove - [Cost per surviving change](#s-23): Cost per surviving change by task/model/tool: lines standing at 7/14/30 days via blame history; rewritten-within-a-week = churn.
 - `S-25` Improve - [Non-code proxy outcomes](#s-25): Proxy signals (copied output, revisit, abandonment, same-topic re-prompt) recorded with low confidence; one nudge for manual outcome.
@@ -137,6 +145,12 @@
 - Status: open
 - Options: Keep manual resume/handoff only, or add proactive runway detection for Claude/Codex/Cursor switching.
 - Recommendation: Build after live context/watch signals are stable.
+
+### Ambient watch delivery
+
+- Status: open
+- Options: Ship a background watcher with OS notifications first, then add dashboard deep links, tray/menu bar, and editor companions where platform APIs permit.
+- Recommendation: Do not depend on unsupported desktop UI injection. Deliver Watch signals through supported local surfaces and prove each platform boundary with hook-status or live notification tests.
 
 ## All Scenario Tests
 
@@ -251,6 +265,18 @@
 - Expected: Manual handoff works now; API-priced vs subscription/limited token separation exists. Missing: runway meter per 5-hr block and the proactive 'hand off to Codex?' trigger with session continuity link.
 - User value: Avoids subscription pause frustration. The screenshot feature.
 - Why it matters: Quota runway and API spend are separate meters — both now visible, neither yet predictive.
+
+<a id="s-32"></a>
+
+### S-32 - Watch signals reach the developer without manual CLI polling
+
+- Status: Gap
+- Platform: Local notifications + dashboard + editor companions
+- Go to: Run AIWatcher once as a background watcher or local companion while working in Claude, Codex, Cursor, or VS Code.
+- Do: Continue a session until context health, runway, or loop pressure crosses warning/critical thresholds.
+- Expected: A local OS notification, tray/menu item, dashboard deep link, or editor panel surfaces the warning with the current risk, estimated pressure, and next action: keep going, compact/handoff, switch lane, or open session review. No unsupported desktop UI injection and no prompt/source upload.
+- User value: Turns Watch from a terminal report into an ambient safety layer developers can feel during real work.
+- Why it matters: PR23 builds the CLI Watch engine. Daily OSS value needs delivery in the user's workflow, while staying honest about platform limits.
 
 ## Control
 
@@ -386,7 +412,7 @@
 - Do: Open Receipts/Today; click into the session.
 - Expected: Receipt links decision → observed session usage, risk reduction, and outcome when linkable. Hashes, not prompt text.
 - User value: Evidence of AIWatcher impact.
-- Why it matters: Prove phase needs a local ledger, not memory. Hook-provided session_id (Claude/Codex/Cursor, when the payload includes it) now links deterministically; correlate.py tool+project+time heuristic remains the fallback for hooks that do not supply one. The Receipts UI does not yet distinguish a hook-verified link from a heuristic-matched one (tracked separately).
+- Why it matters: Prove phase needs a local ledger, not memory. Intervention-to-session matching across concurrent sessions still improving (README step 2).
 
 <a id="s-13"></a>
 
@@ -520,6 +546,6 @@
 - Platform: Any hooked surface
 - Go to: Use any AI surface after installing hooks.
 - Do: Run aiwatcher hook-status.
-- Expected: Recent event = hook ran on that surface, showing whether prompt text was found and which risk score computed. No recent event = surface did not invoke the hook. Verified boundaries: Claude CLI + Desktop Code tab yes; Desktop general chat no; Codex Desktop no; Codex CLI/TUI build-dependent. Also shows the linked session_id when the hook payload provided one, directly proving which session a decision belongs to instead of relying on post-hoc correlation.
+- Expected: Recent event = hook ran on that surface, showing whether prompt text was found and which risk score computed. No recent event = surface did not invoke the hook. Verified boundaries: Claude CLI + Desktop Code tab yes; Desktop general chat no; Codex Desktop no; Codex CLI/TUI build-dependent.
 - User value: Platform claims become provable instead of asserted. The arbiter for every coverage row in this suite.
 - Why it matters: Not every surface uses the same hook runtime. Verify per surface, never per vendor name.

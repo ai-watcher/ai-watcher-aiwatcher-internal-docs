@@ -5,7 +5,7 @@
 ## Lifecycle
 
 - **Plan:** Identify risky, broad, or expensive work before it starts. Covered by S-01, S-02, S-03, S-04, S-16, S-29.
-- **Watch:** Detect context bloat, loop pressure, quota risk, and session fatigue while work is happening. Covered by S-11, S-20, S-21.
+- **Watch:** Detect context bloat, loop pressure, quota risk, and session fatigue while work is happening. Covered by S-11, S-20, S-21, S-32.
 - **Control:** Warn, gate, block, rescope, route, or stop risky execution paths. Covered by S-05, S-06, S-07, S-08, S-09, S-10, S-15, S-17, S-18, S-19.
 - **Prove:** Record decisions, resulting sessions, local evidence, and measured impact. Covered by S-12, S-13, S-22, S-23, S-26, S-30, S-31.
 - **Improve:** Learn what worked and make the next run smaller, safer, or more successful. Covered by S-24, S-25, S-27.
@@ -22,6 +22,7 @@
 | Context health and compaction guidance | Watch | Warns when long sessions degrade and cost rises. Live alerts pending. | In progress | S-11 |
 | Fresh-session handoff capsule | Watch | Restart without losing state. Auto-CRITICAL trigger missing. | In progress | S-20 |
 | Quota runway and lane switching | Watch | API vs subscription meters exist; runway trigger missing. | In progress | S-21 |
+| Ambient watch delivery | Watch | Developers should see context/runway/loop warnings while working, without babysitting a terminal. | Gap | S-32 |
 | Hard gate decisions | Control | User chooses original, safer brief, edit, or cancel — with timeout honesty. | Done | S-05, S-06, S-07 |
 | Cross-surface interception | Control | Protects work where hooks exist; verified boundary documented. | In progress | S-08, S-09, S-10, S-15 |
 | Mid-session loop/runaway control | Control | Stops waste after the run starts. Signals exist; detection and stop do not. | In progress | S-17, S-18 |
