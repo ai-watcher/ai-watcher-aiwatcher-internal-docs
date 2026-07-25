@@ -8,19 +8,19 @@
 | --- | ---: |
 | Done | 12 |
 | To verify | 5 |
-| In progress | 10 |
-| Gap | 4 |
+| In progress | 12 |
+| Gap | 5 |
 
 ## Lifecycle Coverage
 
 | Lifecycle | Done | Total | Coverage |
 | --- | ---: | ---: | ---: |
 | Plan | 3 | 6 | 50% |
-| Watch | 0 | 3 | 0% |
+| Watch | 0 | 5 | 0% |
 | Control | 4 | 10 | 40% |
 | Prove | 3 | 7 | 43% |
 | Improve | 0 | 3 | 0% |
-| Failsafe | 2 | 2 | 100% |
+| Failsafe | 2 | 3 | 67% |
 
 ## UX Workflows
 
@@ -93,6 +93,7 @@
 ### Not built
 
 - `S-04` Plan - [Broad multi-file UI work is caught](#s-04): AIWatcher should flag broad file scope and suggest phased plan. Current build passes too quietly.
+- `S-32` Watch - [Runtime hygiene identifies stale local AI runtimes](#s-32): Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. Missing in main: command and UI implementation.
 - `S-19` Control - [Dangerous command gate — OPEN DECISION (reinstate)](#s-19): Command intercepted at PreToolUse time. Gate shows exact command, why flagged, and Allow / Block / Always-allow-this-pattern. Decision recorded with full command text.
 - `S-23` Prove - [Cost per surviving change](#s-23): Cost per surviving change by task/model/tool: lines standing at 7/14/30 days via blame history; rewritten-within-a-week = churn.
 - `S-25` Improve - [Non-code proxy outcomes](#s-25): Proxy signals (copied output, revisit, abandonment, same-topic re-prompt) recorded with low confidence; one nudge for manual outcome.
@@ -103,12 +104,14 @@
 - `S-11` Watch - [Context health surfaces during long sessions](#s-11): Today: periodic summaries show large contexts, repeated calls, long sessions. Missing: reliable active-session alerts with warning/critical severity and compact guidance (README step 3).
 - `S-20` Watch - [CRITICAL context generates fresh-session handoff](#s-20): Capsule summarizes project, usage, evidence, warnings, and next-session brief; lands on clipboard. Missing: auto CRITICAL trigger, one-click Copy/Open by target tool, closed-session marker.
 - `S-21` Watch - [Low runway triggers lane switch](#s-21): Manual handoff works now; API-priced vs subscription/limited token separation exists. Missing: runway meter per 5-hr block and the proactive 'hand off to Codex?' trigger with session continuity link.
+- `S-33` Watch - [Vendor auto-compact is recorded as context event](#s-33): AIWatcher labels the event as Context compacted, stores confidence/evidence source, and recommends Create handoff when the work is risky, multi-file, failing tests, or ready to switch tools. Handoff exists today; missing: auto-compact event detection and UI badge/action.
 - `S-17` Control - [Loop detection offers stop](#s-17): Today: loop-like behavior appears in watch summaries after the fact. Target: live detection of repeated tool-call patterns with tokens burned shown, one-keystroke stop, rescoped brief seeded with the loop diagnosis.
 - `S-18` Control - [Runaway velocity alert](#s-18): Today: cost/usage signals in periodic summaries. Target: live alert on abnormal velocity vs the user's own baseline, with pause/stop/set-cap. All decisions recorded.
 - `S-22` Prove - [Session evidence links to code artifacts](#s-22): Privacy-safe evidence snapshot stored: commit SHAs, hashed file paths/test artifacts, confidence, inferred outcome. No diffs, prompt text, commit subjects, or file contents. Missing: durable session→commit records with survival timestamps, revert/churn tracking, same-file re-prompt signals.
 - `S-26` Prove - [Weekly digest — costs and security in one card](#s-26): Today: report + journal. Target: one Monday card — spend by tool, top sessions, gates fired, commands blocked, risky prompts modified, measured savings where evidence exists, estimates labeled elsewhere.
 - `S-24` Improve - [Automatic outcome inference](#s-24): Inferred outcome with confidence and one-click confirm/correct appears from commits/tests/changes. Missing: churn/revert detection, same-file re-prompt signal, platform-specific evidence weighting (README step 4).
 - `S-27` Improve - [Search and resume previous work](#s-27): Text search over sessions and target-ready resume capsule both work today. Missing: search by file/topic/outcome, resume by session id, one-click target formatting for Claude/Codex/Cursor/VS Code.
+- `S-34` Failsafe - [Surface coverage explains automatic vs companion protection](#s-34): AIWatcher shows automatic, manual companion, read-only history, limited, or unverified per surface. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, or prompt_missing. Missing: action/result detail and dashboard coverage panel.
 
 ### To test
 
@@ -251,6 +254,30 @@
 - Expected: Manual handoff works now; API-priced vs subscription/limited token separation exists. Missing: runway meter per 5-hr block and the proactive 'hand off to Codex?' trigger with session continuity link.
 - User value: Avoids subscription pause frustration. The screenshot feature.
 - Why it matters: Quota runway and API spend are separate meters — both now visible, neither yet predictive.
+
+<a id="s-32"></a>
+
+### S-32 - Runtime hygiene identifies stale local AI runtimes
+
+- Status: Gap
+- Platform: macOS/Linux local machine
+- Go to: Leave old Codex/Claude/Cursor/node_repl/Computer Use runtimes around, including orphaned PPID=1 or stopped processes.
+- Do: Run aiwatcher processes --stale-only and review the suggested cleanup candidates.
+- Expected: Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. Missing in main: command and UI implementation.
+- User value: A daily local hygiene check that explains abandoned agent runtimes without overstating AI spend savings.
+- Why it matters: This is Watch/Control hygiene for the laptop: fewer stale sessions, less CPU/RAM/battery confusion, and clearer local state before starting new AI work.
+
+<a id="s-33"></a>
+
+### S-33 - Vendor auto-compact is recorded as context event
+
+- Status: In progress
+- Platform: Codex/Claude long-running sessions
+- Go to: Run a long Codex or Claude session that triggers vendor context auto-compaction, or mark that compaction happened manually.
+- Do: Open Today/session detail or generate a handoff capsule.
+- Expected: AIWatcher labels the event as Context compacted, stores confidence/evidence source, and recommends Create handoff when the work is risky, multi-file, failing tests, or ready to switch tools. Handoff exists today; missing: auto-compact event detection and UI badge/action.
+- User value: Built-in compaction keeps the model moving; AIWatcher keeps the work resumable, portable, and provable.
+- Why it matters: Do not compete with vendor memory management. Complement it with continuity and evidence when compression is not enough.
 
 ## Control
 
@@ -523,3 +550,15 @@
 - Expected: Recent event = hook ran on that surface, showing whether prompt text was found and which risk score computed. No recent event = surface did not invoke the hook. Verified boundaries: Claude CLI + Desktop Code tab yes; Desktop general chat no; Codex Desktop no; Codex CLI/TUI build-dependent.
 - User value: Platform claims become provable instead of asserted. The arbiter for every coverage row in this suite.
 - Why it matters: Not every surface uses the same hook runtime. Verify per surface, never per vendor name.
+
+<a id="s-34"></a>
+
+### S-34 - Surface coverage explains automatic vs companion protection
+
+- Status: In progress
+- Platform: Doctor + hook-status + Dashboard
+- Go to: Install hooks, open Codex/Claude/Cursor/Desktop/browser surfaces, and run aiwatcher doctor plus hook-status.
+- Do: Compare each surface to what actually fired during a risky prompt.
+- Expected: AIWatcher shows automatic, manual companion, read-only history, limited, or unverified per surface. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, or prompt_missing. Missing: action/result detail and dashboard coverage panel.
+- User value: Users understand why Codex Desktop may not pop up even when logs exist, and know which fallback to use.
+- Why it matters: Coverage honesty is part of the product moat. The tool should never let a user confuse session logs with active interception.

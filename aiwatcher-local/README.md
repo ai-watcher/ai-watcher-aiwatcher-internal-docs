@@ -2,7 +2,7 @@
 
 [Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
 
-Updated: `2026-07-12`
+Updated: `2026-07-25`
 
 AIWatcher Local is a private control loop for individual AI work, not another dashboard. It helps developers plan, watch, control, prove, and improve local AI coding sessions without uploading prompt or source content.
 
@@ -12,19 +12,19 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 | --- | ---: |
 | Done | 12 |
 | To verify | 5 |
-| In progress | 10 |
-| Gap | 4 |
+| In progress | 12 |
+| Gap | 5 |
 
 ## Lifecycle Coverage
 
 | Lifecycle | Done | Total | Coverage |
 | --- | ---: | ---: | ---: |
 | Plan | 3 | 6 | 50% |
-| Watch | 0 | 3 | 0% |
+| Watch | 0 | 5 | 0% |
 | Control | 4 | 10 | 40% |
 | Prove | 3 | 7 | 43% |
 | Improve | 0 | 3 | 0% |
-| Failsafe | 2 | 2 | 100% |
+| Failsafe | 2 | 3 | 67% |
 
 ## What To Review First
 
@@ -32,12 +32,12 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 - `S-19` Control - Gap: [Dangerous command gate — OPEN DECISION (reinstate)](test-cases.md#s-19)
 - `S-23` Prove - Gap: [Cost per surviving change](test-cases.md#s-23)
 - `S-25` Improve - Gap: [Non-code proxy outcomes](test-cases.md#s-25)
+- `S-32` Watch - Gap: [Runtime hygiene identifies stale local AI runtimes](test-cases.md#s-32)
 - `S-11` Watch - In progress: [Context health surfaces during long sessions](test-cases.md#s-11)
 - `S-17` Control - In progress: [Loop detection offers stop](test-cases.md#s-17)
 - `S-18` Control - In progress: [Runaway velocity alert](test-cases.md#s-18)
 - `S-20` Watch - In progress: [CRITICAL context generates fresh-session handoff](test-cases.md#s-20)
 - `S-21` Watch - In progress: [Low runway triggers lane switch](test-cases.md#s-21)
-- `S-22` Prove - In progress: [Session evidence links to code artifacts](test-cases.md#s-22)
 
 ## Review Sections
 
