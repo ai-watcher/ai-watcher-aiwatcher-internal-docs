@@ -2,7 +2,7 @@
 
 [Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
 
-Updated: `2026-07-12`
+Updated: `2026-07-21`
 
 AIWatcher Local is a private control loop for individual AI work, not another dashboard. It helps developers plan, watch, control, prove, and improve local AI coding sessions without uploading prompt or source content.
 

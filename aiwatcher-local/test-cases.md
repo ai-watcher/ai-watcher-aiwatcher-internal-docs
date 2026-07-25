@@ -386,7 +386,7 @@
 - Do: Open Receipts/Today; click into the session.
 - Expected: Receipt links decision → observed session usage, risk reduction, and outcome when linkable. Hashes, not prompt text.
 - User value: Evidence of AIWatcher impact.
-- Why it matters: Prove phase needs a local ledger, not memory. Intervention-to-session matching across concurrent sessions still improving (README step 2).
+- Why it matters: Prove phase needs a local ledger, not memory. Hook-provided session_id (Claude/Codex/Cursor, when the payload includes it) now links deterministically; correlate.py tool+project+time heuristic remains the fallback for hooks that do not supply one. The Receipts UI does not yet distinguish a hook-verified link from a heuristic-matched one (tracked separately).
 
 <a id="s-13"></a>
 
@@ -520,6 +520,6 @@
 - Platform: Any hooked surface
 - Go to: Use any AI surface after installing hooks.
 - Do: Run aiwatcher hook-status.
-- Expected: Recent event = hook ran on that surface, showing whether prompt text was found and which risk score computed. No recent event = surface did not invoke the hook. Verified boundaries: Claude CLI + Desktop Code tab yes; Desktop general chat no; Codex Desktop no; Codex CLI/TUI build-dependent.
+- Expected: Recent event = hook ran on that surface, showing whether prompt text was found and which risk score computed. No recent event = surface did not invoke the hook. Verified boundaries: Claude CLI + Desktop Code tab yes; Desktop general chat no; Codex Desktop no; Codex CLI/TUI build-dependent. Also shows the linked session_id when the hook payload provided one, directly proving which session a decision belongs to instead of relying on post-hoc correlation.
 - User value: Platform claims become provable instead of asserted. The arbiter for every coverage row in this suite.
 - Why it matters: Not every surface uses the same hook runtime. Verify per surface, never per vendor name.
