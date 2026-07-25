@@ -66,7 +66,7 @@
 
 ## Open Gaps and To-Verify Work
 
-### Gap
+### Not built
 
 - `E-03` Watch - [Customer entitlement context is visible](#e-03): AIWatcher shows whether customer usage is within plan, nearing limit, or margin-negative.
 - `E-05` Watch - [Inbox links local session issues to team ownership](#e-05): Manager can act without seeing prompt/source content by default.
@@ -89,7 +89,7 @@
 - `E-27` Failsafe - [SSO/RBAC separates developer and admin control](#e-27): Users can see appropriate data and actions without silent expansion of local collection.
 - `E-28` Failsafe - [SIEM/FinOps/billing export path](#e-28): AIWatcher exports normalized records without prompt/source content by default.
 
-### In progress
+### Partial
 
 - `E-01` Watch - [Unified agent inventory across local and production](#e-01): Agents are grouped by source, owner, app, project, environment, model, and last activity.
 - `E-02` Watch - [Cost attribution by app, customer, feature, project, and model](#e-02): Spend is attributed to business owners and product surfaces, not only raw token totals.

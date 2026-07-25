@@ -1,8 +1,10 @@
-# Platforms
+# Platform Coverage
 
 [Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Propagation Matrix](propagation-matrix.md)
 
-| Surface | Mechanism | Coverage | Status | What to verify |
+> Do not claim enterprise, local, SDK, billing, SIEM, or FinOps coverage until the matching integration is verified. Enterprise docs may reference private roadmap details here because this repository stays private.
+
+| Surface | Current mechanism | Coverage | Status | What to verify |
 | --- | --- | --- | --- | --- |
 | AIWatcher Enterprise Web App | Next.js dashboard, APIs, org auth, and Postgres-backed evidence/control model | Inbox, Controls, Work Ledger, Evidence, Reports, Settings target navigation | In progress | Confirm current routes map to the lifecycle and remove/merge redundant dashboards. |
 | JavaScript/TypeScript SDK | track, trackLLM, trackStream, session APIs, metadata, and future evaluateControl | Production app telemetry today; runtime controls pending | In progress | Add customerId, planId, feature, entitlement context, and pre-call control evaluation. |

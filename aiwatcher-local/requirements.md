@@ -41,3 +41,14 @@
 | Runtime hygiene for stale local AI runtimes | Watch | Finds orphaned or suspended AI tool runtimes that may waste CPU/RAM/battery or keep stale session state alive; no model-spend claim unless proven. | Gap | S-33 |
 | Vendor auto-compact awareness and handoff trigger | Watch | Treats Codex/Claude auto-compaction as a context event and recommends explicit handoff when work needs portability or proof. | In progress | S-34 |
 | Surface coverage diagnostics | Failsafe | Shows whether each surface is automatic, manual companion, history-only, limited, or unverified so users do not mistake logs for interception. | In progress | S-28, S-35 |
+
+## Lifecycle Coverage
+
+| Lifecycle | Done | Total | Coverage |
+| --- | ---: | ---: | ---: |
+| Plan | 6 | 6 | 100% |
+| Watch | 3 | 6 | 50% |
+| Control | 5 | 10 | 50% |
+| Prove | 6 | 7 | 86% |
+| Improve | 1 | 3 | 33% |
+| Failsafe | 2 | 3 | 67% |

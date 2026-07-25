@@ -1,0 +1,35 @@
+name: Validate generated product docs
+
+on:
+  pull_request:
+    paths:
+      - ".github/product-docs.json"
+      - ".github/workflows/validate-generated-docs.yml"
+      - "aiwatcher-local/**"
+      - "enterprise/**"
+      - "scripts/**"
+  push:
+    branches: [main]
+    paths:
+      - ".github/product-docs.json"
+      - ".github/workflows/validate-generated-docs.yml"
+      - "aiwatcher-local/**"
+      - "enterprise/**"
+      - "scripts/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generated-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile automation scripts
+        run: python3 -m py_compile scripts/*.py
+      - name: Check generated docs are current
+        run: python3 scripts/check_generated_docs.py

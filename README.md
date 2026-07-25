@@ -35,11 +35,44 @@ enterprise/
   derived review surfaces.
 - Use Markdown pages for GitHub review.
 - Use `index.html` for offline interactive viewing.
-- Do not put secrets in this repo. GitHub Actions secrets stay on the public
-  `ai-watcher/aiwatcher-local` repo or the private enterprise repo.
+- Product docs review records live under `reviews/`.
+- Product automation is configured by `.github/product-docs.json`.
+- Do not put secrets in this repo. GitHub Actions secrets stay in repository
+  or organization Actions secrets.
 
 ## Review Hubs
 
 - [AIWatcher Local](aiwatcher-local/README.md)
 - [AIWatcher Enterprise](enterprise/README.md)
 - [OSS to Enterprise Propagation Matrix](enterprise/propagation-matrix.md)
+
+## Automation
+
+Render generated docs locally:
+
+```bash
+python3 scripts/render_product_docs.py
+```
+
+Check generated docs are current:
+
+```bash
+python3 scripts/check_generated_docs.py
+```
+
+Source repos should notify this repo with the `product_docs_review_requested`
+repository dispatch event. The payload should contain source metadata only:
+
+```json
+{
+  "product": "aiwatcher-local",
+  "source_repo": "ai-watcher/aiwatcher-local",
+  "source_pr": "24",
+  "source_sha": "abc123",
+  "source_ref": "feature/example",
+  "source_url": "https://github.com/ai-watcher/aiwatcher-local/pull/24"
+}
+```
+
+Private product content stays in this repo. Public and enterprise code repos
+send metadata; they do not edit these docs directly.

@@ -1,0 +1,68 @@
+name: Product docs review
+
+on:
+  repository_dispatch:
+    types: [product_docs_review_requested]
+  workflow_dispatch:
+    inputs:
+      product:
+        description: Product slug from .github/product-docs.json
+        required: true
+        default: aiwatcher-local
+      source_repo:
+        description: Source repository, for example ai-watcher/aiwatcher-local
+        required: true
+      source_pr:
+        description: Optional source PR number
+        required: false
+      source_sha:
+        description: Optional source commit SHA
+        required: false
+      source_ref:
+        description: Optional source branch/ref
+        required: false
+      source_url:
+        description: Optional source PR/commit URL
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: product-docs-${{ github.event.client_payload.product || inputs.product }}-${{ github.event.client_payload.source_pr || github.event.client_payload.source_sha || inputs.source_pr || inputs.source_sha || github.run_id }}
+      cancel-in-progress: false
+    env:
+      PRODUCT_DOCS_PRODUCT: ${{ github.event.client_payload.product || inputs.product }}
+      PRODUCT_DOCS_SOURCE_REPO: ${{ github.event.client_payload.source_repo || inputs.source_repo }}
+      PRODUCT_DOCS_SOURCE_PR: ${{ github.event.client_payload.source_pr || inputs.source_pr }}
+      PRODUCT_DOCS_SOURCE_SHA: ${{ github.event.client_payload.source_sha || inputs.source_sha }}
+      PRODUCT_DOCS_SOURCE_REF: ${{ github.event.client_payload.source_ref || inputs.source_ref }}
+      PRODUCT_DOCS_SOURCE_URL: ${{ github.event.client_payload.source_url || inputs.source_url }}
+      PRODUCT_DOCS_SOURCE_RUN_URL: ${{ github.event.client_payload.source_run_url || format('{0}/{1}/actions/runs/{2}', github.server_url, github.repository, github.run_id) }}
+      PRODUCT_DOCS_SOURCE_EVENT: ${{ github.event.client_payload.source_event || github.event_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Record docs review
+        id: review
+        run: python3 scripts/record_docs_review.py
+      - name: Regenerate product docs
+        run: python3 scripts/render_product_docs.py --product "$PRODUCT_DOCS_PRODUCT"
+      - name: Create or update docs review PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: ${{ steps.review.outputs.branch }}
+          title: ${{ steps.review.outputs.pr_title }}
+          commit-message: ${{ steps.review.outputs.commit_message }}
+          body-path: ${{ steps.review.outputs.review_file }}
+          add-paths: |
+            reviews/${{ env.PRODUCT_DOCS_PRODUCT }}/**
+            aiwatcher-local/**
+            enterprise/**
+          delete-branch: true

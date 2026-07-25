@@ -2,6 +2,15 @@
 
 [Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Propagation Matrix](propagation-matrix.md)
 
+## Lifecycle
+
+- **Plan:** Identify risky, broad, or expensive work before it starts. Covered by E-06, E-07, E-08.
+- **Watch:** Detect context bloat, loop pressure, quota risk, and session fatigue while work is happening. Covered by E-01, E-02, E-03, E-04, E-05.
+- **Control:** Warn, gate, block, rescope, route, or stop risky execution paths. Covered by E-09, E-10, E-11, E-12, E-13, E-14, E-15, E-16, E-17, E-18.
+- **Prove:** Record decisions, resulting sessions, local evidence, and measured impact. Covered by E-19, E-20, E-21, E-22, E-23.
+- **Improve:** Learn what worked and make the next run smaller, safer, or more successful. Covered by E-24, E-25, E-26.
+- **Failsafe:** Prove platform claims and keep install/uninstall behavior trustworthy. Covered by E-27, E-28.
+
 ## Requirement Matrix
 
 | Requirement | Lifecycle | User value | Status | Covered by |

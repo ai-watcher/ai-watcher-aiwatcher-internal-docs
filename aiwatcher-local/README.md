@@ -50,6 +50,6 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 
 ## Interactive HTML
 
-`index.html` is still generated for the tabbed local browser experience. GitHub displays HTML files as source, so use these Markdown pages for normal GitHub review.
+`index.html` is still generated for the tabbed browser experience. GitHub displays HTML files as source, so use these Markdown pages for normal GitHub review.
 
 Generated from `aiwatcher-local/scenarios.json`. The JSON is the private source of truth; the Markdown and HTML files are generated.
