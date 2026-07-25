@@ -1,0 +1,45 @@
+{
+  "products": {
+    "aiwatcher-local": {
+      "label": "AIWatcher Local",
+      "source_repo": "ai-watcher/aiwatcher-local",
+      "scenarios_path": "aiwatcher-local/scenarios.json",
+      "output_dir": "aiwatcher-local",
+      "review_prompt": "Check local scenario status, product scope, and whether the OSS change should propagate to Enterprise.",
+      "propagation_required": true
+    },
+    "enterprise": {
+      "label": "AIWatcher Enterprise",
+      "source_repo": "ai-watcher/agentwatch",
+      "source_repo_aliases": [
+        "Kmaralla/agentwatch"
+      ],
+      "scenarios_path": "enterprise/scenarios.json",
+      "output_dir": "enterprise",
+      "review_prompt": "Check enterprise scenario status, implementation/spec alignment, and OSS-to-enterprise propagation links.",
+      "propagation_required": false,
+      "review_priority_limit": 12,
+      "platform_guidance": "Do not claim enterprise, local, SDK, billing, SIEM, or FinOps coverage until the matching integration is verified. Enterprise docs may reference private roadmap details here because this repository stays private.",
+      "extra_nav": [
+        {
+          "label": "Propagation Matrix",
+          "href": "propagation-matrix.md"
+        }
+      ],
+      "extra_review_sections": [
+        {
+          "section": "Propagation Matrix",
+          "href": "propagation-matrix.md",
+          "use": "How OSS scenarios should propagate, adapt, or stay separate."
+        }
+      ],
+      "implementation_order": [
+        "Build the enterprise scenario-doc automation and keep this folder as the private source of truth.",
+        "Reconcile Enterprise navigation around Inbox, Controls, Work Ledger, Evidence, Reports, and Settings.",
+        "Pull OSS Local concepts into Enterprise using the propagation matrix.",
+        "Build Enterprise Usage Rules as the first enterprise-only control feature.",
+        "Add runtime SDK policy evaluation, evidence receipts, and protected-spend reports."
+      ]
+    }
+  }
+}

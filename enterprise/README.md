@@ -59,4 +59,8 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 4. Build Enterprise Usage Rules as the first enterprise-only control feature.
 5. Add runtime SDK policy evaluation, evidence receipts, and protected-spend reports.
 
-`index.html` is generated for offline interactive viewing. GitHub renders these Markdown pages natively, so start here for review.
+## Interactive HTML
+
+`index.html` is still generated for the tabbed browser experience. GitHub displays HTML files as source, so use these Markdown pages for normal GitHub review.
+
+Generated from `enterprise/scenarios.json`. The JSON is the private source of truth; the Markdown and HTML files are generated.
