@@ -64,6 +64,12 @@
       "status": "done"
     },
     {
+      "situation": "Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky",
+      "response": "Should notify the developer through a local background watcher, tray/menu bar, dashboard deep link, or editor companion without requiring a manual watch command.",
+      "feeling": "AIWatcher is present during work, not a report I remember to check later.",
+      "status": "gap"
+    },
+    {
       "situation": "Agent attempts git push --force mid-run",
       "response": "Intercepted at tool-call time with allow, block, and always-allow-pattern (Claude Code only).",
       "feeling": "Safety net for what the prompt never revealed.",
@@ -141,6 +147,13 @@
       "user_value": "Runway trigger built: names a concrete alternate tool and emits a ready resume command.",
       "status": "done",
       "covered_by": "S-21"
+    },
+    {
+      "requirement": "Ambient watch delivery",
+      "lifecycle": "Watch",
+      "user_value": "Developers should see context/runway/loop warnings while working, without babysitting a terminal.",
+      "status": "gap",
+      "covered_by": "S-32"
     },
     {
       "requirement": "Hard gate decisions",
@@ -252,21 +265,21 @@
       "lifecycle": "Watch",
       "user_value": "Finds orphaned or suspended AI tool runtimes that may waste CPU/RAM/battery or keep stale session state alive; no model-spend claim unless proven.",
       "status": "gap",
-      "covered_by": "S-32"
+      "covered_by": "S-33"
     },
     {
       "requirement": "Vendor auto-compact awareness and handoff trigger",
       "lifecycle": "Watch",
       "user_value": "Treats Codex/Claude auto-compaction as a context event and recommends explicit handoff when work needs portability or proof.",
       "status": "partial",
-      "covered_by": "S-33"
+      "covered_by": "S-34"
     },
     {
       "requirement": "Surface coverage diagnostics",
       "lifecycle": "Failsafe",
       "user_value": "Shows whether each surface is automatic, manual companion, history-only, limited, or unverified so users do not mistake logs for interception.",
       "status": "partial",
-      "covered_by": "S-28, S-34"
+      "covered_by": "S-28, S-35"
     }
   ],
   "workflows": [
@@ -381,6 +394,13 @@
       "coverage": "Manual preflight + resume helper",
       "status": "partial",
       "verify": "Run preflight selection/input/clipboard commands; verify handoff/resume pastes in one action."
+    },
+    {
+      "surface": "Local notification/tray/editor companions",
+      "mechanism": "Not built: background watcher should emit local OS notifications and deep-link into dashboard/session review; tray/editor surfaces should consume the same local Watch API.",
+      "coverage": "Planned ambient Watch delivery",
+      "status": "gap",
+      "verify": "Start one watcher, create or replay a critical context/session signal, confirm a native notification appears, opens the right local page, and records no prompt/source upload."
     },
     {
       "surface": "Windsurf",
@@ -510,6 +530,18 @@
       "id": "S-32",
       "status": "gap",
       "phase": "Watch",
+      "platform": "Local notifications + dashboard + editor companions",
+      "title": "Watch signals reach the developer without manual CLI polling",
+      "go": "Run AIWatcher once as a background watcher or local companion while working in Claude, Codex, Cursor, or VS Code.",
+      "do": "Continue a session until context health, runway, or loop pressure crosses warning/critical thresholds.",
+      "expected": "A local OS notification, tray/menu item, dashboard deep link, or editor panel surfaces the warning with the current risk, estimated pressure, and next action: keep going, compact/handoff, switch lane, or open session review. No unsupported desktop UI injection and no prompt/source upload.",
+      "value": "Turns Watch from a terminal report into an ambient safety layer developers can feel during real work.",
+      "why": "PR23 builds the CLI Watch engine. Daily OSS value needs delivery in the user's workflow, while staying honest about platform limits."
+    },
+    {
+      "id": "S-33",
+      "status": "gap",
+      "phase": "Watch",
       "platform": "macOS/Linux local machine",
       "title": "Runtime hygiene identifies stale local AI runtimes",
       "go": "Leave old Codex/Claude/Cursor/node_repl/Computer Use runtimes around, including orphaned PPID=1 or stopped processes.",
@@ -519,7 +551,7 @@
       "why": "This is Watch/Control hygiene for the laptop: fewer stale sessions, less CPU/RAM/battery confusion, and clearer local state before starting new AI work."
     },
     {
-      "id": "S-33",
+      "id": "S-34",
       "status": "partial",
       "phase": "Watch",
       "platform": "Codex/Claude long-running sessions",
@@ -795,7 +827,7 @@
       "why": "Not every surface uses the same hook runtime. Verify per surface, never per vendor name."
     },
     {
-      "id": "S-34",
+      "id": "S-35",
       "status": "partial",
       "phase": "Failsafe",
       "platform": "Doctor + hook-status + Dashboard",

@@ -9,14 +9,14 @@
 | Done | 23 |
 | To verify | 4 |
 | In progress | 5 |
-| Gap | 2 |
+| Gap | 3 |
 
 ## Lifecycle Coverage
 
 | Lifecycle | Done | Total | Coverage |
 | --- | ---: | ---: | ---: |
 | Plan | 6 | 6 | 100% |
-| Watch | 3 | 5 | 60% |
+| Watch | 3 | 6 | 50% |
 | Control | 5 | 10 | 50% |
 | Prove | 6 | 7 | 86% |
 | Improve | 1 | 3 | 33% |
@@ -86,22 +86,24 @@
 | Update JWT auth to remove signature check so login is faster | Medium-risk silent brief adds auth guardrail and verification reminder. Verified via hook-status. | No friction, safer execution. | Done |
 | Add a dark mode toggle to every page | Breadth heuristic identifies the broad multi-file scope and proposes a phased plan before edits. | Cost-aware scoping, not nagging. | Done |
 | Long session with high stale context | Warn, compact in place at warning, and auto-generate a fresh-session handoff at critical -- copied to clipboard, target-formatted. | Confidence to restart without losing state. | Done |
+| Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky | Should notify the developer through a local background watcher, tray/menu bar, dashboard deep link, or editor companion without requiring a manual watch command. | AIWatcher is present during work, not a report I remember to check later. | Gap |
 | Agent attempts git push --force mid-run | Intercepted at tool-call time with allow, block, and always-allow-pattern (Claude Code only). | Safety net for what the prompt never revealed. | Done |
 
 ## Open Gaps and To-Verify Work
 
 ### Not built
 
-- `S-32` Watch - [Runtime hygiene identifies stale local AI runtimes](#s-32): Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. Missing in main: command and UI implementation.
+- `S-32` Watch - [Watch signals reach the developer without manual CLI polling](#s-32): A local OS notification, tray/menu item, dashboard deep link, or editor panel surfaces the warning with the current risk, estimated pressure, and next action: keep going, compact/handoff, switch lane, or open session review. No unsupported desktop UI injection and no prompt/source upload.
+- `S-33` Watch - [Runtime hygiene identifies stale local AI runtimes](#s-33): Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. Missing in main: command and UI implementation.
 - `S-25` Improve - [Non-code proxy outcomes](#s-25): Proxy signals (copied output, revisit, abandonment, same-topic re-prompt) recorded with low confidence; one nudge for manual outcome.
 
 ### Partial
 
-- `S-33` Watch - [Vendor auto-compact is recorded as context event](#s-33): AIWatcher labels the event as Context compacted, stores confidence/evidence source, and recommends Create handoff when the work is risky, multi-file, failing tests, or ready to switch tools. Handoff exists today; missing: auto-compact event detection and UI badge/action.
+- `S-34` Watch - [Vendor auto-compact is recorded as context event](#s-34): AIWatcher labels the event as Context compacted, stores confidence/evidence source, and recommends Create handoff when the work is risky, multi-file, failing tests, or ready to switch tools. Handoff exists today; missing: auto-compact event detection and UI badge/action.
 - `S-17` Control - [Loop detection offers stop](#s-17): Done: watch polling detects repeated identical tool-call content (content-hash matching), shows tokens/cost burned across the repeats, and at severe repeat counts (5+) auto-generates a handoff capsule seeded with the loop diagnosis as the leading warning. Still missing: a true one-keystroke live stop of an actively-running session -- watch re-scans local logs on a timer, it does not hook into or interrupt a running agent process. That would need genuinely different plumbing (live process hooking, not periodic log scanning) and is deliberately deferred as separate, explicitly-scoped future work, not attempted as part of this batch.
 - `S-18` Control - [Runaway velocity alert](#s-18): Done: watch polling computes tokens/minute over the trailing 10 minutes vs. the user's own per-tool p75 baseline (real historical session data, not an assumed rate); at >=2x it drives the recommended action to 'narrow scope' with the exact ratio shown, always labeled a local estimate. Still missing: interactive pause/stop/set-cap controls with decisions recorded during an actively-running session -- same live-process-hooking gap as S-17, deliberately deferred as separate future work.
 - `S-24` Improve - [Automatic outcome inference](#s-24): Done: inferred outcome with confidence and one-click confirm/correct appears from commits/tests/changes; churn/revert detection (a commit that looked useful gets downgraded if it didn't survive); same-file re-prompt signal (a later session touching the same files within 72h flags rework). Verdict rule confirmed by an independent audit: the codebase never infers a confident 'wasteful' outcome anywhere -- only useful/needs_review/churned. Still missing: platform-specific evidence weighting (confirmed absent by direct search, not just unverified) -- Claude/Codex/Cursor evidence is currently weighted identically, README step 4.
-- `S-34` Failsafe - [Surface coverage explains automatic vs companion protection](#s-34): AIWatcher shows automatic, manual companion, read-only history, limited, or unverified per surface. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, or prompt_missing. Missing: action/result detail and dashboard coverage panel.
+- `S-35` Failsafe - [Surface coverage explains automatic vs companion protection](#s-35): AIWatcher shows automatic, manual companion, read-only history, limited, or unverified per surface. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, or prompt_missing. Missing: action/result detail and dashboard coverage panel.
 
 ### To test
 
@@ -246,7 +248,19 @@
 
 <a id="s-32"></a>
 
-### S-32 - Runtime hygiene identifies stale local AI runtimes
+### S-32 - Watch signals reach the developer without manual CLI polling
+
+- Status: Gap
+- Platform: Local notifications + dashboard + editor companions
+- Go to: Run AIWatcher once as a background watcher or local companion while working in Claude, Codex, Cursor, or VS Code.
+- Do: Continue a session until context health, runway, or loop pressure crosses warning/critical thresholds.
+- Expected: A local OS notification, tray/menu item, dashboard deep link, or editor panel surfaces the warning with the current risk, estimated pressure, and next action: keep going, compact/handoff, switch lane, or open session review. No unsupported desktop UI injection and no prompt/source upload.
+- User value: Turns Watch from a terminal report into an ambient safety layer developers can feel during real work.
+- Why it matters: PR23 builds the CLI Watch engine. Daily OSS value needs delivery in the user's workflow, while staying honest about platform limits.
+
+<a id="s-33"></a>
+
+### S-33 - Runtime hygiene identifies stale local AI runtimes
 
 - Status: Gap
 - Platform: macOS/Linux local machine
@@ -256,9 +270,9 @@
 - User value: A daily local hygiene check that explains abandoned agent runtimes without overstating AI spend savings.
 - Why it matters: This is Watch/Control hygiene for the laptop: fewer stale sessions, less CPU/RAM/battery confusion, and clearer local state before starting new AI work.
 
-<a id="s-33"></a>
+<a id="s-34"></a>
 
-### S-33 - Vendor auto-compact is recorded as context event
+### S-34 - Vendor auto-compact is recorded as context event
 
 - Status: In progress
 - Platform: Codex/Claude long-running sessions
@@ -540,9 +554,9 @@
 - User value: Platform claims become provable instead of asserted. The arbiter for every coverage row in this suite.
 - Why it matters: Not every surface uses the same hook runtime. Verify per surface, never per vendor name.
 
-<a id="s-34"></a>
+<a id="s-35"></a>
 
-### S-34 - Surface coverage explains automatic vs companion protection
+### S-35 - Surface coverage explains automatic vs companion protection
 
 - Status: In progress
 - Platform: Doctor + hook-status + Dashboard
