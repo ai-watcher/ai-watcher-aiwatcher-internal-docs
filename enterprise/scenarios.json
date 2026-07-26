@@ -120,7 +120,7 @@
     {
       "requirement": "Runtime policy evaluation",
       "lifecycle": "Control",
-      "user_value": "Evaluate cost, security, entitlement, and approval policies before model/tool execution.",
+      "user_value": "Every proposed action is evaluated against its WorkUnit context (customer, plan, feature, workflow) before it executes.",
       "status": "gap",
       "covered_by": "E-09, E-10, E-11"
     },
@@ -172,6 +172,13 @@
       "user_value": "SSO/RBAC, SIEM, FinOps, billing, and dashboard integrations work without weakening developer trust.",
       "status": "gap",
       "covered_by": "E-27, E-28"
+    },
+    {
+      "requirement": "Enforcement acknowledgement checkpoint",
+      "lifecycle": "Control",
+      "user_value": "A policy decision (allow/route/throttle/block/approval) is only treated as enforced once the SDK confirms the alternative action was actually applied -- decision and enforcement are never collapsed into one fact.",
+      "status": "gap",
+      "covered_by": "E-29"
     }
   ],
   "workflows": [
@@ -360,11 +367,11 @@
       "phase": "Control",
       "platform": "SDK API",
       "title": "Pre-call control evaluation",
-      "go": "Instrument a product AI call with SDK evaluateControl.",
+      "go": "Instrument a product AI call with SDK evaluateControl, declaring the WorkUnit context (customer, plan, feature, workflow) that the proposed action belongs to.",
       "do": "Make an expensive request near customer quota.",
-      "expected": "Hosted policy engine returns allow, route, throttle, block, or approval before the AI call executes.",
+      "expected": "Hosted policy engine evaluates the proposed action against its WorkUnit context and returns allow, route, throttle, block, or approval before the AI call executes.",
       "value": "Prevents cost/security problems before the model call.",
-      "why": "This is the shift from observability to runtime control."
+      "why": "This is the shift from observability to runtime control, evaluated against the canonical WorkUnit -- the business task being completed -- rather than a bare API call."
     },
     {
       "id": "E-10",
@@ -593,6 +600,18 @@
       "expected": "AIWatcher exports normalized records without prompt/source content by default.",
       "value": "Fits existing enterprise workflows.",
       "why": "Enterprises need AIWatcher to feed systems they already trust."
+    },
+    {
+      "id": "E-29",
+      "status": "gap",
+      "phase": "Control",
+      "platform": "SDK API",
+      "title": "Enforcement acknowledgement is a distinct, recorded checkpoint",
+      "go": "After evaluateControl returns a decision (route, throttle, block, or approval), call the SDK's enforcement acknowledgement step once the alternative action is actually applied.",
+      "do": "Simulate the SDK applying the routed/blocked alternative and confirming that application back to AIWatcher.",
+      "expected": "AIWatcher records enforcement acknowledgement as an event separate from the policy decision and from execution; a decision alone (for example a returned `block`) is never treated as proof the action was blocked.",
+      "value": "Prevents false confidence from policy responses that were never actually enforced; evidence proves invocation, not just intent.",
+      "why": "Strategy principle 'Prove invocation; never infer enforcement': Policy evaluated, Enforcement requested, Enforcement acknowledged, Action executed, and Action prevented must not be collapsed into one event."
     }
   ]
 }

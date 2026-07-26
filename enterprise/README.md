@@ -13,7 +13,7 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 | Done | 0 |
 | To verify | 0 |
 | In progress | 8 |
-| Gap | 20 |
+| Gap | 21 |
 
 ## Lifecycle Coverage
 
@@ -21,7 +21,7 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 | --- | ---: | ---: | ---: |
 | Plan | 0 | 3 | 0% |
 | Watch | 0 | 5 | 0% |
-| Control | 0 | 10 | 0% |
+| Control | 0 | 11 | 0% |
 | Prove | 0 | 5 | 0% |
 | Improve | 0 | 3 | 0% |
 | Failsafe | 0 | 2 | 0% |
