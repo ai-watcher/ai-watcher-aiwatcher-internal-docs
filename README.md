@@ -9,6 +9,8 @@ surfaces here instead of in the OSS repo.
 ## Layout
 
 ```text
+strategy.md
+
 aiwatcher-local/
   scenarios.json
   README.md
@@ -29,6 +31,8 @@ enterprise/
   index.html
 ```
 
+- `strategy.md` is the locked product source of truth: category, wedge,
+  product lifecycle, scope by layer, metrics, risks, and execution phases.
 - `*/scenarios.json` is the source of truth.
 - `README.md`, `scope.md`, `requirements.md`, `platforms.md`,
   `test-cases.md`, `propagation-matrix.md`, and `index.html` are generated or
@@ -42,9 +46,19 @@ enterprise/
 
 ## Review Hubs
 
+- [Product Strategy](strategy.md)
 - [AIWatcher Local](aiwatcher-local/README.md)
 - [AIWatcher Enterprise](enterprise/README.md)
 - [OSS to Enterprise Propagation Matrix](enterprise/propagation-matrix.md)
+
+## How To Use This Repo
+
+Use `strategy.md` to decide whether a proposed feature belongs in AIWatcher at
+all. Use the Local and Enterprise scenario files to track implementation status,
+manual verification, UX workflows, platform coverage, and gaps. Code changes in
+the OSS or Enterprise repos should create a docs-review PR here; the reviewer
+then decides whether to update Local scenarios, Enterprise scenarios, or the OSS
+to Enterprise propagation matrix.
 
 ## Automation
 
