@@ -9,7 +9,7 @@
 | Done | 0 |
 | To verify | 0 |
 | In progress | 8 |
-| Gap | 20 |
+| Gap | 21 |
 
 ## Lifecycle Coverage
 
@@ -17,7 +17,7 @@
 | --- | ---: | ---: | ---: |
 | Plan | 0 | 3 | 0% |
 | Watch | 0 | 5 | 0% |
-| Control | 0 | 10 | 0% |
+| Control | 0 | 11 | 0% |
 | Prove | 0 | 5 | 0% |
 | Improve | 0 | 3 | 0% |
 | Failsafe | 0 | 2 | 0% |
@@ -72,7 +72,7 @@
 - `E-05` Watch - [Inbox links local session issues to team ownership](#e-05): Manager can act without seeing prompt/source content by default.
 - `E-07` Plan - [Policy simulator previews last 30 days impact](#e-07): AIWatcher shows affected sessions/customers, estimated protected spend, false-positive candidates, and sample evidence.
 - `E-08` Plan - [SDK metadata completeness check](#e-08): AIWatcher flags missing fields required for customer usage rules and margin reports.
-- `E-09` Control - [Pre-call control evaluation](#e-09): Hosted policy engine returns allow, route, throttle, block, or approval before the AI call executes.
+- `E-09` Control - [Pre-call control evaluation](#e-09): Hosted policy engine evaluates the proposed action against its WorkUnit context and returns allow, route, throttle, block, or approval before the AI call executes.
 - `E-10` Control - [Policy decision does not break customer app](#e-10): SDK follows configured fail-open/fail-closed mode and records local diagnostic metadata.
 - `E-12` Control - [Customer monthly AI budget rule](#e-12): Rule can run observe-only, alert, throttle, route, block, or require approval.
 - `E-13` Control - [Premium model entitlement rule](#e-13): AIWatcher routes to allowed model or blocks with evidence.
@@ -88,6 +88,7 @@
 - `E-26` Improve - [Weekly executive improvement summary](#e-26): Report is board/leadership-ready and links to evidence.
 - `E-27` Failsafe - [SSO/RBAC separates developer and admin control](#e-27): Users can see appropriate data and actions without silent expansion of local collection.
 - `E-28` Failsafe - [SIEM/FinOps/billing export path](#e-28): AIWatcher exports normalized records without prompt/source content by default.
+- `E-29` Control - [Enforcement acknowledgement is a distinct, recorded checkpoint](#e-29): AIWatcher records enforcement acknowledgement as an event separate from the policy decision and from execution; a decision alone (for example a returned `block`) is never treated as proof the action was blocked.
 
 ### Partial
 
@@ -236,11 +237,11 @@
 
 - Status: Gap
 - Platform: SDK API
-- Go to: Instrument a product AI call with SDK evaluateControl.
+- Go to: Instrument a product AI call with SDK evaluateControl, declaring the WorkUnit context (customer, plan, feature, workflow) that the proposed action belongs to.
 - Do: Make an expensive request near customer quota.
-- Expected: Hosted policy engine returns allow, route, throttle, block, or approval before the AI call executes.
+- Expected: Hosted policy engine evaluates the proposed action against its WorkUnit context and returns allow, route, throttle, block, or approval before the AI call executes.
 - User value: Prevents cost/security problems before the model call.
-- Why it matters: This is the shift from observability to runtime control.
+- Why it matters: This is the shift from observability to runtime control, evaluated against the canonical WorkUnit -- the business task being completed -- rather than a bare API call.
 
 <a id="e-10"></a>
 
@@ -349,6 +350,18 @@
 - Expected: Decision records approver, expiry, risk reasons, action summary, and linked event.
 - User value: Enterprise accountability for high-impact AI actions.
 - Why it matters: HITL is a premium control primitive.
+
+<a id="e-29"></a>
+
+### E-29 - Enforcement acknowledgement is a distinct, recorded checkpoint
+
+- Status: Gap
+- Platform: SDK API
+- Go to: After evaluateControl returns a decision (route, throttle, block, or approval), call the SDK's enforcement acknowledgement step once the alternative action is actually applied.
+- Do: Simulate the SDK applying the routed/blocked alternative and confirming that application back to AIWatcher.
+- Expected: AIWatcher records enforcement acknowledgement as an event separate from the policy decision and from execution; a decision alone (for example a returned `block`) is never treated as proof the action was blocked.
+- User value: Prevents false confidence from policy responses that were never actually enforced; evidence proves invocation, not just intent.
+- Why it matters: Strategy principle 'Prove invocation; never infer enforcement': Policy evaluated, Enforcement requested, Enforcement acknowledged, Action executed, and Action prevented must not be collapsed into one event.
 
 ## Prove
 
