@@ -121,7 +121,7 @@
       "requirement": "Runtime policy evaluation",
       "lifecycle": "Control",
       "user_value": "Every proposed action is evaluated against its WorkUnit context (customer, plan, feature, workflow) before it executes.",
-      "status": "gap",
+      "status": "partial",
       "covered_by": "E-09, E-10, E-11"
     },
     {
@@ -149,7 +149,7 @@
       "requirement": "Outcome-aware cost",
       "lifecycle": "Prove",
       "user_value": "Show cost per useful business result, accepted output, customer, feature, and surviving change.",
-      "status": "gap",
+      "status": "partial",
       "covered_by": "E-21, E-22, E-23"
     },
     {
@@ -179,6 +179,34 @@
       "user_value": "A policy decision (allow/route/throttle/block/approval) is only treated as enforced once the SDK confirms the alternative action was actually applied -- decision and enforcement are never collapsed into one fact.",
       "status": "gap",
       "covered_by": "E-29"
+    },
+    {
+      "requirement": "Development-to-production lineage",
+      "lifecycle": "Prove",
+      "user_value": "Traces a production cost, incident, or outcome back to the AI-assisted development work that caused it.",
+      "status": "gap",
+      "covered_by": "E-30"
+    },
+    {
+      "requirement": "Lifecycle stage separation",
+      "lifecycle": "Prove",
+      "user_value": "Every stage of a controlled action (proposed, evaluated, decided, enforced, executed, resulted, outcome) is its own auditable record, never collapsed.",
+      "status": "gap",
+      "covered_by": "E-31"
+    },
+    {
+      "requirement": "Signed endpoint policy distribution",
+      "lifecycle": "Control",
+      "user_value": "Endpoints only ever apply policy that is verifiably from the Enterprise control plane, never tampered or stale.",
+      "status": "gap",
+      "covered_by": "E-32"
+    },
+    {
+      "requirement": "Enterprise operating metrics are computed and reported",
+      "lifecycle": "Prove",
+      "user_value": "Buyers and admins see enforcement acknowledgement rate, policy latency, override rate, and spend under active control as real trend numbers, not just individual receipts.",
+      "status": "gap",
+      "covered_by": "E-33"
     }
   ],
   "workflows": [
@@ -339,15 +367,15 @@
     },
     {
       "id": "E-07",
-      "status": "gap",
+      "status": "partial",
       "phase": "Plan",
       "platform": "Controls",
       "title": "Policy simulator previews last 30 days impact",
       "go": "Create or edit a policy.",
       "do": "Run dry-run simulation over recent events.",
-      "expected": "AIWatcher shows affected sessions/customers, estimated protected spend, false-positive candidates, and sample evidence.",
+      "expected": "AIWatcher shows affected sessions/customers, estimated protected spend, false-positive candidates, and sample evidence. Shipped: src/app/api/v1/autopilot/route.ts runs a real 30/90-day replay simulator producing projected_savings_usd, confidence, and evidence per lever (loop breaker, budget cap, model routing, semantic cache, prompt compression), gated by readiness thresholds, shown on /autopilot/cost. Still missing: simulating a self-authored policy rule, not just the built-in levers.",
       "value": "Reduces fear of enforcement.",
-      "why": "Observe-only and simulation are enterprise adoption unlocks."
+      "why": "Observe-only and simulation are enterprise adoption unlocks. The built-in-lever simulator works; custom-rule simulation does not exist yet."
     },
     {
       "id": "E-08",
@@ -507,15 +535,15 @@
     },
     {
       "id": "E-21",
-      "status": "gap",
+      "status": "partial",
       "phase": "Prove",
       "platform": "Reports",
       "title": "Cost per customer outcome",
       "go": "Open Reports.",
       "do": "Filter by customer and product feature.",
-      "expected": "AIWatcher shows AI cost per successful business outcome or accepted output where metadata exists.",
+      "expected": "AIWatcher shows AI cost per successful business outcome or accepted output where metadata exists. Shipped: src/app/api/v1/insights/product/route.ts and src/app/api/v1/dashboard/analytics/route.ts compute cost_per_useful_outcome segmented by customer and feature, surfaced on /insights/product and the dashboard.",
       "value": "Connects AI spend to revenue and margin.",
-      "why": "Outcome-aware cost is the enterprise version of OSS cost per useful change."
+      "why": "Outcome-aware cost is the enterprise version of OSS cost per useful change. Core computation is live; still needs broader coverage across more outcome types and report surfaces."
     },
     {
       "id": "E-22",
@@ -612,6 +640,54 @@
       "expected": "AIWatcher records enforcement acknowledgement as an event separate from the policy decision and from execution; a decision alone (for example a returned `block`) is never treated as proof the action was blocked.",
       "value": "Prevents false confidence from policy responses that were never actually enforced; evidence proves invocation, not just intent.",
       "why": "Strategy principle 'Prove invocation; never infer enforcement': Policy evaluated, Enforcement requested, Enforcement acknowledged, Action executed, and Action prevented must not be collapsed into one event."
+    },
+    {
+      "id": "E-30",
+      "status": "gap",
+      "phase": "Prove",
+      "platform": "Evidence",
+      "title": "Development-to-production lineage links a local session to production behavior",
+      "go": "Merge a PR that originated from an AIWatcher Local session, deploy it, and let it run in production under the SDK.",
+      "do": "Open Work Ledger or Evidence and look up the resulting production incident or feature.",
+      "expected": "AIWatcher shows the chain: local session -> changed artifact -> commit/PR -> build/deployment -> service/feature -> production work units -> intervention -> outcome, per strategy.md's Use Case 4 and Phase 5 chain.",
+      "value": "Lets a team trace a production cost, incident, or outcome back to the AI-assisted change and workflow that caused it -- the moat's evidence substrate.",
+      "why": "Strategy.md Use Case 4 and Phase 5 name this as a required capability, but no scenario or code (no GitHub/CI/deployment integration found in agentwatch) currently exists for it."
+    },
+    {
+      "id": "E-31",
+      "status": "gap",
+      "phase": "Prove",
+      "platform": "Evidence",
+      "title": "Proposed action, decision, enforcement, execution, and outcome are stored as separate records",
+      "go": "Trigger a full SDK evaluateControl -> enforce -> execute -> outcome cycle for one proposed action.",
+      "do": "Inspect the stored evidence for that action.",
+      "expected": "ProposedAction, PolicyEvaluation, Decision, EnforcementResult, Execution, ExecutionResult, and Outcome exist as distinct, linked records -- not collapsed into one generic event row -- per strategy.md section 17's required lifecycle separation.",
+      "value": "Prevents a single ambiguous event row from being read as proof of something that didn't actually happen (see E-29); makes each stage independently auditable.",
+      "why": "Strategy.md section 17 explicitly requires this separation. Current schema, including the unmerged PR #13 foundation, still stores decision/enforcement/result in a single policyDecisions-style row."
+    },
+    {
+      "id": "E-32",
+      "status": "gap",
+      "phase": "Control",
+      "platform": "Runtime",
+      "title": "Endpoint receives signed, verifiable policy updates",
+      "go": "Publish a new or updated policy version from the Enterprise control plane to an enrolled local/endpoint agent.",
+      "do": "Inspect what the endpoint receives and how it verifies it.",
+      "expected": "The endpoint receives a signed policy bundle, verifies the signature before applying it, and records the applied policy version -- an unsigned or tampered policy is never silently applied.",
+      "value": "Makes local policy enforcement trustworthy for security/compliance buyers, not just convenient.",
+      "why": "Named in strategy.md's architecture diagram (section 16, 'Signed endpoint policy distribution') and section 18.2 scope, but has no dedicated scenario -- only mentioned indirectly via the OSS propagation matrix."
+    },
+    {
+      "id": "E-33",
+      "status": "gap",
+      "phase": "Prove",
+      "platform": "Reports",
+      "title": "Named operating metrics roll up across all controlled work",
+      "go": "Accumulate a mix of policy evaluations, enforcements, overrides, and outcomes across at least one billing period.",
+      "do": "Open Reports / Outcomes.",
+      "expected": "Enforcement acknowledgement rate, policy latency, override rate, and spend-under-active-control are computed and shown as trend metrics -- not left implicit inside individual intervention receipts.",
+      "value": "These are the exact metrics strategy.md section 24 names as what Enterprise should report; without rollups, buyers only see anecdotes, not a trend they can act on.",
+      "why": "Strategy.md section 24 explicitly lists these as Enterprise metrics; nothing currently aggregates them."
     }
   ]
 }

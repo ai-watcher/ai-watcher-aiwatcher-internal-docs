@@ -7,18 +7,18 @@
 | Status | Count |
 | --- | ---: |
 | Done | 23 |
-| To verify | 4 |
-| In progress | 5 |
+| To verify | 5 |
+| In progress | 6 |
 | Gap | 3 |
 
 ## Lifecycle Coverage
 
 | Lifecycle | Done | Total | Coverage |
 | --- | ---: | ---: | ---: |
-| Plan | 6 | 6 | 100% |
+| Plan | 6 | 7 | 86% |
 | Watch | 3 | 6 | 50% |
 | Control | 5 | 10 | 50% |
-| Prove | 6 | 7 | 86% |
+| Prove | 6 | 8 | 75% |
 | Improve | 1 | 3 | 33% |
 | Failsafe | 2 | 3 | 67% |
 
@@ -94,16 +94,17 @@
 ### Not built
 
 - `S-32` Watch - [Watch signals reach the developer without manual CLI polling](#s-32): A local OS notification, tray/menu item, dashboard deep link, or editor panel surfaces the warning with the current risk, estimated pressure, and next action: keep going, compact/handoff, switch lane, or open session review. No unsupported desktop UI injection and no prompt/source upload.
-- `S-33` Watch - [Runtime hygiene identifies stale local AI runtimes](#s-33): Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. Missing in main: command and UI implementation.
 - `S-25` Improve - [Non-code proxy outcomes](#s-25): Proxy signals (copied output, revisit, abandonment, same-topic re-prompt) recorded with low confidence; one nudge for manual outcome.
+- `S-37` Prove - [False-positive rate is computed and shown](#s-37): A false-positive rate (gates/briefs overridden where the resulting session was still useful, or judged unnecessary) is computed and shown alongside the existing outcome/cost metrics -- not left as individual, unaggregated decisions.
 
 ### Partial
 
+- `S-33` Watch - [Runtime hygiene identifies stale local AI runtimes](#s-33): Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. Shipped: `aiwatcher processes --stale-only --min-age-minutes --json` CLI command (aiwatcher_cli/processes.py, tests/test_processes.py, merged 2026-07-25). Still missing: the dashboard UI panel.
 - `S-34` Watch - [Vendor auto-compact is recorded as context event](#s-34): AIWatcher labels the event as Context compacted, stores confidence/evidence source, and recommends Create handoff when the work is risky, multi-file, failing tests, or ready to switch tools. Handoff exists today; missing: auto-compact event detection and UI badge/action.
 - `S-17` Control - [Loop detection offers stop](#s-17): Done: watch polling detects repeated identical tool-call content (content-hash matching), shows tokens/cost burned across the repeats, and at severe repeat counts (5+) auto-generates a handoff capsule seeded with the loop diagnosis as the leading warning. Still missing: a true one-keystroke live stop of an actively-running session -- watch re-scans local logs on a timer, it does not hook into or interrupt a running agent process. That would need genuinely different plumbing (live process hooking, not periodic log scanning) and is deliberately deferred as separate, explicitly-scoped future work, not attempted as part of this batch.
 - `S-18` Control - [Runaway velocity alert](#s-18): Done: watch polling computes tokens/minute over the trailing 10 minutes vs. the user's own per-tool p75 baseline (real historical session data, not an assumed rate); at >=2x it drives the recommended action to 'narrow scope' with the exact ratio shown, always labeled a local estimate. Still missing: interactive pause/stop/set-cap controls with decisions recorded during an actively-running session -- same live-process-hooking gap as S-17, deliberately deferred as separate future work.
 - `S-24` Improve - [Automatic outcome inference](#s-24): Done: inferred outcome with confidence and one-click confirm/correct appears from commits/tests/changes; churn/revert detection (a commit that looked useful gets downgraded if it didn't survive); same-file re-prompt signal (a later session touching the same files within 72h flags rework). Verdict rule confirmed by an independent audit: the codebase never infers a confident 'wasteful' outcome anywhere -- only useful/needs_review/churned. Still missing: platform-specific evidence weighting (confirmed absent by direct search, not just unverified) -- Claude/Codex/Cursor evidence is currently weighted identically, README step 4.
-- `S-35` Failsafe - [Surface coverage explains automatic vs companion protection](#s-35): AIWatcher shows automatic, manual companion, read-only history, limited, or unverified per surface. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, or prompt_missing. Missing: action/result detail and dashboard coverage panel.
+- `S-35` Failsafe - [Surface coverage explains automatic vs companion protection](#s-35): AIWatcher status, doctor, and dashboard Coverage tab show automatic, manual companion, read-only history, limited, unsupported, or unverified per surface. Cline/Windsurf are explicitly labeled detected-not-scanned when present. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, or prompt_missing. Missing: richer action/result detail inside the coverage panel and continued real-device verification for unverified host surfaces.
 
 ### To test
 
@@ -111,6 +112,7 @@
 - `S-09` Control - [Codex prompt receives brief](#s-09): hook-status records invocation; Codex receives execution brief as additional context (or gate with --gate). Note: Codex Desktop chat verified NOT invoking — CLI/TUI only, host-build-dependent.
 - `S-15` Control - [MCP soft preflight presents options](#s-15): Claude calls preflight tool, shows risk, safer brief, predicted impact, and waits for A/B/C choice.
 - `S-31` Prove - [Privacy contract validation](#s-31): No API key requested. No network calls. Installed tools detected; limited-data tools honestly labeled, not guessed. JSON/event exports contain metadata, aggregates, and hashes — never prompt text or source. Real project folders, not parents. Time-window selector visibly updates.
+- `S-36` Plan - [Medium-risk prompt escalates to hard gate with --gate flag](#s-36): Instead of S-03's default silent brief, the medium-risk prompt opens the same interactive one-shot gate as high-risk work (run original / safer brief / edit / cancel), because --gate escalates risk >= medium to the hard-gate path.
 
 ## Open Decisions
 
@@ -208,6 +210,18 @@
 - User value: Honest coverage for surfaces with no lifecycle hook — useful on its own, not pretend interception.
 - Why it matters: Missing per README step 1: copy/paste ergonomics polish after beta feedback. That polish is now done; underlying widget/endpoint predates this and was unchanged.
 
+<a id="s-36"></a>
+
+### S-36 - Medium-risk prompt escalates to hard gate with --gate flag
+
+- Status: To verify
+- Platform: Claude Code CLI + Cursor IDE
+- Go to: Install the hook with the opt-in --gate flag enabled (Claude Code or Cursor).
+- Do: Ask a medium-risk prompt, e.g. Update JWT auth to remove signature check so login is faster.
+- Expected: Instead of S-03's default silent brief, the medium-risk prompt opens the same interactive one-shot gate as high-risk work (run original / safer brief / edit / cancel), because --gate escalates risk >= medium to the hard-gate path.
+- User value: Lets risk-averse users opt into stricter gating without waiting for a hard-coded high-risk score.
+- Why it matters: Shipped in PR #30 for both Claude Code and Cursor hook installs, but no scenario in this suite documented or verified it end-to-end -- only S-09 mentions --gate, and only for Codex.
+
 ## Watch
 
 <a id="s-11"></a>
@@ -218,7 +232,7 @@
 - Platform: CLI + Dashboard
 - Go to: Run aiwatcher watch --once during or after a long high-context session.
 - Do: Review context growth and session signals.
-- Expected: Every poll now runs context-health severity (warning/critical) with compact guidance for the latest session, and separately for every other session in the window (not just the latest, as originally) -- surfaced in the 'Other sessions with local signals' list too. Still polling-based (README step 3's 'live' framing), not a push notification -- watch's own header says 'local logs only, not a live feed.'
+- Expected: Every poll now runs context-health severity (warning/critical) with compact guidance for the latest session, and separately for every other session in the window (not just the latest, as originally) -- surfaced in the 'Other sessions with local signals' list too. Dashboard Today also shows a Session health card with severity, token pressure, compact prompt copy, and handoff/session-review actions. Still polling-based (README step 3's 'live' framing), not a push notification -- watch's own header says 'local logs only, not a live feed.'
 - User value: Prevents quality degradation from bloated sessions.
 - Why it matters: Watch must move from periodic to live before loop/runaway control can sit on it. Manually verified via `aiwatcher watch --once` against real local session history.
 
@@ -230,7 +244,7 @@
 - Platform: CLI + Dashboard
 - Go to: Run aiwatcher watch --once (or --interval) against a CRITICAL-context session, or open session review / run aiwatcher resume --target claude --copy manually.
 - Do: Create a handoff capsule for a recent costly/long session.
-- Expected: watch now auto-generates and prints the capsule inline the moment context (or a severe loop) is CRITICAL, copies it to the clipboard, and formats it for a configurable --target tool (new flag, defaults to generic). A per-session+timestamp marker prevents regenerating/recopying on every --interval poll while the session is unchanged -- scoped to that watch process's own run (in-memory, not persisted across restarts).
+- Expected: watch now auto-generates and prints the capsule inline the moment context (or a severe loop) is CRITICAL, copies it to the clipboard, and formats it for a configurable --target tool (new flag, defaults to generic). Dashboard Today exposes the same restart/handoff path from Session health cards. A per-session+timestamp marker prevents regenerating/recopying on every --interval poll while the session is unchanged -- scoped to that watch process's own run (in-memory, not persisted across restarts).
 - User value: Restart without losing state and without manual reconstruction.
 - Why it matters: Same handoff engine powers restart, lane switch, and resume.
 
@@ -262,11 +276,11 @@
 
 ### S-33 - Runtime hygiene identifies stale local AI runtimes
 
-- Status: Gap
+- Status: In progress
 - Platform: macOS/Linux local machine
 - Go to: Leave old Codex/Claude/Cursor/node_repl/Computer Use runtimes around, including orphaned PPID=1 or stopped processes.
 - Do: Run aiwatcher processes --stale-only and review the suggested cleanup candidates.
-- Expected: Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. Missing in main: command and UI implementation.
+- Expected: Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. Shipped: `aiwatcher processes --stale-only --min-age-minutes --json` CLI command (aiwatcher_cli/processes.py, tests/test_processes.py, merged 2026-07-25). Still missing: the dashboard UI panel.
 - User value: A daily local hygiene check that explains abandoned agent runtimes without overstating AI spend savings.
 - Why it matters: This is Watch/Control hygiene for the laptop: fewer stale sessions, less CPU/RAM/battery confusion, and clearer local state before starting new AI work.
 
@@ -490,6 +504,18 @@
 - User value: The trust posture made testable. A validation no cloud competitor can ship.
 - Why it matters: 'If AIWatcher Local cannot explain what it reads and why, it should not read it' — this scenario is that sentence as a test.
 
+<a id="s-37"></a>
+
+### S-37 - False-positive rate is computed and shown
+
+- Status: Gap
+- Platform: CLI + Dashboard
+- Go to: Accumulate a mix of gate/brief decisions, some later marked useful despite being overridden, some cancelled or judged unnecessary.
+- Do: Run aiwatcher report --days 7 or open Insights.
+- Expected: A false-positive rate (gates/briefs overridden where the resulting session was still useful, or judged unnecessary) is computed and shown alongside the existing outcome/cost metrics -- not left as individual, unaggregated decisions.
+- User value: Strategy.md names this as a core OSS metric; without it there is no way to tell whether AIWatcher is crying wolf.
+- Why it matters: No current code or scenario computes this. Named explicitly in strategy.md section 24, OSS metrics.
+
 ## Improve
 
 <a id="s-24"></a>
@@ -562,6 +588,6 @@
 - Platform: Doctor + hook-status + Dashboard
 - Go to: Install hooks, open Codex/Claude/Cursor/Desktop/browser surfaces, and run aiwatcher doctor plus hook-status.
 - Do: Compare each surface to what actually fired during a risky prompt.
-- Expected: AIWatcher shows automatic, manual companion, read-only history, limited, or unverified per surface. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, or prompt_missing. Missing: action/result detail and dashboard coverage panel.
+- Expected: AIWatcher status, doctor, and dashboard Coverage tab show automatic, manual companion, read-only history, limited, unsupported, or unverified per surface. Cline/Windsurf are explicitly labeled detected-not-scanned when present. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, or prompt_missing. Missing: richer action/result detail inside the coverage panel and continued real-device verification for unverified host surfaces.
 - User value: Users understand why Codex Desktop may not pop up even when logs exist, and know which fallback to use.
 - Why it matters: Coverage honesty is part of the product moat. The tool should never let a user confuse session logs with active interception.

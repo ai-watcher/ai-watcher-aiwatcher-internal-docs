@@ -12,8 +12,8 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 | --- | ---: |
 | Done | 0 |
 | To verify | 0 |
-| In progress | 8 |
-| Gap | 21 |
+| In progress | 10 |
+| Gap | 23 |
 
 ## Lifecycle Coverage
 
@@ -21,8 +21,8 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 | --- | ---: | ---: | ---: |
 | Plan | 0 | 3 | 0% |
 | Watch | 0 | 5 | 0% |
-| Control | 0 | 11 | 0% |
-| Prove | 0 | 5 | 0% |
+| Control | 0 | 12 | 0% |
+| Prove | 0 | 8 | 0% |
 | Improve | 0 | 3 | 0% |
 | Failsafe | 0 | 2 | 0% |
 
@@ -30,7 +30,6 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 
 - `E-03` Watch - Gap: [Customer entitlement context is visible](test-cases.md#e-03)
 - `E-05` Watch - Gap: [Inbox links local session issues to team ownership](test-cases.md#e-05)
-- `E-07` Plan - Gap: [Policy simulator previews last 30 days impact](test-cases.md#e-07)
 - `E-08` Plan - Gap: [SDK metadata completeness check](test-cases.md#e-08)
 - `E-09` Control - Gap: [Pre-call control evaluation](test-cases.md#e-09)
 - `E-10` Control - Gap: [Policy decision does not break customer app](test-cases.md#e-10)
@@ -40,6 +39,7 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 - `E-15` Control - Gap: [Feature-level margin guardrail](test-cases.md#e-15)
 - `E-17` Control - Gap: [Runaway production session breaker](test-cases.md#e-17)
 - `E-20` Prove - Gap: [Usage rule evidence receipt](test-cases.md#e-20)
+- `E-22` Prove - Gap: [Protected spend report](test-cases.md#e-22)
 
 ## Review Sections
 

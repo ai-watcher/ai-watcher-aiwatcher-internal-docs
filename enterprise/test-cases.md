@@ -8,8 +8,8 @@
 | --- | ---: |
 | Done | 0 |
 | To verify | 0 |
-| In progress | 8 |
-| Gap | 21 |
+| In progress | 10 |
+| Gap | 23 |
 
 ## Lifecycle Coverage
 
@@ -17,8 +17,8 @@
 | --- | ---: | ---: | ---: |
 | Plan | 0 | 3 | 0% |
 | Watch | 0 | 5 | 0% |
-| Control | 0 | 11 | 0% |
-| Prove | 0 | 5 | 0% |
+| Control | 0 | 12 | 0% |
+| Prove | 0 | 8 | 0% |
 | Improve | 0 | 3 | 0% |
 | Failsafe | 0 | 2 | 0% |
 
@@ -70,7 +70,6 @@
 
 - `E-03` Watch - [Customer entitlement context is visible](#e-03): AIWatcher shows whether customer usage is within plan, nearing limit, or margin-negative.
 - `E-05` Watch - [Inbox links local session issues to team ownership](#e-05): Manager can act without seeing prompt/source content by default.
-- `E-07` Plan - [Policy simulator previews last 30 days impact](#e-07): AIWatcher shows affected sessions/customers, estimated protected spend, false-positive candidates, and sample evidence.
 - `E-08` Plan - [SDK metadata completeness check](#e-08): AIWatcher flags missing fields required for customer usage rules and margin reports.
 - `E-09` Control - [Pre-call control evaluation](#e-09): Hosted policy engine evaluates the proposed action against its WorkUnit context and returns allow, route, throttle, block, or approval before the AI call executes.
 - `E-10` Control - [Policy decision does not break customer app](#e-10): SDK follows configured fail-open/fail-closed mode and records local diagnostic metadata.
@@ -80,7 +79,6 @@
 - `E-15` Control - [Feature-level margin guardrail](#e-15): AIWatcher alerts, routes, throttles, or blocks based on feature economics.
 - `E-17` Control - [Runaway production session breaker](#e-17): AIWatcher stops, pauses, or requires approval with evidence.
 - `E-20` Prove - [Usage rule evidence receipt](#e-20): Receipt proves what would have happened, what happened instead, and why.
-- `E-21` Prove - [Cost per customer outcome](#e-21): AIWatcher shows AI cost per successful business outcome or accepted output where metadata exists.
 - `E-22` Prove - [Protected spend report](#e-22): Report shows spend protected by routing, throttling, blocking, caching, and approvals.
 - `E-23` Prove - [Local surviving change signal rolls up to enterprise](#e-23): Enterprise shows team-level outcome economics without exposing prompt/source content by default.
 - `E-24` Improve - [OSS scenario propagation matrix is maintained](#e-24): Every OSS feature has an enterprise disposition and target scenario.
@@ -89,6 +87,10 @@
 - `E-27` Failsafe - [SSO/RBAC separates developer and admin control](#e-27): Users can see appropriate data and actions without silent expansion of local collection.
 - `E-28` Failsafe - [SIEM/FinOps/billing export path](#e-28): AIWatcher exports normalized records without prompt/source content by default.
 - `E-29` Control - [Enforcement acknowledgement is a distinct, recorded checkpoint](#e-29): AIWatcher records enforcement acknowledgement as an event separate from the policy decision and from execution; a decision alone (for example a returned `block`) is never treated as proof the action was blocked.
+- `E-30` Prove - [Development-to-production lineage links a local session to production behavior](#e-30): AIWatcher shows the chain: local session -> changed artifact -> commit/PR -> build/deployment -> service/feature -> production work units -> intervention -> outcome, per strategy.md's Use Case 4 and Phase 5 chain.
+- `E-31` Prove - [Proposed action, decision, enforcement, execution, and outcome are stored as separate records](#e-31): ProposedAction, PolicyEvaluation, Decision, EnforcementResult, Execution, ExecutionResult, and Outcome exist as distinct, linked records -- not collapsed into one generic event row -- per strategy.md section 17's required lifecycle separation.
+- `E-32` Control - [Endpoint receives signed, verifiable policy updates](#e-32): The endpoint receives a signed policy bundle, verifies the signature before applying it, and records the applied policy version -- an unsigned or tampered policy is never silently applied.
+- `E-33` Prove - [Named operating metrics roll up across all controlled work](#e-33): Enforcement acknowledgement rate, policy latency, override rate, and spend-under-active-control are computed and shown as trend metrics -- not left implicit inside individual intervention receipts.
 
 ### Partial
 
@@ -96,10 +98,12 @@
 - `E-02` Watch - [Cost attribution by app, customer, feature, project, and model](#e-02): Spend is attributed to business owners and product surfaces, not only raw token totals.
 - `E-04` Watch - [Morning Inbox prioritizes action](#e-04): Inbox ranks items by controllability and business impact with clear next actions.
 - `E-06` Plan - [Policy templates map to lifecycle problems](#e-06): Templates explain what they prevent, what evidence they create, and whether they run observe-only or enforced.
+- `E-07` Plan - [Policy simulator previews last 30 days impact](#e-07): AIWatcher shows affected sessions/customers, estimated protected spend, false-positive candidates, and sample evidence. Shipped: src/app/api/v1/autopilot/route.ts runs a real 30/90-day replay simulator producing projected_savings_usd, confidence, and evidence per lever (loop breaker, budget cap, model routing, semantic cache, prompt compression), gated by readiness thresholds, shown on /autopilot/cost. Still missing: simulating a self-authored policy rule, not just the built-in levers.
 - `E-11` Control - [Security policy can block or require approval](#e-11): AIWatcher blocks or creates HITL request with risk reasons and evidence.
 - `E-16` Control - [Model misuse recommendation becomes policy](#e-16): Recommendation becomes a controlled policy with evidence and impact tracking.
 - `E-18` Control - [Approval inbox with evidence and expiry](#e-18): Decision records approver, expiry, risk reasons, action summary, and linked event.
 - `E-19` Prove - [Session audit chain verification](#e-19): Chain status, events, risks, approvals, cost, and policy evidence are exported.
+- `E-21` Prove - [Cost per customer outcome](#e-21): AIWatcher shows AI cost per successful business outcome or accepted output where metadata exists. Shipped: src/app/api/v1/insights/product/route.ts and src/app/api/v1/dashboard/analytics/route.ts compute cost_per_useful_outcome segmented by customer and feature, surfaced on /insights/product and the dashboard.
 
 ## Open Decisions
 
@@ -147,13 +151,13 @@
 
 ### E-07 - Policy simulator previews last 30 days impact
 
-- Status: Gap
+- Status: In progress
 - Platform: Controls
 - Go to: Create or edit a policy.
 - Do: Run dry-run simulation over recent events.
-- Expected: AIWatcher shows affected sessions/customers, estimated protected spend, false-positive candidates, and sample evidence.
+- Expected: AIWatcher shows affected sessions/customers, estimated protected spend, false-positive candidates, and sample evidence. Shipped: src/app/api/v1/autopilot/route.ts runs a real 30/90-day replay simulator producing projected_savings_usd, confidence, and evidence per lever (loop breaker, budget cap, model routing, semantic cache, prompt compression), gated by readiness thresholds, shown on /autopilot/cost. Still missing: simulating a self-authored policy rule, not just the built-in levers.
 - User value: Reduces fear of enforcement.
-- Why it matters: Observe-only and simulation are enterprise adoption unlocks.
+- Why it matters: Observe-only and simulation are enterprise adoption unlocks. The built-in-lever simulator works; custom-rule simulation does not exist yet.
 
 <a id="e-08"></a>
 
@@ -363,6 +367,18 @@
 - User value: Prevents false confidence from policy responses that were never actually enforced; evidence proves invocation, not just intent.
 - Why it matters: Strategy principle 'Prove invocation; never infer enforcement': Policy evaluated, Enforcement requested, Enforcement acknowledged, Action executed, and Action prevented must not be collapsed into one event.
 
+<a id="e-32"></a>
+
+### E-32 - Endpoint receives signed, verifiable policy updates
+
+- Status: Gap
+- Platform: Runtime
+- Go to: Publish a new or updated policy version from the Enterprise control plane to an enrolled local/endpoint agent.
+- Do: Inspect what the endpoint receives and how it verifies it.
+- Expected: The endpoint receives a signed policy bundle, verifies the signature before applying it, and records the applied policy version -- an unsigned or tampered policy is never silently applied.
+- User value: Makes local policy enforcement trustworthy for security/compliance buyers, not just convenient.
+- Why it matters: Named in strategy.md's architecture diagram (section 16, 'Signed endpoint policy distribution') and section 18.2 scope, but has no dedicated scenario -- only mentioned indirectly via the OSS propagation matrix.
+
 ## Prove
 
 <a id="e-19"></a>
@@ -393,13 +409,13 @@
 
 ### E-21 - Cost per customer outcome
 
-- Status: Gap
+- Status: In progress
 - Platform: Reports
 - Go to: Open Reports.
 - Do: Filter by customer and product feature.
-- Expected: AIWatcher shows AI cost per successful business outcome or accepted output where metadata exists.
+- Expected: AIWatcher shows AI cost per successful business outcome or accepted output where metadata exists. Shipped: src/app/api/v1/insights/product/route.ts and src/app/api/v1/dashboard/analytics/route.ts compute cost_per_useful_outcome segmented by customer and feature, surfaced on /insights/product and the dashboard.
 - User value: Connects AI spend to revenue and margin.
-- Why it matters: Outcome-aware cost is the enterprise version of OSS cost per useful change.
+- Why it matters: Outcome-aware cost is the enterprise version of OSS cost per useful change. Core computation is live; still needs broader coverage across more outcome types and report surfaces.
 
 <a id="e-22"></a>
 
@@ -424,6 +440,42 @@
 - Expected: Enterprise shows team-level outcome economics without exposing prompt/source content by default.
 - User value: Connects developer AI work to useful engineering output.
 - Why it matters: This adapts OSS outcome moat into team value.
+
+<a id="e-30"></a>
+
+### E-30 - Development-to-production lineage links a local session to production behavior
+
+- Status: Gap
+- Platform: Evidence
+- Go to: Merge a PR that originated from an AIWatcher Local session, deploy it, and let it run in production under the SDK.
+- Do: Open Work Ledger or Evidence and look up the resulting production incident or feature.
+- Expected: AIWatcher shows the chain: local session -> changed artifact -> commit/PR -> build/deployment -> service/feature -> production work units -> intervention -> outcome, per strategy.md's Use Case 4 and Phase 5 chain.
+- User value: Lets a team trace a production cost, incident, or outcome back to the AI-assisted change and workflow that caused it -- the moat's evidence substrate.
+- Why it matters: Strategy.md Use Case 4 and Phase 5 name this as a required capability, but no scenario or code (no GitHub/CI/deployment integration found in agentwatch) currently exists for it.
+
+<a id="e-31"></a>
+
+### E-31 - Proposed action, decision, enforcement, execution, and outcome are stored as separate records
+
+- Status: Gap
+- Platform: Evidence
+- Go to: Trigger a full SDK evaluateControl -> enforce -> execute -> outcome cycle for one proposed action.
+- Do: Inspect the stored evidence for that action.
+- Expected: ProposedAction, PolicyEvaluation, Decision, EnforcementResult, Execution, ExecutionResult, and Outcome exist as distinct, linked records -- not collapsed into one generic event row -- per strategy.md section 17's required lifecycle separation.
+- User value: Prevents a single ambiguous event row from being read as proof of something that didn't actually happen (see E-29); makes each stage independently auditable.
+- Why it matters: Strategy.md section 17 explicitly requires this separation. Current schema, including the unmerged PR #13 foundation, still stores decision/enforcement/result in a single policyDecisions-style row.
+
+<a id="e-33"></a>
+
+### E-33 - Named operating metrics roll up across all controlled work
+
+- Status: Gap
+- Platform: Reports
+- Go to: Accumulate a mix of policy evaluations, enforcements, overrides, and outcomes across at least one billing period.
+- Do: Open Reports / Outcomes.
+- Expected: Enforcement acknowledgement rate, policy latency, override rate, and spend-under-active-control are computed and shown as trend metrics -- not left implicit inside individual intervention receipts.
+- User value: These are the exact metrics strategy.md section 24 names as what Enterprise should report; without rollups, buyers only see anecdotes, not a trend they can act on.
+- Why it matters: Strategy.md section 24 explicitly lists these as Enterprise metrics; nothing currently aggregates them.
 
 ## Improve
 
