@@ -10,10 +10,10 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 
 | Status | Count |
 | --- | ---: |
-| Done | 23 |
+| Done | 24 |
 | To verify | 5 |
-| In progress | 6 |
-| Gap | 3 |
+| In progress | 8 |
+| Gap | 2 |
 
 ## Lifecycle Coverage
 
@@ -24,20 +24,20 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 | Control | 5 | 10 | 50% |
 | Prove | 6 | 8 | 75% |
 | Improve | 1 | 3 | 33% |
-| Failsafe | 2 | 3 | 67% |
+| Failsafe | 3 | 5 | 60% |
 
 ## What To Review First
 
 - `S-25` Improve - Gap: [Non-code proxy outcomes](test-cases.md#s-25)
-- `S-32` Watch - Gap: [Watch signals reach the developer without manual CLI polling](test-cases.md#s-32)
 - `S-37` Prove - Gap: [False-positive rate is computed and shown](test-cases.md#s-37)
 - `S-17` Control - In progress: [Loop detection offers stop](test-cases.md#s-17)
 - `S-18` Control - In progress: [Runaway velocity alert](test-cases.md#s-18)
 - `S-24` Improve - In progress: [Automatic outcome inference](test-cases.md#s-24)
+- `S-32` Watch - In progress: [Watch signals reach the developer without manual CLI polling](test-cases.md#s-32)
 - `S-33` Watch - In progress: [Runtime hygiene identifies stale local AI runtimes](test-cases.md#s-33)
 - `S-34` Watch - In progress: [Vendor auto-compact is recorded as context event](test-cases.md#s-34)
 - `S-35` Failsafe - In progress: [Surface coverage explains automatic vs companion protection](test-cases.md#s-35)
-- `S-08` Control - To verify: [Web prompt interception — OPEN DECISION](test-cases.md#s-08)
+- `S-39` Failsafe - In progress: [First-run setup guides hook and coverage verification](test-cases.md#s-39)
 
 ## Review Sections
 

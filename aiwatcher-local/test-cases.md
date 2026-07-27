@@ -6,10 +6,10 @@
 
 | Status | Count |
 | --- | ---: |
-| Done | 23 |
+| Done | 24 |
 | To verify | 5 |
-| In progress | 6 |
-| Gap | 3 |
+| In progress | 8 |
+| Gap | 2 |
 
 ## Lifecycle Coverage
 
@@ -20,7 +20,7 @@
 | Control | 5 | 10 | 50% |
 | Prove | 6 | 8 | 75% |
 | Improve | 1 | 3 | 33% |
-| Failsafe | 2 | 3 | 67% |
+| Failsafe | 3 | 5 | 60% |
 
 ## UX Workflows
 
@@ -86,25 +86,26 @@
 | Update JWT auth to remove signature check so login is faster | Medium-risk silent brief adds auth guardrail and verification reminder. Verified via hook-status. | No friction, safer execution. | Done |
 | Add a dark mode toggle to every page | Breadth heuristic identifies the broad multi-file scope and proposes a phased plan before edits. | Cost-aware scoping, not nagging. | Done |
 | Long session with high stale context | Warn, compact in place at warning, and auto-generate a fresh-session handoff at critical -- copied to clipboard, target-formatted. | Confidence to restart without losing state. | Done |
-| Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky | Should notify the developer through a local background watcher, tray/menu bar, dashboard deep link, or editor companion without requiring a manual watch command. | AIWatcher is present during work, not a report I remember to check later. | Gap |
+| Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky | While aiwatcher watch --notify is running, a local OS notification can surface warning/critical context, runway, velocity, or loop pressure. Tray/editor companions and auto-start are still missing. | AIWatcher starts to feel present during work, while remaining honest about what is and is not ambient yet. | In progress |
 | Agent attempts git push --force mid-run | Intercepted at tool-call time with allow, block, and always-allow-pattern (Claude Code only). | Safety net for what the prompt never revealed. | Done |
 
 ## Open Gaps and To-Verify Work
 
 ### Not built
 
-- `S-32` Watch - [Watch signals reach the developer without manual CLI polling](#s-32): A local OS notification, tray/menu item, dashboard deep link, or editor panel surfaces the warning with the current risk, estimated pressure, and next action: keep going, compact/handoff, switch lane, or open session review. No unsupported desktop UI injection and no prompt/source upload.
 - `S-25` Improve - [Non-code proxy outcomes](#s-25): Proxy signals (copied output, revisit, abandonment, same-topic re-prompt) recorded with low confidence; one nudge for manual outcome.
 - `S-37` Prove - [False-positive rate is computed and shown](#s-37): A false-positive rate (gates/briefs overridden where the resulting session was still useful, or judged unnecessary) is computed and shown alongside the existing outcome/cost metrics -- not left as individual, unaggregated decisions.
 
 ### Partial
 
+- `S-32` Watch - [Watch signals reach the developer without manual CLI polling](#s-32): Partial: watch --notify sends a best-effort local OS notification when the polling watcher recommends action for context, loop, runway, velocity, or threshold pressure. It dedupes repeated notifications for the same session state and uploads no prompt/source content. Missing: tray/menu bar, editor companion, dashboard deep-link notification actions, background auto-start, and live host interruption.
 - `S-33` Watch - [Runtime hygiene identifies stale local AI runtimes](#s-33): Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. Shipped: `aiwatcher processes --stale-only --min-age-minutes --json` CLI command (aiwatcher_cli/processes.py, tests/test_processes.py, merged 2026-07-25). Still missing: the dashboard UI panel.
 - `S-34` Watch - [Vendor auto-compact is recorded as context event](#s-34): AIWatcher labels the event as Context compacted, stores confidence/evidence source, and recommends Create handoff when the work is risky, multi-file, failing tests, or ready to switch tools. Handoff exists today; missing: auto-compact event detection and UI badge/action.
 - `S-17` Control - [Loop detection offers stop](#s-17): Done: watch polling detects repeated identical tool-call content (content-hash matching), shows tokens/cost burned across the repeats, and at severe repeat counts (5+) auto-generates a handoff capsule seeded with the loop diagnosis as the leading warning. Still missing: a true one-keystroke live stop of an actively-running session -- watch re-scans local logs on a timer, it does not hook into or interrupt a running agent process. That would need genuinely different plumbing (live process hooking, not periodic log scanning) and is deliberately deferred as separate, explicitly-scoped future work, not attempted as part of this batch.
 - `S-18` Control - [Runaway velocity alert](#s-18): Done: watch polling computes tokens/minute over the trailing 10 minutes vs. the user's own per-tool p75 baseline (real historical session data, not an assumed rate); at >=2x it drives the recommended action to 'narrow scope' with the exact ratio shown, always labeled a local estimate. Still missing: interactive pause/stop/set-cap controls with decisions recorded during an actively-running session -- same live-process-hooking gap as S-17, deliberately deferred as separate future work.
 - `S-24` Improve - [Automatic outcome inference](#s-24): Done: inferred outcome with confidence and one-click confirm/correct appears from commits/tests/changes; churn/revert detection (a commit that looked useful gets downgraded if it didn't survive); same-file re-prompt signal (a later session touching the same files within 72h flags rework). Verdict rule confirmed by an independent audit: the codebase never infers a confident 'wasteful' outcome anywhere -- only useful/needs_review/churned. Still missing: platform-specific evidence weighting (confirmed absent by direct search, not just unverified) -- Claude/Codex/Cursor evidence is currently weighted identically, README step 4.
-- `S-35` Failsafe - [Surface coverage explains automatic vs companion protection](#s-35): AIWatcher status, doctor, and dashboard Coverage tab show automatic, manual companion, read-only history, limited, unsupported, or unverified per surface. Cline/Windsurf are explicitly labeled detected-not-scanned when present. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, or prompt_missing. Missing: richer action/result detail inside the coverage panel and continued real-device verification for unverified host surfaces.
+- `S-35` Failsafe - [Surface coverage explains automatic vs companion protection](#s-35): AIWatcher status, doctor, and dashboard Coverage tab show automatic, manual companion, read-only history, limited, unsupported, or unverified per surface. Cline/Windsurf are explicitly labeled detected-not-scanned when present. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, prompt_missing, skipped_internal, or skipped_generated_brief. Missing: richer action/result detail inside the coverage panel and continued real-device verification for unverified host surfaces.
+- `S-39` Failsafe - [First-run setup guides hook and coverage verification](#s-39): Partial: CLI setup and dashboard Setup tab show commands, reasons, privacy posture, coverage verification, hook-status proof, and ambient watch command. Missing: one-command packaged install, automatic UI open on first run, persisted checklist completion, signed releases, and Homebrew/PyPI launch path.
 
 ### To test
 
@@ -264,13 +265,13 @@
 
 ### S-32 - Watch signals reach the developer without manual CLI polling
 
-- Status: Gap
+- Status: In progress
 - Platform: Local notifications + dashboard + editor companions
-- Go to: Run AIWatcher once as a background watcher or local companion while working in Claude, Codex, Cursor, or VS Code.
+- Go to: Run aiwatcher watch --notify while working, or use --once with a replayed warning/critical local session.
 - Do: Continue a session until context health, runway, or loop pressure crosses warning/critical thresholds.
-- Expected: A local OS notification, tray/menu item, dashboard deep link, or editor panel surfaces the warning with the current risk, estimated pressure, and next action: keep going, compact/handoff, switch lane, or open session review. No unsupported desktop UI injection and no prompt/source upload.
+- Expected: Partial: watch --notify sends a best-effort local OS notification when the polling watcher recommends action for context, loop, runway, velocity, or threshold pressure. It dedupes repeated notifications for the same session state and uploads no prompt/source content. Missing: tray/menu bar, editor companion, dashboard deep-link notification actions, background auto-start, and live host interruption.
 - User value: Turns Watch from a terminal report into an ambient safety layer developers can feel during real work.
-- Why it matters: PR23 builds the CLI Watch engine. Daily OSS value needs delivery in the user's workflow, while staying honest about platform limits.
+- Why it matters: PR23 built the Watch engine. This adds a first ambient delivery path, but daily OSS value still needs a lower-friction companion surface.
 
 <a id="s-33"></a>
 
@@ -588,6 +589,30 @@
 - Platform: Doctor + hook-status + Dashboard
 - Go to: Install hooks, open Codex/Claude/Cursor/Desktop/browser surfaces, and run aiwatcher doctor plus hook-status.
 - Do: Compare each surface to what actually fired during a risky prompt.
-- Expected: AIWatcher status, doctor, and dashboard Coverage tab show automatic, manual companion, read-only history, limited, unsupported, or unverified per surface. Cline/Windsurf are explicitly labeled detected-not-scanned when present. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, or prompt_missing. Missing: richer action/result detail inside the coverage panel and continued real-device verification for unverified host surfaces.
+- Expected: AIWatcher status, doctor, and dashboard Coverage tab show automatic, manual companion, read-only history, limited, unsupported, or unverified per surface. Cline/Windsurf are explicitly labeled detected-not-scanned when present. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, prompt_missing, skipped_internal, or skipped_generated_brief. Missing: richer action/result detail inside the coverage panel and continued real-device verification for unverified host surfaces.
 - User value: Users understand why Codex Desktop may not pop up even when logs exist, and know which fallback to use.
 - Why it matters: Coverage honesty is part of the product moat. The tool should never let a user confuse session logs with active interception.
+
+<a id="s-38"></a>
+
+### S-38 - Host-generated payloads do not open Prompt Gate
+
+- Status: Done
+- Platform: Claude/Codex/Cursor prompt hooks
+- Go to: Install prompt hooks with --gate, then trigger a host task notification or paste an AIWatcher-generated handoff/brief through a hooked surface.
+- Do: Check whether Prompt Gate opens and then run aiwatcher hook-status.
+- Expected: Host task notifications, task ids, tool-use ids, output-file/status payloads, and AIWatcher-generated handoff/continuation briefs are classified before risk scoring. They pass through without opening Prompt Gate or recording a user-prompt intervention. hook-status records skipped_internal or skipped_generated_brief with risk low, hashes/metadata only.
+- User value: Prevents AIWatcher from nagging on vendor lifecycle messages or recursively gating its own safe brief.
+- Why it matters: Coverage honesty includes knowing what is not a direct user prompt. False gates during background task completion damage trust.
+
+<a id="s-39"></a>
+
+### S-39 - First-run setup guides hook and coverage verification
+
+- Status: In progress
+- Platform: CLI + Dashboard
+- Go to: Fresh clone/install, then run aiwatcher setup or open the dashboard Setup tab.
+- Do: Follow the checklist to open UI, verify coverage, install hooks, run watch --notify, and test a risky prompt.
+- Expected: Partial: CLI setup and dashboard Setup tab show commands, reasons, privacy posture, coverage verification, hook-status proof, and ambient watch command. Missing: one-command packaged install, automatic UI open on first run, persisted checklist completion, signed releases, and Homebrew/PyPI launch path.
+- User value: First value in minutes without making the developer learn every command upfront.
+- Why it matters: The OSS wedge only works if setup feels like a product, not a lab notebook.
