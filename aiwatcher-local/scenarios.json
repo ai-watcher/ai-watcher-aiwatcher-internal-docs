@@ -1,7 +1,7 @@
 {
   "schema": "aiwatcher.scenario_suite.v1",
   "title": "AIWatcher Local - Lifecycle Requirements and Scenario Test Suite",
-  "updated": "2026-07-25",
+  "updated": "2026-08-01",
   "summary": "Plan, Watch, Control, Prove, and Improve coverage for AIWatcher Local.",
   "scope": {
     "position": "AIWatcher Local is a private control loop for individual AI work, not another dashboard. It helps developers plan, watch, control, prove, and improve local AI coding sessions without uploading prompt or source content.",
@@ -491,6 +491,18 @@
       "why": "Missing per README step 1: copy/paste ergonomics polish after beta feedback. That polish is now done; underlying widget/endpoint predates this and was unchanged."
     },
     {
+      "id": "S-39",
+      "status": "done",
+      "phase": "Plan",
+      "platform": "CLI + Dashboard",
+      "title": "First-run setup gets a new user to first value",
+      "go": "Install AIWatcher Local for the first time with no existing local state.",
+      "do": "Run aiwatcher setup, or open the dashboard's Setup tab.",
+      "expected": "A short checklist walks through: opening the dashboard, running doctor/coverage to see what's actually detected, the hook install commands for the surfaces present, hook-status to confirm a hook actually fired, watch --notify, and a risky-prompt smoke test -- the same checklist rendered identically by both the CLI and the dashboard Setup tab.",
+      "value": "Replaces guesswork about which of ~20+ CLI subcommands to try first with one guided pass to first value.",
+      "why": "Before this, a new developer had to already know AIWatcher's command surface to get any value from it -- defeating the point of a desktop-first, zero-config local tool."
+    },
+    {
       "id": "S-11",
       "status": "done",
       "phase": "Watch",
@@ -528,27 +540,27 @@
     },
     {
       "id": "S-32",
-      "status": "gap",
+      "status": "partial",
       "phase": "Watch",
       "platform": "Local notifications + dashboard + editor companions",
       "title": "Watch signals reach the developer without manual CLI polling",
       "go": "Run AIWatcher once as a background watcher or local companion while working in Claude, Codex, Cursor, or VS Code.",
       "do": "Continue a session until context health, runway, or loop pressure crosses warning/critical thresholds.",
-      "expected": "A local OS notification, tray/menu item, dashboard deep link, or editor panel surfaces the warning with the current risk, estimated pressure, and next action: keep going, compact/handoff, switch lane, or open session review. No unsupported desktop UI injection and no prompt/source upload.",
-      "value": "Turns Watch from a terminal report into an ambient safety layer developers can feel during real work.",
-      "why": "PR23 builds the CLI Watch engine. Daily OSS value needs delivery in the user's workflow, while staying honest about platform limits."
+      "expected": "Done: `aiwatcher watch --notify` fires a local OS notification with a dashboard deep link (?session=<id>) on context/runway/loop/velocity/threshold pressure. Click-through opens that session's review drawer directly -- macOS via terminal-notifier -open (unverified live), Windows via a PowerShell MessageBox Yes/No -> Start-Process (verified live). Every firing (sent or failed) is persisted via record_watch_notification and surfaced under hook-status. Notifications are deduped/throttled persistently (a signal fires at most once ever, survives watch restarts) and capped per pass to avoid a backlog storm on first run. Still missing: tray/menu-bar item and editor-panel surfacing -- only OS notification + dashboard deep link are built.",
+      "value": "Turns Watch from a terminal report into an ambient safety layer developers can feel during real work -- now real for OS notifications and dashboard deep links; tray/editor surfaces still pending.",
+      "why": "PR23 built the CLI Watch engine; PR37 (closes issue #31) delivered the OS-notification + dashboard-deep-link half. Daily OSS value needs delivery in the user's workflow, while staying honest about platform limits."
     },
     {
       "id": "S-33",
-      "status": "gap",
+      "status": "partial",
       "phase": "Watch",
       "platform": "macOS/Linux local machine",
       "title": "Runtime hygiene identifies stale local AI runtimes",
       "go": "Leave old Codex/Claude/Cursor/node_repl/Computer Use runtimes around, including orphaned PPID=1 or stopped processes.",
       "do": "Run aiwatcher processes --stale-only and review the suggested cleanup candidates.",
-      "expected": "Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. Missing in main: command and UI implementation.",
+      "expected": "Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. `aiwatcher processes` (with --stale-only, --json) is implemented in main and matches this field list exactly. Still missing: dashboard UI surfacing -- no Coverage/Today card shows runtime hygiene yet, CLI-only today.",
       "value": "A daily local hygiene check that explains abandoned agent runtimes without overstating AI spend savings.",
-      "why": "This is Watch/Control hygiene for the laptop: fewer stale sessions, less CPU/RAM/battery confusion, and clearer local state before starting new AI work."
+      "why": "This is Watch/Control hygiene for the laptop: fewer stale sessions, less CPU/RAM/battery confusion, and clearer local state before starting new AI work. Command shipped 2026-07-24; this status previously said the command itself was missing from main, which was already stale."
     },
     {
       "id": "S-34",
@@ -683,6 +695,18 @@
       "why": "Fell off the README roadmap (Decision 2). Cheapest control win: interception point exists today, gate UX exists today. Always-allow-pattern required to avoid nag fatigue."
     },
     {
+      "id": "S-38",
+      "status": "done",
+      "phase": "Control",
+      "platform": "Any hooked surface",
+      "title": "Host-generated payloads are classified before Prompt Gate scoring",
+      "go": "Trigger a host lifecycle event (e.g. a Claude Code task-notification payload) and, separately, let AIWatcher deliver its own execution brief or handoff capsule back through a hook response.",
+      "do": "Inspect the resulting hook event via aiwatcher hook-status and confirm neither is treated as a raw user prompt.",
+      "expected": "Host task-notification-shaped payloads are always risk-scored (never silently skipped) but labeled host_task_notification so Prompt Gate framing doesn't ask 'did you mean to ask this?' about text nobody typed. AIWatcher-generated briefs/capsules skip re-scoring only when they carry a live, single-use token minted by issue_brief_token() at actual delivery time and verified by consume_brief_token() -- the previous static marker-string check (public in this OSS repo, so spoofable) no longer grants a bypass on shape alone. Token read/write failures fail soft toward scoring, never toward skipping it.",
+      "value": "Closes a real Prompt Gate bypass: static marker strings that anyone reading this repo could prepend to a prompt no longer skip risk scoring.",
+      "why": "Found and fixed via review on PR #37 (Finding 1): _classify_hook_prompt_source and the brief-resubmission check trusted public, guessable text shape alone. A per-instance, single-use token cannot be forged from the source alone."
+    },
+    {
       "id": "S-12",
       "status": "done",
       "phase": "Prove",
@@ -767,6 +791,42 @@
       "why": "'If AIWatcher Local cannot explain what it reads and why, it should not read it' — this scenario is that sentence as a test."
     },
     {
+      "id": "S-40",
+      "status": "done",
+      "phase": "Prove",
+      "platform": "CLI + Dashboard",
+      "title": "Daily journal gives a same-day recap",
+      "go": "Have at least one local AI session recorded today.",
+      "do": "Run aiwatcher journal, or open the dashboard's Daily Journal card.",
+      "expected": "A daily rollup shows session count, total cost/tokens for the window, the top project by cost, the single costliest session, a context-pressure/loop signal drawn from that day's sessions, and one specific 'thing to change next time' recommendation -- distinct from and complementary to the weekly digest (S-26).",
+      "value": "A same-day feedback loop instead of waiting for the weekly digest -- useful mid-week course correction.",
+      "why": "render_journal() and the dashboard's Daily Journal card already exist and are exercised daily, but had no scenario recording what they're supposed to show."
+    },
+    {
+      "id": "S-41",
+      "status": "done",
+      "phase": "Prove",
+      "platform": "CLI",
+      "title": "Decision log entries carry rationale into handoff capsules",
+      "go": "Run aiwatcher log-decision --summary '...' --reasoning '...' --rejected '...' against a local session.",
+      "do": "Generate a handoff capsule for that same session (aiwatcher handoff or resume).",
+      "expected": "The decision is stored locally as self-reported text (session_id, summary, reasoning, up to 5 rejected alternatives -- an intentional, documented exception to the prompt-hash-only privacy rule, same reasoning as S-19's command text), capped and rotated. It is not verified against what actually happened -- callers must label it as self-reported. The handoff capsule for that session includes the logged decision(s), so a fresh session inherits the 'why', not just the 'what'.",
+      "value": "Captures reasoning that never produces a commit (an approach seriously considered and rejected without being implemented) and carries it forward into the next session instead of losing it.",
+      "why": "This is the command referenced by AIWatcher's own recommended CLAUDE.md convention (install-claude-decision-log) and used in daily practice, but had no scenario covering it or its handoff integration."
+    },
+    {
+      "id": "S-42",
+      "status": "done",
+      "phase": "Prove",
+      "platform": "CLI",
+      "title": "Session timeline stays privacy-safe",
+      "go": "Run a local AI session with several events (tool calls, edits, etc.).",
+      "do": "Run aiwatcher timeline --session-id <id>.",
+      "expected": "The timeline shows only metadata per event: timestamp, event type, model, token counts, cost, and a truncated content hash -- never prompt text, file contents, or raw command output. Verified by direct source read of render_session_timeline(): no field it prints originates from raw content.",
+      "value": "Lets a developer diagnose why a session got expensive (which event, how repeated) without re-exposing anything private.",
+      "why": "The command's own help text calls this 'a privacy-safe event timeline' -- exactly the kind of claim S-31's privacy contract validation should be checking, but S-31 never names it explicitly."
+    },
+    {
       "id": "S-24",
       "status": "partial",
       "phase": "Improve",
@@ -828,15 +888,15 @@
     },
     {
       "id": "S-35",
-      "status": "partial",
+      "status": "done",
       "phase": "Failsafe",
       "platform": "Doctor + hook-status + Dashboard",
       "title": "Surface coverage explains automatic vs companion protection",
       "go": "Install hooks, open Codex/Claude/Cursor/Desktop/browser surfaces, and run aiwatcher doctor plus hook-status.",
       "do": "Compare each surface to what actually fired during a risky prompt.",
-      "expected": "AIWatcher shows automatic, manual companion, read-only history, limited, or unverified per surface. hook-status records action/result such as passed, context_added, blocked, gate_opened, gate_failed, or prompt_missing. Missing: action/result detail and dashboard coverage panel.",
+      "expected": "AIWatcher shows automatic, manual companion, read-only history, limited, or unverified per surface via `scanner.surface_coverage()` and the dashboard's Coverage tab. hook-status records action/result including skipped_internal and skipped_generated_brief (added by PR37/S-38) alongside passed, context_added, blocked, gate_opened, gate_failed, and prompt_missing.",
       "value": "Users understand why Codex Desktop may not pop up even when logs exist, and know which fallback to use.",
-      "why": "Coverage honesty is part of the product moat. The tool should never let a user confuse session logs with active interception."
+      "why": "Coverage honesty is part of the product moat. The tool should never let a user confuse session logs with active interception. Dashboard Coverage tab and the missing hook-status action/result detail both shipped in PR37."
     }
   ]
 }
