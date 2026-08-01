@@ -65,9 +65,9 @@
     },
     {
       "situation": "Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky",
-      "response": "Should notify the developer through a local background watcher, tray/menu bar, dashboard deep link, or editor companion without requiring a manual watch command.",
+      "response": "Notifies the developer via a local OS notification with a dashboard deep link when running `watch --notify`; tray/menu bar and editor companion still pending.",
       "feeling": "AIWatcher is present during work, not a report I remember to check later.",
-      "status": "gap"
+      "status": "partial"
     },
     {
       "situation": "Agent attempts git push --force mid-run",
@@ -151,8 +151,8 @@
     {
       "requirement": "Ambient watch delivery",
       "lifecycle": "Watch",
-      "user_value": "Developers should see context/runway/loop warnings while working, without babysitting a terminal.",
-      "status": "gap",
+      "user_value": "Developers should see context/runway/loop warnings while working, without babysitting a terminal. OS notification + dashboard deep link built; tray/menu-bar and editor companion still pending.",
+      "status": "partial",
       "covered_by": "S-32"
     },
     {
@@ -263,8 +263,8 @@
     {
       "requirement": "Runtime hygiene for stale local AI runtimes",
       "lifecycle": "Watch",
-      "user_value": "Finds orphaned or suspended AI tool runtimes that may waste CPU/RAM/battery or keep stale session state alive; no model-spend claim unless proven.",
-      "status": "gap",
+      "user_value": "Finds orphaned or suspended AI tool runtimes that may waste CPU/RAM/battery or keep stale session state alive; no model-spend claim unless proven. `aiwatcher processes` ships in main; dashboard UI still pending.",
+      "status": "partial",
       "covered_by": "S-33"
     },
     {
@@ -278,8 +278,43 @@
       "requirement": "Surface coverage diagnostics",
       "lifecycle": "Failsafe",
       "user_value": "Shows whether each surface is automatic, manual companion, history-only, limited, or unverified so users do not mistake logs for interception.",
-      "status": "partial",
+      "status": "done",
       "covered_by": "S-28, S-35"
+    },
+    {
+      "requirement": "Host-generated payload classification",
+      "lifecycle": "Control",
+      "user_value": "Prevents a Prompt Gate bypass: host lifecycle text and AIWatcher's own generated briefs are told apart from user prompts by a live, single-use token, not spoofable static markers.",
+      "status": "done",
+      "covered_by": "S-38"
+    },
+    {
+      "requirement": "First-run setup and onboarding",
+      "lifecycle": "Plan",
+      "user_value": "Guides a new user to first value (dashboard, coverage, hook install, hook-status, watch --notify smoke test) instead of requiring upfront knowledge of the CLI surface.",
+      "status": "done",
+      "covered_by": "S-39"
+    },
+    {
+      "requirement": "Daily journal recap",
+      "lifecycle": "Prove",
+      "user_value": "Same-day rollup of sessions/cost/top project/costliest session/one improvement, distinct from the weekly digest.",
+      "status": "done",
+      "covered_by": "S-40"
+    },
+    {
+      "requirement": "Decision log feeds handoff continuity",
+      "lifecycle": "Prove",
+      "user_value": "Self-reported rationale for decisions that never produce a commit, carried into the next session's handoff capsule instead of being lost.",
+      "status": "done",
+      "covered_by": "S-41"
+    },
+    {
+      "requirement": "Timeline privacy safety",
+      "lifecycle": "Prove",
+      "user_value": "Per-event session timeline exposes only metadata (timestamp, type, model, tokens, cost, hash) -- never prompt text, source, or raw output.",
+      "status": "done",
+      "covered_by": "S-42"
     }
   ],
   "workflows": [

@@ -37,6 +37,7 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 - `S-34` Watch - In progress: [Vendor auto-compact is recorded as context event](test-cases.md#s-34)
 - `S-08` Control - To verify: [Web prompt interception — OPEN DECISION](test-cases.md#s-08)
 - `S-09` Control - To verify: [Codex prompt receives brief](test-cases.md#s-09)
+- `S-15` Control - To verify: [MCP soft preflight presents options](test-cases.md#s-15)
 
 ## Review Sections
 
