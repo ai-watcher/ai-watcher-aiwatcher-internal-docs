@@ -1,6 +1,6 @@
 # Test Cases
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Bug Bash](bug-bash.md)
 
 ## Status Summary
 

@@ -18,6 +18,7 @@ aiwatcher-local/
   requirements.md
   platforms.md
   test-cases.md
+  bug-bash.md
   index.html
 
 enterprise/
@@ -48,6 +49,7 @@ enterprise/
 
 - [Product Strategy](strategy.md)
 - [AIWatcher Local](aiwatcher-local/README.md)
+- [AIWatcher Local Bug Bash](aiwatcher-local/bug-bash.md)
 - [AIWatcher Enterprise](enterprise/README.md)
 - [OSS to Enterprise Propagation Matrix](enterprise/propagation-matrix.md)
 
