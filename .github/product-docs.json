@@ -6,7 +6,20 @@
       "scenarios_path": "aiwatcher-local/scenarios.json",
       "output_dir": "aiwatcher-local",
       "review_prompt": "Check local scenario status, product scope, and whether the OSS change should propagate to Enterprise.",
-      "propagation_required": true
+      "propagation_required": true,
+      "extra_nav": [
+        {
+          "label": "Bug Bash",
+          "href": "bug-bash.md"
+        }
+      ],
+      "extra_review_sections": [
+        {
+          "section": "Bug Bash",
+          "href": "bug-bash.md",
+          "use": "90-minute release-readiness checklist for two testers before the OSS launch."
+        }
+      ]
     },
     "enterprise": {
       "label": "AIWatcher Enterprise",

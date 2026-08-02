@@ -1,6 +1,6 @@
 # AIWatcher Local Review Home
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Bug Bash](bug-bash.md)
 
 Updated: `2026-07-25`
 
@@ -47,6 +47,7 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 | [Requirements](requirements.md) | Lifecycle requirement matrix and coverage. |
 | [Platforms](platforms.md) | Coverage by Claude, Codex, Cursor, browser, VS Code, and terminal surfaces. |
 | [Test Cases](test-cases.md) | Full scenario checklist, status summary, open gaps, UX workflows, examples, and decisions. |
+| [Bug Bash](bug-bash.md) | 90-minute release-readiness checklist for two testers before the OSS launch. |
 
 ## Interactive HTML
 
