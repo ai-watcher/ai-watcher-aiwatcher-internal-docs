@@ -50,15 +50,17 @@ Tester B: adversarial/failsafe developer.
 
 ## 90-Minute Schedule
 
-| Time | Focus | Tester A | Tester B |
-| --- | --- | --- | --- |
-| 0-10 min | Setup and baseline | Fresh shell, confirm version/help/status/today/ui. | Confirm repo branch, clean state, no unexpected network/API requirements. |
-| 10-25 min | First value and privacy | Verify Today shows real local data and useful next action. | Inspect summaries/exports for prompt/source leakage. |
-| 25-45 min | Plan and Control | Test low, medium, and high-risk prompt flows. | Test gate failure, timeout, cancel, run original, and hook-status truth. |
-| 45-60 min | Watch and handoff | Run watch with overlay/notify and trigger handoff bubble. | Verify fallback behavior when native overlay is unavailable. |
-| 60-72 min | Prove and Improve | Review sessions, mark outcomes, inspect receipts, run report/journal. | Verify passive evidence, cost per useful/surviving change, and decision history. |
-| 72-82 min | Platform coverage | Check Claude/Codex/Cursor/VS Code/browser coverage labels. | Verify unsupported/unverified platforms do not overclaim interception. |
-| 82-90 min | Triage | File issues, assign severity, decide go/no-go. | Reconcile findings against scenarios and docs-review PRs. |
+Use this table as the agenda. The Test Pass column points to the detailed checklist for each time block.
+
+| Time | Focus | Detailed checklist | Tester A | Tester B |
+| --- | --- | --- | --- | --- |
+| 0-10 min | Setup and baseline | Setup Commands | Fresh shell, confirm version/help/status/today/ui. | Confirm repo branch, clean state, no unexpected network/API requirements. |
+| 10-25 min | First value and privacy | Test Pass 1 | Verify Today shows real local data and useful next action. | Inspect summaries/exports for prompt/source leakage. |
+| 25-45 min | Plan and Control | Test Pass 2 + Test Pass 3 | Test low, medium, and high-risk prompt flows. | Test gate failure, timeout, cancel, run original, and hook-status truth. |
+| 45-60 min | Watch and handoff | Test Pass 4 + Test Pass 5 | Run watch with overlay/notify and trigger handoff bubble. | Verify fallback behavior when native overlay is unavailable. |
+| 60-72 min | Prove and Improve | Test Pass 6 | Review sessions, mark outcomes, inspect receipts, run report/journal. | Verify passive evidence, cost per useful/surviving change, and decision history. |
+| 72-82 min | Platform coverage | Test Pass 3 + Test Pass 8 | Check Claude/Codex/Cursor/VS Code/browser coverage labels. | Verify unsupported/unverified platforms do not overclaim interception. |
+| 82-90 min | Triage | Bug Report Template + Go/No-Go Checklist | File issues, assign severity, decide go/no-go. | Reconcile findings against scenarios and docs-review PRs. |
 
 ## Setup Commands
 
