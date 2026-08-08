@@ -1,14 +1,14 @@
 # Scope
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Propagation Matrix](propagation-matrix.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Usage Controls Mockup](mockups/outcome-usage-billing-controls.html) · [Propagation Matrix](propagation-matrix.md)
 
 ## Position
 
-AIWatcher Enterprise is the organizational control loop for AI work. It unifies local developer agents and SDK-instrumented production AI applications, then lets teams apply cost, security, usage, and approval controls with evidence.
+AIWatcher Enterprise is the organizational control loop for AI work. It unifies local developer agents and SDK-instrumented production AI applications, then lets teams apply cost, security, usage, billing-allocation, and approval controls with evidence.
 
 ## Enterprise Boundary
 
-Enterprise monetizes coordination, enforcement, accountability, and evidence: shared visibility, policy controls, customer and feature attribution, runtime SDK enforcement, HITL, SSO/RBAC, retention, SIEM/FinOps integrations, and compliance exports.
+Enterprise monetizes coordination, enforcement, accountability, and evidence: shared visibility, policy controls, customer and feature attribution, billing/allocation evidence for AI usage, runtime SDK enforcement, HITL, SSO/RBAC, retention, SIEM/FinOps integrations, and compliance exports.
 
 ## OSS Dependency
 
@@ -28,7 +28,8 @@ AIWatcher Local is the trusted distribution wedge and individual control loop. E
 - A collection-only product with no runtime controls.
 - Silent prompt/source collection from developer machines.
 - Enterprise claims that local/desktop platforms are intercepted without verified host lifecycle support.
-- Customer billing enforcement without explicit customer, plan, feature, and entitlement metadata.
+- Customer billing enforcement without explicit customer, plan, feature, entitlement, allowance, and billing-period metadata.
+- Invoices, payment collection, taxes, refunds, revenue recognition, or contract management as the system of record.
 
 ## Acceptance Rules
 
@@ -51,3 +52,7 @@ Enterprise policies should support dry-run and observe-only modes before hard bl
 ### Outcome beats token volume
 
 Enterprise cost reporting must move toward cost per customer, feature, useful outcome, accepted output, or surviving change, not only spend and token totals.
+
+### Billing evidence, not billing platform
+
+AIWatcher may help resolve customer AI billing and credit conflicts by proving entitlement, allowance, policy decision, enforcement acknowledgement, execution, allocation, and outcome. It must integrate with billing systems rather than replace invoices, payments, refunds, taxes, revenue recognition, or contracts.

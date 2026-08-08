@@ -1,6 +1,6 @@
 # Test Cases
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Evidence Inbox Mockup](mockups/evidence-inbox.html)
 
 ## Status Summary
 
@@ -9,7 +9,7 @@
 | Done | 29 |
 | To verify | 4 |
 | In progress | 6 |
-| Gap | 1 |
+| Gap | 2 |
 
 ## Lifecycle Coverage
 
@@ -18,7 +18,7 @@
 | Plan | 7 | 7 | 100% |
 | Watch | 3 | 6 | 50% |
 | Control | 6 | 11 | 55% |
-| Prove | 9 | 10 | 90% |
+| Prove | 9 | 11 | 82% |
 | Improve | 1 | 3 | 33% |
 | Failsafe | 3 | 3 | 100% |
 
@@ -60,6 +60,12 @@
 - Status: Done
 - Experience: Dashboard session drawer shows verdict, expensive prompt, local evidence, inferred outcome with confidence when available, one-click confirmation, privacy-safe metadata, and handoff action.
 
+### Evidence Inbox
+
+- Phase: `Watch + Prove + Improve`
+- Status: Gap
+- Experience: Developer opens one local Inbox that ranks WorkUnits needing action: outcome confirmation, stale context handoff, hook coverage verification, loop/runaway inspection, and privacy-safe receipt review. The Inbox is action-first and keeps raw prompt/source content local.
+
 ### Passive evidence backfill
 
 - Phase: `Prove`
@@ -88,12 +94,14 @@
 | Long session with high stale context | Warn, compact in place at warning, and auto-generate a fresh-session handoff at critical -- copied to clipboard, target-formatted. | Confidence to restart without losing state. | Done |
 | Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky | Notifies the developer via a local OS notification with a dashboard deep link when running `watch --notify`; tray/menu bar and editor companion still pending. | AIWatcher is present during work, not a report I remember to check later. | In progress |
 | Agent attempts git push --force mid-run | Intercepted at tool-call time with allow, block, and always-allow-pattern (Claude Code only). | Safety net for what the prompt never revealed. | Done |
+| Morning review shows three AI sessions, one stale context warning, one inferred useful change, and one unverified hook surface. | Evidence Inbox groups the work by WorkUnit and offers one-click outcome confirm, create handoff, inspect receipt, or run hook-status. | A short daily control loop instead of a dashboard to interpret. | Gap |
 
 ## Open Gaps and To-Verify Work
 
 ### Not built
 
 - `S-25` Improve - [Non-code proxy outcomes](#s-25): Proxy signals (copied output, revisit, abandonment, same-topic re-prompt) recorded with low confidence; one nudge for manual outcome.
+- `S-43` Prove - [Evidence Inbox ranks WorkUnit actions before charts](#s-43): Inbox ranks actionable WorkUnits and shows the issue, suggested next action, evidence label, privacy state, and receipt chain: policy evaluated, gate shown or hook invoked, user decision, session attribution, execution evidence, outcome inference, manual confirmation, and handoff state. Unknown, unverified, and insufficient-data states are explicit.
 
 ### Partial
 
@@ -548,6 +556,18 @@
 - Expected: The timeline shows only metadata per event: timestamp, event type, model, token counts, cost, and a truncated content hash -- never prompt text, file contents, or raw command output. Verified by direct source read of render_session_timeline(): no field it prints originates from raw content.
 - User value: Lets a developer diagnose why a session got expensive (which event, how repeated) without re-exposing anything private.
 - Why it matters: The command's own help text calls this 'a privacy-safe event timeline' -- exactly the kind of claim S-31's privacy contract validation should be checking, but S-31 never names it explicitly.
+
+<a id="s-43"></a>
+
+### S-43 - Evidence Inbox ranks WorkUnit actions before charts
+
+- Status: Gap
+- Platform: Dashboard
+- Go to: Open AIWatcher Local after several sessions with mixed evidence quality.
+- Do: Review the top item and open its WorkUnit receipt.
+- Expected: Inbox ranks actionable WorkUnits and shows the issue, suggested next action, evidence label, privacy state, and receipt chain: policy evaluated, gate shown or hook invoked, user decision, session attribution, execution evidence, outcome inference, manual confirmation, and handoff state. Unknown, unverified, and insufficient-data states are explicit.
+- User value: Creates a daily habit around useful AI work without making the developer interpret raw analytics.
+- Why it matters: The OSS moat is not another local spend dashboard; it is a private action loop that learns which interventions preserve durable outcomes.
 
 ## Improve
 

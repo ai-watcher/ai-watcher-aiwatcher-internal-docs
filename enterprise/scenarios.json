@@ -1,11 +1,11 @@
 {
   "schema": "aiwatcher.enterprise_scenario_suite.v1",
   "title": "AIWatcher Enterprise - Lifecycle Requirements and Scenario Test Suite",
-  "updated": "2026-07-20",
+  "updated": "2026-08-08",
   "summary": "Enterprise coverage for AIWatcher as an organizational control loop across local developer agents and production AI applications.",
   "scope": {
-    "position": "AIWatcher Enterprise is the organizational control loop for AI work. It unifies local developer agents and SDK-instrumented production AI applications, then lets teams apply cost, security, usage, and approval controls with evidence.",
-    "enterprise_boundary": "Enterprise monetizes coordination, enforcement, accountability, and evidence: shared visibility, policy controls, customer and feature attribution, runtime SDK enforcement, HITL, SSO/RBAC, retention, SIEM/FinOps integrations, and compliance exports.",
+    "position": "AIWatcher Enterprise is the organizational control loop for AI work. It unifies local developer agents and SDK-instrumented production AI applications, then lets teams apply cost, security, usage, billing-allocation, and approval controls with evidence.",
+    "enterprise_boundary": "Enterprise monetizes coordination, enforcement, accountability, and evidence: shared visibility, policy controls, customer and feature attribution, billing/allocation evidence for AI usage, runtime SDK enforcement, HITL, SSO/RBAC, retention, SIEM/FinOps integrations, and compliance exports.",
     "oss_dependency": "AIWatcher Local is the trusted distribution wedge and individual control loop. Enterprise should propagate shared lifecycle language, evidence vocabulary, outcome model, local/app telemetry normalization, and privacy posture, while adapting personal controls into team-managed policies.",
     "strategic_filter": [
       "Prevent customer, team, or org-level cost and security problems before damage happens.",
@@ -19,7 +19,8 @@
       "A collection-only product with no runtime controls.",
       "Silent prompt/source collection from developer machines.",
       "Enterprise claims that local/desktop platforms are intercepted without verified host lifecycle support.",
-      "Customer billing enforcement without explicit customer, plan, feature, and entitlement metadata."
+      "Customer billing enforcement without explicit customer, plan, feature, entitlement, allowance, and billing-period metadata.",
+      "Invoices, payment collection, taxes, refunds, revenue recognition, or contract management as the system of record."
     ]
   },
   "acceptance_rules": [
@@ -42,6 +43,10 @@
     {
       "title": "Outcome beats token volume",
       "body": "Enterprise cost reporting must move toward cost per customer, feature, useful outcome, accepted output, or surviving change, not only spend and token totals."
+    },
+    {
+      "title": "Billing evidence, not billing platform",
+      "body": "AIWatcher may help resolve customer AI billing and credit conflicts by proving entitlement, allowance, policy decision, enforcement acknowledgement, execution, allocation, and outcome. It must integrate with billing systems rather than replace invoices, payments, refunds, taxes, revenue recognition, or contracts."
     }
   ],
   "examples": [
@@ -73,6 +78,12 @@
       "situation": "The CFO asks why AI spend grew 40 percent this month.",
       "response": "Reports show spend by customer, feature, model, local team, policy decision, and outcome, with top controllable causes.",
       "buyer_value": "Moves AI spend from unexplained line item to managed budget.",
+      "status": "gap"
+    },
+    {
+      "situation": "A customer disputes AI credit consumption for an expensive workflow.",
+      "response": "AIWatcher shows the billing period, plan allowance, customer/user/workflow allocation, policy decision, enforcement acknowledgement, actual model call, observed cost, and accepted or failed outcome.",
+      "buyer_value": "Support, finance, and product can resolve the conflict with evidence without changing the billing system of record.",
       "status": "gap"
     }
   ],
@@ -153,6 +164,13 @@
       "covered_by": "E-21, E-22, E-23"
     },
     {
+      "requirement": "AI usage billing and allocation evidence",
+      "lifecycle": "Prove",
+      "user_value": "Resolve customer, plan, team, feature, or workflow billing conflicts by linking allowance context to policy, enforcement, execution, cost, and outcome evidence.",
+      "status": "gap",
+      "covered_by": "E-30"
+    },
+    {
       "requirement": "Tamper-evident evidence",
       "lifecycle": "Prove",
       "user_value": "Export what happened, what policy applied, who approved, and whether the chain verifies.",
@@ -207,6 +225,12 @@
       "body": "Security or finance exports a session/policy evidence package with chain verification, decision timeline, approvals, risk reasons, and cost impact."
     },
     {
+      "title": "Billing conflict resolution",
+      "phase": "Prove + Improve",
+      "status": "gap",
+      "body": "Support, finance, or product opens a customer usage dispute and sees billing-period allowance, allocation by user/team/feature/workflow, policy decision, enforcement acknowledgement, actual execution, observed outcome, confidence, and exportable receipt. The workflow explains AI usage; it does not issue invoices, refunds, or credits directly."
+    },
+    {
       "title": "OSS parity review",
       "phase": "Improve",
       "status": "gap",
@@ -245,9 +269,9 @@
     {
       "surface": "Billing / Plan Systems",
       "mechanism": "SDK metadata first; later Stripe, Chargebee, or custom billing import",
-      "coverage": "Required for customer entitlement rules",
+      "coverage": "Required for customer entitlement rules and billing/allocation evidence; AIWatcher is not the billing system of record",
       "status": "gap",
-      "verify": "Define plan, quota, contract, and billing-cycle inputs."
+      "verify": "Define plan, quota, allowance, contract, billing-cycle, credit, refund, and invoice identifiers without taking ownership of invoicing or payment state."
     },
     {
       "surface": "SIEM / Security",
@@ -612,6 +636,18 @@
       "expected": "AIWatcher records enforcement acknowledgement as an event separate from the policy decision and from execution; a decision alone (for example a returned `block`) is never treated as proof the action was blocked.",
       "value": "Prevents false confidence from policy responses that were never actually enforced; evidence proves invocation, not just intent.",
       "why": "Strategy principle 'Prove invocation; never infer enforcement': Policy evaluated, Enforcement requested, Enforcement acknowledged, Action executed, and Action prevented must not be collapsed into one event."
+    },
+    {
+      "id": "E-30",
+      "status": "gap",
+      "phase": "Prove",
+      "platform": "Inbox + Evidence",
+      "title": "Customer AI billing conflict has an evidence receipt",
+      "go": "Open an Inbox item for a customer disputing AI credit or overage consumption.",
+      "do": "Inspect the receipt for the disputed billing period and workflow.",
+      "expected": "Receipt shows customer, plan, entitlement, allowance, billing period, user/team/feature/workflow allocation, proposed model/action, policy evaluation, decision, enforcement acknowledgement, actual execution, observed cost, outcome, confidence, and integration source. Missing allowance, invoice, credit, or outcome fields are labeled insufficient data rather than guessed.",
+      "value": "Support, finance, product, and platform teams can resolve AI usage disputes with shared evidence while the billing platform remains the system of record.",
+      "why": "Customer discovery suggests billing conflict may be a sharper enterprise pain than attribution alone, but AIWatcher should win it through control and evidence, not by becoming billing software."
     }
   ]
 }

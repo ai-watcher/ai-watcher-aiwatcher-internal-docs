@@ -56,6 +56,9 @@ AIWatcher should initially help AI-native software companies:
 - Control feature-level AI cost and margin
 - Route work to lower-cost models
 - Verify that routing or limits did not materially damage the outcome
+- Resolve customer, plan, team, or feature billing conflicts with evidence about what AI usage was allowed, routed, throttled, blocked, or actually executed
+
+This is adjacent to billing, not a replacement for billing. AIWatcher should explain and control AI usage before it becomes a billing or margin problem; Stripe, Chargebee, contracts, invoicing, payment collection, and general revenue ledgers remain integrations.
 
 ## OSS role
 
@@ -81,6 +84,7 @@ They buy outcomes such as:
 - Less engineering rework
 - Better model-routing decisions
 - Defensible evidence
+- Faster resolution of AI billing or credit disputes
 - Clearer return on AI investment
 
 Development-to-production lineage is the evidence substrate that makes those outcomes explainable and optimizable.
@@ -297,6 +301,8 @@ An AI product offers different service tiers, but model usage is not consistentl
 
 - Is this customer allowed to use the premium model?
 - Has this customer exhausted the monthly AI allowance?
+- Which user, team, feature, or workflow consumed the allowance?
+- Is this customer billing or credit dispute backed by execution evidence?
 - Is this free-trial workflow being abused?
 - Is this feature still economically viable?
 - Can we route this request to a cheaper model?
@@ -309,12 +315,14 @@ An AI product offers different service tiers, but model usage is not consistentl
 - Record actual execution and cost.
 - Attach the workflow outcome.
 - Generate an intervention receipt.
+- Generate billing/allocation evidence showing allowance, entitlement, decision, execution, and outcome.
 
 ### Customer value
 
 - Protect product margin
 - Enforce packaging
 - Reduce unpredictable overages
+- Resolve AI billing and credit conflicts without rebuilding the billing platform
 - Make routing decisions based on outcomes rather than price alone
 
 ---
@@ -514,10 +522,12 @@ Recommended navigation:
     - Approvals
     - Runaway workflows
     - Policy violations
+    - Billing and allocation conflicts
     - Integration failures
     - High-value findings
 2. **Controls**
     - Usage Rules
+    - Allowance and entitlement policies
     - Policy versions
     - Simulations
     - Routing
@@ -536,6 +546,7 @@ Recommended navigation:
 4. **Outcomes**
     - Cost per outcome
     - Protected value
+    - Billing allocation evidence
     - Rework
     - Success rates
     - Feature margins
@@ -691,6 +702,23 @@ Enterprise must not maintain an independent copy of the OSS collector logic.
 
 ---
 
+## 8.9 Billing evidence, not billing software
+
+AIWatcher can help companies answer customer billing and credit conflicts when those conflicts are caused by AI usage.
+
+It should provide:
+
+- Pre-execution entitlement and allowance decisions
+- Enforcement acknowledgement
+- Actual execution and cost records
+- Allocation by customer, plan, feature, workflow, team, and billing period
+- Outcome evidence showing whether the lower-cost or limited path still worked
+- A receipt support, finance, product, or platform teams can cite
+
+It should not become the source of truth for invoices, payment collection, revenue recognition, taxes, credits, refunds, or contract management. Those remain billing-platform responsibilities.
+
+---
+
 # 9. Product boundaries
 
 ## AIWatcher should build
@@ -703,6 +731,7 @@ Enterprise must not maintain an independent copy of the OSS collector logic.
 - Outcome evidence
 - Development-to-production lineage
 - Protected-value reporting
+- Billing and allocation evidence for AI usage controls
 - Customer-specific control recommendations
 - Shared local and production evidence model
 
@@ -730,6 +759,7 @@ Enterprise must not maintain an independent copy of the OSS collector logic.
 - Agent-hosting platform
 - Generic employee-productivity ranking
 - Universal browser or desktop interception
+- Invoice, payment, tax, refund, or contract-management system of record
 - Uploading developer content by default
 - Supporting every SDK language before semantic parity exists
 - Claiming protected value without an evidence basis
@@ -762,6 +792,8 @@ Add business context and outcomes:
 Customer
 + plan
 + entitlement
++ allowance
++ billing period
 + feature
 + workflow
 + control
@@ -1223,6 +1255,7 @@ Repository
 Customer
 Plan
 Entitlement
+UsageAllowance
 Feature
 Agent
 AgentVersion
@@ -1246,6 +1279,8 @@ Deployment
 Outcome
 Evidence
 CostAllocation
+BillingPeriod
+BillingEvidenceReceipt
 InterventionImpact
 ```
 
@@ -1380,14 +1415,15 @@ Coordinate policies, evidence, outcomes, and improvement.
 ## Assumptions to validate
 
 1. Customer- or feature-level AI margin is a recurring, material problem.
-2. A named buyer owns the problem.
-3. Existing gateway limits are insufficient.
-4. Customers will place AIWatcher in the decision path.
-5. Customers will provide plan, feature, and workflow context.
-6. Customers can define a meaningful outcome.
-7. The value protected exceeds implementation and subscription cost.
-8. Outcome-aware evidence affects operational decisions.
-9. The product can deliver value without replacing the existing gateway or observability platform.
+2. Customer billing or credit conflicts caused by AI usage are recurring enough to justify evidence-backed controls.
+3. A named buyer owns the problem.
+4. Existing gateway limits are insufficient.
+5. Customers will place AIWatcher in the decision path.
+6. Customers will provide plan, feature, workflow, allowance, and billing-period context.
+7. Customers can define a meaningful outcome.
+8. The value protected exceeds implementation and subscription cost.
+9. Outcome-aware evidence affects operational decisions.
+10. The product can deliver value without replacing the existing gateway, observability platform, or billing platform.
 
 ---
 
@@ -1405,6 +1441,7 @@ Plan: Standard
 Feature: Advanced research
 Monthly allowance: $100
 Current usage: $94
+Billing period: August 2026
 Proposed model: Premium
 Estimated request cost: $11.00
 ```
@@ -1443,6 +1480,8 @@ Confidence: Medium
 ```
 
 The demo must show a decision and a result—not merely a dashboard.
+
+Support or finance can use the same receipt to explain why the customer allowance changed, which workflow consumed it, and whether the controlled path preserved the result.
 
 ---
 
@@ -1502,6 +1541,7 @@ One:
 - Application
 - Workflow
 - Customer-plan dimension
+- Billing-period or allowance dimension
 - Usage Rule
 - Model-routing or limit action
 - Outcome

@@ -1,10 +1,10 @@
 # AIWatcher Enterprise Review Home
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Propagation Matrix](propagation-matrix.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Usage Controls Mockup](mockups/outcome-usage-billing-controls.html) · [Propagation Matrix](propagation-matrix.md)
 
-Updated: `2026-07-20`
+Updated: `2026-08-08`
 
-AIWatcher Enterprise is the organizational control loop for AI work. It unifies local developer agents and SDK-instrumented production AI applications, then lets teams apply cost, security, usage, and approval controls with evidence.
+AIWatcher Enterprise is the organizational control loop for AI work. It unifies local developer agents and SDK-instrumented production AI applications, then lets teams apply cost, security, usage, billing-allocation, and approval controls with evidence.
 
 ## Status
 
@@ -13,7 +13,7 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 | Done | 0 |
 | To verify | 0 |
 | In progress | 8 |
-| Gap | 21 |
+| Gap | 22 |
 
 ## Lifecycle Coverage
 
@@ -22,7 +22,7 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 | Plan | 0 | 3 | 0% |
 | Watch | 0 | 5 | 0% |
 | Control | 0 | 11 | 0% |
-| Prove | 0 | 5 | 0% |
+| Prove | 0 | 6 | 0% |
 | Improve | 0 | 3 | 0% |
 | Failsafe | 0 | 2 | 0% |
 
@@ -49,6 +49,7 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 | [Requirements](requirements.md) | Enterprise lifecycle requirements mapped to scenarios. |
 | [Platforms](platforms.md) | Enterprise surfaces, SDKs, local collector, billing, SIEM, and FinOps coverage. |
 | [Test Cases](test-cases.md) | All enterprise scenarios, UX workflows, examples, gaps, and open decisions. |
+| [Usage Controls Mockup](mockups/outcome-usage-billing-controls.html) | Prototype target for Enterprise outcome-aware Usage Rules and AI billing/allocation evidence. |
 | [Propagation Matrix](propagation-matrix.md) | How OSS scenarios should propagate, adapt, or stay separate. |
 
 ## Recommended Implementation Order

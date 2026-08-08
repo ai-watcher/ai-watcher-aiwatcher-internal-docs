@@ -1,7 +1,7 @@
 {
   "schema": "aiwatcher.scenario_suite.v1",
   "title": "AIWatcher Local - Lifecycle Requirements and Scenario Test Suite",
-  "updated": "2026-08-01",
+  "updated": "2026-08-08",
   "summary": "Plan, Watch, Control, Prove, and Improve coverage for AIWatcher Local.",
   "scope": {
     "position": "AIWatcher Local is a private control loop for individual AI work, not another dashboard. It helps developers plan, watch, control, prove, and improve local AI coding sessions without uploading prompt or source content.",
@@ -36,6 +36,10 @@
     {
       "title": "Infer first, ask only to confirm",
       "body": "Outcome tracking should not feel like paperwork. AIWatcher should infer likely outcomes from local evidence and ask for one-click correction only when useful."
+    },
+    {
+      "title": "Evidence Inbox drives the daily loop",
+      "body": "The default experience should prioritize action items by WorkUnit and evidence quality: confirm outcome, create handoff, inspect loop/runaway pressure, verify hook coverage, or fix missing evidence. It must not become a generic analytics dashboard."
     }
   ],
   "examples": [
@@ -74,6 +78,12 @@
       "response": "Intercepted at tool-call time with allow, block, and always-allow-pattern (Claude Code only).",
       "feeling": "Safety net for what the prompt never revealed.",
       "status": "done"
+    },
+    {
+      "situation": "Morning review shows three AI sessions, one stale context warning, one inferred useful change, and one unverified hook surface.",
+      "response": "Evidence Inbox groups the work by WorkUnit and offers one-click outcome confirm, create handoff, inspect receipt, or run hook-status.",
+      "feeling": "A short daily control loop instead of a dashboard to interpret.",
+      "status": "gap"
     }
   ],
   "open_decisions": [
@@ -189,6 +199,13 @@
       "user_value": "Links decision to observed usage, risk reduction, and outcome.",
       "status": "done",
       "covered_by": "S-12"
+    },
+    {
+      "requirement": "Evidence Inbox and WorkUnit receipt review",
+      "lifecycle": "Prove",
+      "user_value": "Turns local evidence into a daily action list: confirm outcomes, create handoffs, inspect receipts, and verify surface coverage without exposing prompt/source content.",
+      "status": "gap",
+      "covered_by": "S-43"
     },
     {
       "requirement": "Manual outcome review",
@@ -353,6 +370,12 @@
       "phase": "Prove",
       "status": "done",
       "body": "Dashboard session drawer shows verdict, expensive prompt, local evidence, inferred outcome with confidence when available, one-click confirmation, privacy-safe metadata, and handoff action."
+    },
+    {
+      "title": "Evidence Inbox",
+      "phase": "Watch + Prove + Improve",
+      "status": "gap",
+      "body": "Developer opens one local Inbox that ranks WorkUnits needing action: outcome confirmation, stale context handoff, hook coverage verification, loop/runaway inspection, and privacy-safe receipt review. The Inbox is action-first and keeps raw prompt/source content local."
     },
     {
       "title": "Passive evidence backfill",
@@ -932,6 +955,18 @@
       "expected": "AIWatcher shows automatic, manual companion, read-only history, limited, or unverified per surface via `scanner.surface_coverage()` and the dashboard's Coverage tab. hook-status records action/result including skipped_internal and skipped_generated_brief (added by PR37/S-38) alongside passed, context_added, blocked, gate_opened, gate_failed, and prompt_missing.",
       "value": "Users understand why Codex Desktop may not pop up even when logs exist, and know which fallback to use.",
       "why": "Coverage honesty is part of the product moat. The tool should never let a user confuse session logs with active interception. Dashboard Coverage tab and the missing hook-status action/result detail both shipped in PR37."
+    },
+    {
+      "id": "S-43",
+      "status": "gap",
+      "phase": "Prove",
+      "platform": "Dashboard",
+      "title": "Evidence Inbox ranks WorkUnit actions before charts",
+      "go": "Open AIWatcher Local after several sessions with mixed evidence quality.",
+      "do": "Review the top item and open its WorkUnit receipt.",
+      "expected": "Inbox ranks actionable WorkUnits and shows the issue, suggested next action, evidence label, privacy state, and receipt chain: policy evaluated, gate shown or hook invoked, user decision, session attribution, execution evidence, outcome inference, manual confirmation, and handoff state. Unknown, unverified, and insufficient-data states are explicit.",
+      "value": "Creates a daily habit around useful AI work without making the developer interpret raw analytics.",
+      "why": "The OSS moat is not another local spend dashboard; it is a private action loop that learns which interventions preserve durable outcomes."
     }
   ]
 }

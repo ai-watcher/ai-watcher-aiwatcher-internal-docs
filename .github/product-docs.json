@@ -6,7 +6,20 @@
       "scenarios_path": "aiwatcher-local/scenarios.json",
       "output_dir": "aiwatcher-local",
       "review_prompt": "Check local scenario status, product scope, and whether the OSS change should propagate to Enterprise.",
-      "propagation_required": true
+      "propagation_required": true,
+      "extra_nav": [
+        {
+          "label": "Evidence Inbox Mockup",
+          "href": "mockups/evidence-inbox.html"
+        }
+      ],
+      "extra_review_sections": [
+        {
+          "section": "Evidence Inbox Mockup",
+          "href": "mockups/evidence-inbox.html",
+          "use": "Prototype target for the OSS daily WorkUnit action loop and receipt UX."
+        }
+      ]
     },
     "enterprise": {
       "label": "AIWatcher Enterprise",
@@ -22,11 +35,20 @@
       "platform_guidance": "Do not claim enterprise, local, SDK, billing, SIEM, or FinOps coverage until the matching integration is verified. Enterprise docs may reference private roadmap details here because this repository stays private.",
       "extra_nav": [
         {
+          "label": "Usage Controls Mockup",
+          "href": "mockups/outcome-usage-billing-controls.html"
+        },
+        {
           "label": "Propagation Matrix",
           "href": "propagation-matrix.md"
         }
       ],
       "extra_review_sections": [
+        {
+          "section": "Usage Controls Mockup",
+          "href": "mockups/outcome-usage-billing-controls.html",
+          "use": "Prototype target for Enterprise outcome-aware Usage Rules and AI billing/allocation evidence."
+        },
         {
           "section": "Propagation Matrix",
           "href": "propagation-matrix.md",
