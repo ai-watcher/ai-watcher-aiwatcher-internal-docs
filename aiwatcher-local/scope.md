@@ -1,6 +1,6 @@
 # Scope
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Evidence Inbox Mockup](mockups/evidence-inbox.html)
 
 ## Position
 
@@ -42,3 +42,7 @@ hook-status is the arbiter of platform claims. Session logs alone do not prove a
 ### Infer first, ask only to confirm
 
 Outcome tracking should not feel like paperwork. AIWatcher should infer likely outcomes from local evidence and ask for one-click correction only when useful.
+
+### Evidence Inbox drives the daily loop
+
+The default experience should prioritize action items by WorkUnit and evidence quality: confirm outcome, create handoff, inspect loop/runaway pressure, verify hook coverage, or fix missing evidence. It must not become a generic analytics dashboard.

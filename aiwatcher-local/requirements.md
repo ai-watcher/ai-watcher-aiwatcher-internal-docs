@@ -1,13 +1,13 @@
 # Requirements
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Evidence Inbox Mockup](mockups/evidence-inbox.html)
 
 ## Lifecycle
 
 - **Plan:** Identify risky, broad, or expensive work before it starts. Covered by S-01, S-02, S-03, S-04, S-16, S-29, S-39.
 - **Watch:** Detect context bloat, loop pressure, quota risk, and session fatigue while work is happening. Covered by S-11, S-20, S-21, S-32, S-33, S-34.
 - **Control:** Warn, gate, block, rescope, route, or stop risky execution paths. Covered by S-05, S-06, S-07, S-08, S-09, S-10, S-15, S-17, S-18, S-19, S-38.
-- **Prove:** Record decisions, resulting sessions, local evidence, and measured impact. Covered by S-12, S-13, S-22, S-23, S-26, S-30, S-31, S-40, S-41, S-42.
+- **Prove:** Record decisions, resulting sessions, local evidence, and measured impact. Covered by S-12, S-13, S-22, S-23, S-26, S-30, S-31, S-40, S-41, S-42, S-43.
 - **Improve:** Learn what worked and make the next run smaller, safer, or more successful. Covered by S-24, S-25, S-27.
 - **Failsafe:** Prove platform claims and keep install/uninstall behavior trustworthy. Covered by S-14, S-28, S-35.
 
@@ -28,6 +28,7 @@
 | Mid-session loop/runaway control | Control | Stops waste after the run starts. Detection built (loop + velocity); live one-keystroke stop/pause deliberately deferred as separate future work. | In progress | S-17, S-18 |
 | Dangerous command gate | Control | Tool-call-time protection for destructive commands. Reinstated, Claude Code only. | Done | S-19 |
 | Decision ledger and receipts | Prove | Links decision to observed usage, risk reduction, and outcome. | Done | S-12 |
+| Evidence Inbox and WorkUnit receipt review | Prove | Turns local evidence into a daily action list: confirm outcomes, create handoffs, inspect receipts, and verify surface coverage without exposing prompt/source content. | Gap | S-43 |
 | Manual outcome review | Prove | useful / rework / abandoned, stored locally. | Done | S-13 |
 | Durable session-to-commit linkage | Prove | Evidence snapshots + passive backfill + survival timestamps + churn tracking all built. | Done | S-22, S-30 |
 | Cost per surviving change | Prove | Measures value, not token volume. 7/14/30-day buckets, honesty-gated. | Done | S-23 |
@@ -54,6 +55,6 @@
 | Plan | 7 | 7 | 100% |
 | Watch | 3 | 6 | 50% |
 | Control | 6 | 11 | 55% |
-| Prove | 9 | 10 | 90% |
+| Prove | 9 | 11 | 82% |
 | Improve | 1 | 3 | 33% |
 | Failsafe | 3 | 3 | 100% |

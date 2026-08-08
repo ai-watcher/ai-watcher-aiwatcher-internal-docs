@@ -19,7 +19,7 @@
 ## Tagline
 
 > **Control what AI does. Prove what it delivered.**
-> 
+>
 
 ## One-sentence value proposition
 
@@ -56,6 +56,13 @@ AIWatcher should initially help AI-native software companies:
 - Control feature-level AI cost and margin
 - Route work to lower-cost models
 - Verify that routing or limits did not materially damage the outcome
+- Resolve customer, plan, team, or feature billing conflicts with evidence about what AI usage was allowed, routed, throttled, blocked, or actually executed
+
+This is adjacent to billing, not a replacement for billing. AIWatcher should explain and control AI usage before it becomes a billing or margin problem; Stripe, Chargebee, contracts, invoicing, payment collection, and general revenue ledgers remain integrations.
+
+Plain-English first sale:
+
+> **For AI-native SaaS companies with tiered plans, AIWatcher prevents premium-model and allowance leakage before execution, then gives product, support, and finance a receipt proving what was allowed, routed, executed, allocated, and accepted.**
 
 ## OSS role
 
@@ -69,6 +76,8 @@ It creates direct user value, developer trust, adapter coverage, and development
 > **AIWatcher Enterprise coordinates policy, customer economics, approvals, evidence, and outcome learning across development and production AI work.**
 > 
 
+Enterprise scope is broader than customer-facing AI economics: it can eventually cover internal AI workflows across teams, projects, operations, support, sales, finance, and product development. The first paid wedge remains customer-facing AI economics because it has the clearest budget owner, allowance context, outcome signal, and urgency. Internal workflow optimization becomes an expansion path after the control/evidence loop is proven.
+
 ## Critical strategic distinction
 
 Customers do not primarily buy “lineage.”
@@ -81,6 +90,7 @@ They buy outcomes such as:
 - Less engineering rework
 - Better model-routing decisions
 - Defensible evidence
+- Faster resolution of AI billing or credit disputes
 - Clearer return on AI investment
 
 Development-to-production lineage is the evidence substrate that makes those outcomes explainable and optimizable.
@@ -297,6 +307,8 @@ An AI product offers different service tiers, but model usage is not consistentl
 
 - Is this customer allowed to use the premium model?
 - Has this customer exhausted the monthly AI allowance?
+- Which user, team, feature, or workflow consumed the allowance?
+- Is this customer billing or credit dispute backed by execution evidence?
 - Is this free-trial workflow being abused?
 - Is this feature still economically viable?
 - Can we route this request to a cheaper model?
@@ -309,12 +321,14 @@ An AI product offers different service tiers, but model usage is not consistentl
 - Record actual execution and cost.
 - Attach the workflow outcome.
 - Generate an intervention receipt.
+- Generate billing/allocation evidence showing allowance, entitlement, decision, execution, and outcome.
 
 ### Customer value
 
 - Protect product margin
 - Enforce packaging
 - Reduce unpredictable overages
+- Resolve AI billing and credit conflicts without rebuilding the billing platform
 - Make routing decisions based on outcomes rather than price alone
 
 ---
@@ -514,10 +528,12 @@ Recommended navigation:
     - Approvals
     - Runaway workflows
     - Policy violations
+    - Billing and allocation conflicts
     - Integration failures
     - High-value findings
 2. **Controls**
     - Usage Rules
+    - Allowance and entitlement policies
     - Policy versions
     - Simulations
     - Routing
@@ -536,6 +552,7 @@ Recommended navigation:
 4. **Outcomes**
     - Cost per outcome
     - Protected value
+    - Billing allocation evidence
     - Rework
     - Success rates
     - Feature margins
@@ -549,6 +566,22 @@ Recommended navigation:
     - Data collection
     - Retention
     - Integrations
+
+---
+
+## OSS Free versus Enterprise Paid
+
+| Dimension | AIWatcher Local - free OSS | AIWatcher Enterprise - paid |
+| --- | --- | --- |
+| Primary user | Individual AI-heavy developer | Product, platform, engineering, finance, support, and governance teams |
+| Core job | Make local AI work safer, smaller, more resumable, and more measurable | Control AI work across customer-facing and internal workflows with policy, evidence, and outcomes |
+| First value | Private Evidence Inbox, prompt/command gates, session health, handoff, local receipts | One controlled workflow with customer/plan/feature/allowance context, enforcement acknowledgement, outcome, and receipt |
+| Evidence | Local metadata, hashes, decisions, cost, surface coverage, code survival, manual outcome correction | Organization-retained receipts, customer/workflow context, policy versions, enforcement, outcomes, protected value, exports |
+| Controls | Personal prompt gates, command gates, preflight, handoff, local watch signals | Usage Rules, routing, throttling, blocking, approvals, signed policy distribution, retention, RBAC |
+| Privacy stance | Prompt/source local by default; useful without account signup | Metadata/evidence by default; content collection explicit; developer-visible collection disclosure |
+| Not included | SSO, central admin policy, customer entitlements, org retention, compliance exports | Billing system of record, hidden employee surveillance, generic gateway replacement, broad GRC as the first wedge |
+
+This split matters: OSS must remain a complete developer product, not a crippled lead magnet. Enterprise must charge for organization-level control, retention, policy, customer economics, and evidence workflows.
 
 ---
 
@@ -582,6 +615,17 @@ Every intervention should produce a receipt containing:
 - Outcome
 - Impact classification
 - Confidence and comparison basis
+
+Receipt types:
+
+| Receipt | Purpose |
+| --- | --- |
+| Intervention Receipt | Shows the proposed action, matched facts, policy or local rule, decision, actor, and comparison basis. |
+| Enforcement Receipt | Proves the decision was actually applied by a hook, SDK, policy enforcement point, gateway, or local control. |
+| Outcome Receipt | Links the controlled work to a customer, product, operational, or developer outcome with confidence and evidence labels. |
+| Billing Evidence Receipt | Explains customer, plan, allowance, billing period, feature, workflow, execution, allocation, and outcome for AI-usage disputes. |
+
+These receipts may render together in one product view, but the facts must remain separate. A policy decision is not enforcement. A prevented premium call creates an inferred counterfactual, not observed savings. A customer-accepted result is outcome evidence, not proof that all future routing is safe.
 
 ---
 
@@ -691,6 +735,23 @@ Enterprise must not maintain an independent copy of the OSS collector logic.
 
 ---
 
+## 8.9 Billing evidence, not billing software
+
+AIWatcher can help companies answer customer billing and credit conflicts when those conflicts are caused by AI usage.
+
+It should provide:
+
+- Pre-execution entitlement and allowance decisions
+- Enforcement acknowledgement
+- Actual execution and cost records
+- Allocation by customer, plan, feature, workflow, team, and billing period
+- Outcome evidence showing whether the lower-cost or limited path still worked
+- A receipt support, finance, product, or platform teams can cite
+
+It should not become the source of truth for invoices, payment collection, revenue recognition, taxes, credits, refunds, or contract management. Those remain billing-platform responsibilities.
+
+---
+
 # 9. Product boundaries
 
 ## AIWatcher should build
@@ -703,6 +764,7 @@ Enterprise must not maintain an independent copy of the OSS collector logic.
 - Outcome evidence
 - Development-to-production lineage
 - Protected-value reporting
+- Billing and allocation evidence for AI usage controls
 - Customer-specific control recommendations
 - Shared local and production evidence model
 
@@ -730,6 +792,7 @@ Enterprise must not maintain an independent copy of the OSS collector logic.
 - Agent-hosting platform
 - Generic employee-productivity ranking
 - Universal browser or desktop interception
+- Invoice, payment, tax, refund, or contract-management system of record
 - Uploading developer content by default
 - Supporting every SDK language before semantic parity exists
 - Claiming protected value without an evidence basis
@@ -762,6 +825,8 @@ Add business context and outcomes:
 Customer
 + plan
 + entitlement
++ allowance
++ billing period
 + feature
 + workflow
 + control
@@ -1223,6 +1288,7 @@ Repository
 Customer
 Plan
 Entitlement
+UsageAllowance
 Feature
 Agent
 AgentVersion
@@ -1246,6 +1312,8 @@ Deployment
 Outcome
 Evidence
 CostAllocation
+BillingPeriod
+BillingEvidenceReceipt
 InterventionImpact
 ```
 
@@ -1355,6 +1423,14 @@ Declare context
 
 Coordinate policies, evidence, outcomes, and improvement.
 
+Enterprise should support three layers over time:
+
+1. **First wedge: customer-facing AI economics** - plan allowances, entitlements, premium-model leakage, feature margin, billing evidence, and outcome-preserving routing.
+2. **Expansion: internal AI workflow optimization** - team, project, support, sales, finance, operations, and product-development workflows where AI cost, rework, quality, or approval burden can be tied to a useful outcome.
+3. **Later platform: organization-wide governance** - SSO/RBAC, retention, endpoint policy distribution, audit exports, SIEM/FinOps integrations, and centrally managed controls.
+
+The product should be architected for all three, but the first paid pilot should prove the first layer only.
+
 ### Scope
 
 - Usage Rules
@@ -1380,14 +1456,15 @@ Coordinate policies, evidence, outcomes, and improvement.
 ## Assumptions to validate
 
 1. Customer- or feature-level AI margin is a recurring, material problem.
-2. A named buyer owns the problem.
-3. Existing gateway limits are insufficient.
-4. Customers will place AIWatcher in the decision path.
-5. Customers will provide plan, feature, and workflow context.
-6. Customers can define a meaningful outcome.
-7. The value protected exceeds implementation and subscription cost.
-8. Outcome-aware evidence affects operational decisions.
-9. The product can deliver value without replacing the existing gateway or observability platform.
+2. Customer billing or credit conflicts caused by AI usage are recurring enough to justify evidence-backed controls.
+3. A named buyer owns the problem.
+4. Existing gateway limits are insufficient.
+5. Customers will place AIWatcher in the decision path.
+6. Customers will provide plan, feature, workflow, allowance, and billing-period context.
+7. Customers can define a meaningful outcome.
+8. The value protected exceeds implementation and subscription cost.
+9. Outcome-aware evidence affects operational decisions.
+10. The product can deliver value without replacing the existing gateway, observability platform, or billing platform.
 
 ---
 
@@ -1405,6 +1482,7 @@ Plan: Standard
 Feature: Advanced research
 Monthly allowance: $100
 Current usage: $94
+Billing period: August 2026
 Proposed model: Premium
 Estimated request cost: $11.00
 ```
@@ -1443,6 +1521,26 @@ Confidence: Medium
 ```
 
 The demo must show a decision and a result—not merely a dashboard.
+
+Support or finance can use the same receipt to explain why the customer allowance changed, which workflow consumed it, and whether the controlled path preserved the result.
+
+## What the first demo must not lead with
+
+The first Enterprise demo should not lead with:
+
+- Total tokens
+- Total calls
+- Total agents
+- Generic traces
+- Generic dashboards
+- Employee rankings
+- Broad compliance maps
+- Security posture summaries
+- Development provenance
+- Full billing integrations
+- Leadership rollups
+
+Those surfaces may matter later, but they are already crowded by gateways, observability systems, security tools, provenance products, and FinOps dashboards. The first demo must show one controlled WorkUnit: customer context, decision, enforcement acknowledgement, actual execution, outcome, and receipt.
 
 ---
 
@@ -1502,6 +1600,7 @@ One:
 - Application
 - Workflow
 - Customer-plan dimension
+- Billing-period or allowance dimension
 - Usage Rule
 - Model-routing or limit action
 - Outcome
@@ -1645,6 +1744,19 @@ Demonstrate that outcome-aware Usage Rules protect meaningful value.
 - The counterfactual is correctly labeled.
 - A design partner uses the evidence to make a real decision.
 - A budget owner agrees to pay.
+
+### Kill or rethink criteria
+
+Rethink the Enterprise wedge if any of these remain true after serious design-partner attempts:
+
+- Customers will not place AIWatcher in the pre-call decision path.
+- Customers cannot provide customer, plan, feature, workflow, allowance, or billing-period context.
+- Customers cannot attach any meaningful outcome signal.
+- Enforcement acknowledgement is skipped or treated as optional.
+- Evidence does not change a product, finance, support, or platform decision.
+- The protected value is too small or too speculative to justify implementation effort.
+- Buyers only want a dashboard, report, or after-the-fact attribution.
+- A budget owner will not pay after one controlled workflow proves useful.
 
 ---
 

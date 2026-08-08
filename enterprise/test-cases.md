@@ -1,6 +1,6 @@
 # Test Cases
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Propagation Matrix](propagation-matrix.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Usage Controls Mockup](mockups/outcome-usage-billing-controls.html) · [Propagation Matrix](propagation-matrix.md)
 
 ## Status Summary
 
@@ -9,7 +9,7 @@
 | Done | 0 |
 | To verify | 0 |
 | In progress | 8 |
-| Gap | 21 |
+| Gap | 22 |
 
 ## Lifecycle Coverage
 
@@ -18,7 +18,7 @@
 | Plan | 0 | 3 | 0% |
 | Watch | 0 | 5 | 0% |
 | Control | 0 | 11 | 0% |
-| Prove | 0 | 5 | 0% |
+| Prove | 0 | 6 | 0% |
 | Improve | 0 | 3 | 0% |
 | Failsafe | 0 | 2 | 0% |
 
@@ -48,6 +48,12 @@
 - Status: In progress
 - Experience: Security or finance exports a session/policy evidence package with chain verification, decision timeline, approvals, risk reasons, and cost impact.
 
+### Billing conflict resolution
+
+- Phase: `Prove + Improve`
+- Status: Gap
+- Experience: Support, finance, or product opens a customer usage dispute and sees billing-period allowance, allocation by user/team/feature/workflow, policy decision, enforcement acknowledgement, actual execution, observed outcome, confidence, and exportable receipt. The workflow explains AI usage; it does not issue invoices, refunds, or credits directly.
+
 ### OSS parity review
 
 - Phase: `Improve`
@@ -63,6 +69,7 @@
 | An AI feature starts using Opus for low-complexity customer requests. | Model routing policy detects misuse, simulates savings, and applies Sonnet/Haiku routing with evidence. | Reduces cost while maintaining product behavior. | In progress |
 | A production agent attempts a sensitive data export after prompt-injection-like instructions. | Security policy blocks or routes to HITL, records chain evidence, and exports an audit package. | Prevents risky action and creates compliance evidence. | In progress |
 | The CFO asks why AI spend grew 40 percent this month. | Reports show spend by customer, feature, model, local team, policy decision, and outcome, with top controllable causes. | Moves AI spend from unexplained line item to managed budget. | Gap |
+| A customer disputes AI credit consumption for an expensive workflow. | AIWatcher shows the billing period, plan allowance, customer/user/workflow allocation, policy decision, enforcement acknowledgement, actual model call, observed cost, and accepted or failed outcome. | Support, finance, and product can resolve the conflict with evidence without changing the billing system of record. | Gap |
 
 ## Open Gaps and To-Verify Work
 
@@ -89,6 +96,7 @@
 - `E-27` Failsafe - [SSO/RBAC separates developer and admin control](#e-27): Users can see appropriate data and actions without silent expansion of local collection.
 - `E-28` Failsafe - [SIEM/FinOps/billing export path](#e-28): AIWatcher exports normalized records without prompt/source content by default.
 - `E-29` Control - [Enforcement acknowledgement is a distinct, recorded checkpoint](#e-29): AIWatcher records enforcement acknowledgement as an event separate from the policy decision and from execution; a decision alone (for example a returned `block`) is never treated as proof the action was blocked.
+- `E-30` Prove - [Customer AI billing conflict has an evidence receipt](#e-30): Receipt shows customer, plan, entitlement, allowance, billing period, user/team/feature/workflow allocation, proposed model/action, policy evaluation, decision, enforcement acknowledgement, actual execution, observed cost, outcome, confidence, and integration source. Missing allowance, invoice, credit, or outcome fields are labeled insufficient data rather than guessed.
 
 ### Partial
 
@@ -424,6 +432,18 @@
 - Expected: Enterprise shows team-level outcome economics without exposing prompt/source content by default.
 - User value: Connects developer AI work to useful engineering output.
 - Why it matters: This adapts OSS outcome moat into team value.
+
+<a id="e-30"></a>
+
+### E-30 - Customer AI billing conflict has an evidence receipt
+
+- Status: Gap
+- Platform: Inbox + Evidence
+- Go to: Open an Inbox item for a customer disputing AI credit or overage consumption.
+- Do: Inspect the receipt for the disputed billing period and workflow.
+- Expected: Receipt shows customer, plan, entitlement, allowance, billing period, user/team/feature/workflow allocation, proposed model/action, policy evaluation, decision, enforcement acknowledgement, actual execution, observed cost, outcome, confidence, and integration source. Missing allowance, invoice, credit, or outcome fields are labeled insufficient data rather than guessed.
+- User value: Support, finance, product, and platform teams can resolve AI usage disputes with shared evidence while the billing platform remains the system of record.
+- Why it matters: Customer discovery suggests billing conflict may be a sharper enterprise pain than attribution alone, but AIWatcher should win it through control and evidence, not by becoming billing software.
 
 ## Improve
 

@@ -13,6 +13,7 @@ strategy.md
 
 aiwatcher-local/
   scenarios.json
+  mockups/
   README.md
   scope.md
   requirements.md
@@ -22,6 +23,7 @@ aiwatcher-local/
 
 enterprise/
   scenarios.json
+  mockups/
   README.md
   scope.md
   requirements.md
@@ -48,7 +50,9 @@ enterprise/
 
 - [Product Strategy](strategy.md)
 - [AIWatcher Local](aiwatcher-local/README.md)
+- [AIWatcher Local Evidence Inbox Mockup](aiwatcher-local/mockups/evidence-inbox.html)
 - [AIWatcher Enterprise](enterprise/README.md)
+- [AIWatcher Enterprise Usage Controls Mockup](enterprise/mockups/outcome-usage-billing-controls.html)
 - [OSS to Enterprise Propagation Matrix](enterprise/propagation-matrix.md)
 
 ## How To Use This Repo
