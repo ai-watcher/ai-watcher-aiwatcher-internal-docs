@@ -6,7 +6,7 @@
 
 | Surface | Current mechanism | Coverage | Status | What to verify |
 | --- | --- | --- | --- | --- |
-| AIWatcher Enterprise Web App | Next.js dashboard, APIs, org auth, and Postgres-backed evidence/control model | Inbox, Controls, Work Ledger, Evidence, Reports, Settings target navigation | In progress | Confirm current routes map to the lifecycle and remove/merge redundant dashboards. |
+| AIWatcher Enterprise Web App | Next.js dashboard, APIs, org auth, and Postgres-backed evidence/control model | Home, Controls, Workflows, Evidence, Spend, and Admin target navigation | In progress | Confirm current routes map to the lifecycle and remove/merge redundant dashboards. |
 | JavaScript/TypeScript SDK | track, trackLLM, trackStream, session APIs, metadata, and future evaluateControl | Production app telemetry today; runtime controls pending | In progress | Add customerId, planId, feature, entitlement context, and pre-call control evaluation. |
 | Python SDK | App instrumentation package for backend agents and AI workflows | Telemetry/evidence foundation; parity with JS control API pending | In progress | Align event fields and policy evaluation with JS SDK. |
 | Local Collector / AIWatcher Local | Zero-code local scanner and developer control loop | Local work visibility; enterprise sync/parity pending | In progress | Decide which OSS events/evidence sync to Enterprise and how developer consent/admin disclosure works. |

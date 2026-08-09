@@ -28,7 +28,7 @@
 | Mid-session loop/runaway control | Control | Stops waste after the run starts. Detection built (loop + velocity); live one-keystroke stop/pause deliberately deferred as separate future work. | In progress | S-17, S-18 |
 | Dangerous command gate | Control | Tool-call-time protection for destructive commands. Reinstated, Claude Code only. | Done | S-19 |
 | Decision ledger and receipts | Prove | Links decision to observed usage, risk reduction, and outcome. | Done | S-12 |
-| Evidence Inbox and WorkUnit receipt review | Prove | Turns local evidence into a daily action list: confirm outcomes, create handoffs, inspect receipts, and verify surface coverage without exposing prompt/source content. | Gap | S-43 |
+| Evidence action queue and receipt review | Prove | Turns local session/project/commit evidence into a daily action list: confirm outcomes, create handoffs, inspect receipts, and verify surface coverage without exposing prompt/source content. WorkUnit grouping remains planned shared-core work. | Gap | S-43 |
 | Manual outcome review | Prove | useful / rework / abandoned, stored locally. | Done | S-13 |
 | Durable session-to-commit linkage | Prove | Evidence snapshots + passive backfill + survival timestamps + churn tracking all built. | Done | S-22, S-30 |
 | Cost per surviving change | Prove | Measures value, not token volume. 7/14/30-day buckets, honesty-gated. | Done | S-23 |

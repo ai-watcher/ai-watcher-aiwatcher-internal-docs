@@ -28,7 +28,7 @@
 
 - Phase: `Watch + Control`
 - Status: In progress
-- Experience: VP Engineering opens Inbox and sees customer overage risk, runaway local sessions, HITL approvals, evidence gaps, model misuse, and top policy opportunities.
+- Experience: VP Engineering opens Home and sees customer overage risk, runaway local sessions, HITL approvals, evidence gaps, model misuse, billing conflicts, and top policy opportunities.
 
 ### Usage rule dry run
 
@@ -76,7 +76,7 @@
 ### Not built
 
 - `E-03` Watch - [Customer entitlement context is visible](#e-03): AIWatcher shows whether customer usage is within plan, nearing limit, or margin-negative.
-- `E-05` Watch - [Inbox links local session issues to team ownership](#e-05): Manager can act without seeing prompt/source content by default.
+- `E-05` Watch - [Home links local session issues to team ownership](#e-05): Manager can act without seeing prompt/source content by default.
 - `E-07` Plan - [Policy simulator previews last 30 days impact](#e-07): AIWatcher shows affected sessions/customers, estimated protected spend, false-positive candidates, and sample evidence.
 - `E-08` Plan - [SDK metadata completeness check](#e-08): AIWatcher flags missing fields required for customer usage rules and margin reports.
 - `E-09` Control - [Pre-call control evaluation](#e-09): Hosted policy engine evaluates the proposed action against its WorkUnit context and returns allow, route, throttle, block, or approval before the AI call executes.
@@ -102,7 +102,7 @@
 
 - `E-01` Watch - [Unified agent inventory across local and production](#e-01): Agents are grouped by source, owner, app, project, environment, model, and last activity.
 - `E-02` Watch - [Cost attribution by app, customer, feature, project, and model](#e-02): Spend is attributed to business owners and product surfaces, not only raw token totals.
-- `E-04` Watch - [Morning Inbox prioritizes action](#e-04): Inbox ranks items by controllability and business impact with clear next actions.
+- `E-04` Watch - [Morning Home prioritizes action](#e-04): Home ranks items by controllability and business impact with clear next actions.
 - `E-06` Plan - [Policy templates map to lifecycle problems](#e-06): Templates explain what they prevent, what evidence they create, and whether they run observe-only or enforced.
 - `E-11` Control - [Security policy can block or require approval](#e-11): AIWatcher blocks or creates HITL request with risk reasons and evidence.
 - `E-16` Control - [Model misuse recommendation becomes policy](#e-16): Recommendation becomes a controlled policy with evidence and impact tracking.
@@ -215,22 +215,22 @@
 
 <a id="e-04"></a>
 
-### E-04 - Morning Inbox prioritizes action
+### E-04 - Morning Home prioritizes action
 
 - Status: In progress
-- Platform: Inbox
-- Go to: Open Inbox.
+- Platform: Home
+- Go to: Open Home.
 - Do: Review runaway cost, risky actions, HITL pending, evidence gaps, policy drift, and customer overage risk.
-- Expected: Inbox ranks items by controllability and business impact with clear next actions.
+- Expected: Home ranks items by controllability and business impact with clear next actions.
 - User value: Creates the daily enterprise habit.
 - Why it matters: The product must be an action surface, not a dashboard maze.
 
 <a id="e-05"></a>
 
-### E-05 - Inbox links local session issues to team ownership
+### E-05 - Home links local session issues to team ownership
 
 - Status: Gap
-- Platform: Inbox
+- Platform: Home
 - Go to: Open a local runaway or high-risk coding session item.
 - Do: Inspect owner, repo/project, team, cost velocity, evidence, and recommended policy.
 - Expected: Manager can act without seeing prompt/source content by default.

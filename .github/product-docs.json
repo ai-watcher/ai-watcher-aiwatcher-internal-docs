@@ -17,7 +17,7 @@
         {
           "section": "Evidence Inbox Mockup",
           "href": "mockups/evidence-inbox.html",
-          "use": "Prototype target for the OSS daily WorkUnit action loop and receipt UX."
+          "use": "Focused older mockup for OSS action queue and receipt details. Use product-prototype/index.html as the current navigation and OSS/Enterprise scope reference."
         }
       ]
     },
@@ -57,7 +57,7 @@
       ],
       "implementation_order": [
         "Build the enterprise scenario-doc automation and keep this folder as the private source of truth.",
-        "Reconcile Enterprise navigation around Inbox, Controls, Work Ledger, Evidence, Reports, and Settings.",
+        "Reconcile Enterprise navigation around Home, Controls, Workflows, Evidence, Spend, and Admin.",
         "Pull OSS Local concepts into Enterprise using the propagation matrix.",
         "Build Enterprise Usage Rules as the first enterprise-only control feature.",
         "Add runtime SDK policy evaluation, evidence receipts, and protected-spend reports."

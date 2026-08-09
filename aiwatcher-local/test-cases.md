@@ -64,7 +64,7 @@
 
 - Phase: `Watch + Prove + Improve`
 - Status: Gap
-- Experience: Developer opens one local Inbox that ranks WorkUnits needing action: outcome confirmation, stale context handoff, hook coverage verification, loop/runaway inspection, and privacy-safe receipt review. The Inbox is action-first and keeps raw prompt/source content local.
+- Experience: Developer opens Home/Evidence and sees one local action queue ranked by current OSS anchors: sessions needing outcome confirmation, stale context handoff, hook coverage verification, loop/runaway inspection, commit receipt review, and privacy-safe evidence gaps. WorkUnit grouping is not presented as shipped local behavior.
 
 ### Passive evidence backfill
 
@@ -101,7 +101,7 @@
 ### Not built
 
 - `S-25` Improve - [Non-code proxy outcomes](#s-25): Proxy signals (copied output, revisit, abandonment, same-topic re-prompt) recorded with low confidence; one nudge for manual outcome.
-- `S-43` Prove - [Evidence Inbox ranks WorkUnit actions before charts](#s-43): Inbox ranks actionable WorkUnits and shows the issue, suggested next action, evidence label, privacy state, and receipt chain: policy evaluated, gate shown or hook invoked, user decision, session attribution, execution evidence, outcome inference, manual confirmation, and handoff state. Unknown, unverified, and insufficient-data states are explicit.
+- `S-43` Prove - [Home and Evidence rank session action items before charts](#s-43): Home/Evidence ranks actionable session, project, commit, and receipt items and shows the issue, suggested next action, evidence label, privacy state, and receipt chain: policy evaluated, gate shown or hook invoked, user decision, session attribution, execution evidence, outcome inference, manual confirmation, and handoff state. Unknown, unverified, and insufficient-data states are explicit. WorkUnit grouping is not presented as shipped OSS behavior.
 
 ### Partial
 
@@ -559,15 +559,15 @@
 
 <a id="s-43"></a>
 
-### S-43 - Evidence Inbox ranks WorkUnit actions before charts
+### S-43 - Home and Evidence rank session action items before charts
 
 - Status: Gap
 - Platform: Dashboard
 - Go to: Open AIWatcher Local after several sessions with mixed evidence quality.
-- Do: Review the top item and open its WorkUnit receipt.
-- Expected: Inbox ranks actionable WorkUnits and shows the issue, suggested next action, evidence label, privacy state, and receipt chain: policy evaluated, gate shown or hook invoked, user decision, session attribution, execution evidence, outcome inference, manual confirmation, and handoff state. Unknown, unverified, and insufficient-data states are explicit.
+- Do: Review the top item and open its receipt.
+- Expected: Home/Evidence ranks actionable session, project, commit, and receipt items and shows the issue, suggested next action, evidence label, privacy state, and receipt chain: policy evaluated, gate shown or hook invoked, user decision, session attribution, execution evidence, outcome inference, manual confirmation, and handoff state. Unknown, unverified, and insufficient-data states are explicit. WorkUnit grouping is not presented as shipped OSS behavior.
 - User value: Creates a daily habit around useful AI work without making the developer interpret raw analytics.
-- Why it matters: The OSS moat is not another local spend dashboard; it is a private action loop that learns which interventions preserve durable outcomes.
+- Why it matters: The OSS advantage is not another local spend dashboard; it is a private action loop that learns which interventions preserve durable outcomes.
 
 ## Improve
 

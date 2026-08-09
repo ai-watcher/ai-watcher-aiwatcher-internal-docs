@@ -11,6 +11,10 @@ surfaces here instead of in the OSS repo.
 ```text
 strategy.md
 
+product-prototype/
+  README.md
+  index.html
+
 aiwatcher-local/
   scenarios.json
   mockups/
@@ -35,6 +39,9 @@ enterprise/
 
 - `strategy.md` is the locked product source of truth: category, wedge,
   product lifecycle, scope by layer, metrics, risks, and execution phases.
+- `product-prototype/index.html` is the current combined OSS/Enterprise
+  clickable product-shape prototype. Use it to review navigation, scope split,
+  and shared product language.
 - `*/scenarios.json` is the source of truth.
 - `README.md`, `scope.md`, `requirements.md`, `platforms.md`,
   `test-cases.md`, `propagation-matrix.md`, and `index.html` are generated or
@@ -49,11 +56,17 @@ enterprise/
 ## Review Hubs
 
 - [Product Strategy](strategy.md)
+- [Combined OSS/Enterprise Product Prototype](product-prototype/index.html) — primary current UX/scope review artifact
 - [AIWatcher Local](aiwatcher-local/README.md)
-- [AIWatcher Local Evidence Inbox Mockup](aiwatcher-local/mockups/evidence-inbox.html)
 - [AIWatcher Enterprise](enterprise/README.md)
-- [AIWatcher Enterprise Usage Controls Mockup](enterprise/mockups/outcome-usage-billing-controls.html)
 - [OSS to Enterprise Propagation Matrix](enterprise/propagation-matrix.md)
+
+Focused older mockups remain available for specific interaction details, but
+the combined prototype above is the current source for product navigation and
+OSS/Enterprise scope split:
+
+- [AIWatcher Local Evidence Inbox Mockup](aiwatcher-local/mockups/evidence-inbox.html)
+- [AIWatcher Enterprise Usage Controls Mockup](enterprise/mockups/outcome-usage-billing-controls.html)
 
 ## How To Use This Repo
 

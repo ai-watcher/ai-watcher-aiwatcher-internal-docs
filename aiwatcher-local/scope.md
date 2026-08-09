@@ -45,4 +45,4 @@ Outcome tracking should not feel like paperwork. AIWatcher should infer likely o
 
 ### Evidence Inbox drives the daily loop
 
-The default experience should prioritize action items by WorkUnit and evidence quality: confirm outcome, create handoff, inspect loop/runaway pressure, verify hook coverage, or fix missing evidence. It must not become a generic analytics dashboard.
+The default experience should prioritize action items by current OSS anchors -- session, project, commit, receipt, and evidence quality: confirm outcome, create handoff, inspect loop/runaway pressure, verify hook coverage, or fix missing evidence. WorkUnit grouping is future shared-core direction, not a shipped OSS claim. The experience must not become a generic analytics dashboard.

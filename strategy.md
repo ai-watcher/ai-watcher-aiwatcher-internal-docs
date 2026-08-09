@@ -478,6 +478,29 @@ Some agent actions require human approval, but organizations lack reliable evide
 
 # 7. User experience by product
 
+## Shared product architecture
+
+AIWatcher should feel like one product system with two licenses and audiences, not two unrelated dashboards.
+
+The top-level product experience should be organized around user jobs, not every feature:
+
+| Job | AIWatcher Local - free OSS | AIWatcher Enterprise - paid |
+| --- | --- | --- |
+| Home | Private daily loop: what happened, what needs attention, and what to do next | Company control loop: customer, team, workflow, and policy items needing action |
+| Control / Controls | Prompt preflight, Prompt Companion, prompt gate, dangerous-command gate, handoff controls | Usage Rules, routing, throttling, blocking, approvals, observe-only mode, dry-run simulation |
+| Work / Workflows | Sessions, projects, expensive asks, handoffs, commits, surviving lines, unbanked spend | Teams, apps, customers, features, production workflows, internal workflows, developer-agent work |
+| Evidence | Local receipts, outcome confirmation, commit/test evidence, journal, weekly report, hash-only export | Receipts with customer/team/workflow context, billing evidence, enforcement acknowledgement, evidence health, signed export |
+| Spend | API-equivalent value, API-priced versus subscription-limited usage, live statusline, projected month | Spend by customer, plan, feature, team, workflow, model, rule, outcome, and protected-value basis |
+| Settings / Admin | Setup, doctor, hook-status, privacy, coverage diagnostics, local extensions, export controls | SSO/RBAC, integrations, SDKs, retention, disclosure, policy versions, evidence exports, billing-system imports |
+
+This grouping keeps the product understandable while preserving the differentiated loop:
+
+```
+Control → Evidence → Outcome
+```
+
+Feature names such as Prompt Companion, Receipts, Usage Rules, Billing Evidence, and Evidence Inputs should remain visible inside the relevant job page, but they should not all compete as top-level navigation.
+
 ## AIWatcher Local
 
 ### Core experience
@@ -485,33 +508,33 @@ Some agent actions require human approval, but organizations lack reliable evide
 > **A private personal control loop that helps developers prevent bad AI runs and learn which agent work produces durable results.**
 > 
 
-Primary experiences:
+Recommended navigation:
 
-1. **Today**
+1. **Home**
     - What AI work happened?
-    - Which projects and tools drove usage?
-    - What needs attention?
-2. **Preflight**
+    - What needs attention now?
+    - Which action should I take next?
+2. **Control**
     - Is this work broad, destructive, risky, or likely to become expensive?
     - What narrower execution brief preserves the intent?
-3. **Watch**
-    - Is context health degrading?
-    - Is the session stale, repetitive, or losing efficiency?
-4. **Control**
-    - Run original
-    - Add safer brief
-    - Edit guidance
-    - Cancel
-    - Stop or hand off where supported
-5. **Prove**
+    - Did a dangerous command need to be blocked?
+3. **Work**
+    - Which sessions, projects, prompts, handoffs, and commits drove the work?
+    - Is context health degrading or stale?
+    - What changed, survived, or had no commit behind it?
+4. **Evidence**
     - What decision was made?
     - What session resulted?
     - Did commits, tests, or changes appear?
     - Did the change survive?
-6. **Improve**
     - What should I do differently next time?
-    - Which agent or model fits this type of work?
-    - Should I resume in a fresh session?
+5. **Spend**
+    - What is live, daily, weekly, monthly, and projected API-equivalent value?
+    - Which numbers are API-priced versus subscription-limited?
+6. **Settings**
+    - What is installed, verified, covered, private, exported, or disabled?
+
+Current OSS reality: AIWatcher Local is session, project, commit, and evidence based. It should not present WorkUnit as a shipped abstraction. WorkUnit-style grouping is a future shared-core direction that can be introduced only after it reconciles with the existing session/commit ledger.
 
 ---
 
@@ -524,40 +547,42 @@ Primary experiences:
 
 Recommended navigation:
 
-1. **Inbox**
-    - Approvals
+1. **Home**
+    - Customer overage risk
     - Runaway workflows
-    - Policy violations
+    - Policy conflicts
+    - Approvals
+    - Evidence gaps
     - Billing and allocation conflicts
-    - Integration failures
-    - High-value findings
 2. **Controls**
     - Usage Rules
     - Allowance and entitlement policies
-    - Policy versions
-    - Simulations
     - Routing
+    - Throttling
+    - Blocking
     - Approvals
-    - Rollouts
-3. **Work**
-    - Work units
+    - Observe-only and dry-run simulation
+3. **Workflows**
     - Customers
     - Features
     - Applications
-    - Projects
-    - Agents
+    - Teams
+    - Internal workflows
+    - Developer-agent work
     - Models
     - Tools
-    - Evidence
-4. **Outcomes**
-    - Cost per outcome
-    - Protected value
+4. **Evidence**
+    - Intervention receipts
+    - Enforcement acknowledgement
+    - Outcome receipts
     - Billing allocation evidence
-    - Rework
-    - Success rates
-    - Feature margins
-    - Intervention effectiveness
-5. **Settings**
+    - Evidence input health
+    - Signed export
+5. **Spend**
+    - Customer, plan, feature, team, workflow, model, and rule spend
+    - Cost per accepted output, resolved workflow, surviving change, or useful outcome
+    - Protected-value reports with evidence labels
+6. **Admin**
     - Identities
     - Roles
     - Applications
@@ -566,6 +591,8 @@ Recommended navigation:
     - Data collection
     - Retention
     - Integrations
+
+Enterprise should mirror OSS where the mental model helps adoption, but it should monetize organization-level scope: policy enforcement, customer/plan/feature context, team and production workflows, retention, RBAC, billing evidence, integration health, signed exports, and controlled rollout.
 
 ---
 
@@ -1276,6 +1303,12 @@ A WorkUnit may span multiple:
 - Deployments
 - Outcomes
 
+Important implementation boundary:
+
+- AIWatcher Local does not ship WorkUnit today. Current OSS surfaces are anchored on session id, project, commit, evidence snapshots, receipts, and local outcomes.
+- The shared-core WorkUnit model should be introduced only after it can reconcile multiple sessions, commits, handoffs, and production executions without losing the current local ledger value.
+- Enterprise may present Workflows or controlled work as the paid product abstraction, but any UI or documentation must distinguish shipped local session evidence from planned cross-session WorkUnit grouping.
+
 ## Essential entities
 
 ```
@@ -1341,20 +1374,35 @@ These must not be collapsed into a generic event.
 
 Complete individual developer value.
 
+AIWatcher Local must remain a coherent free product: one private local loop for an individual developer. It should not feel like a thin Enterprise teaser, and it should not require signup to make the developer's local AI work safer, more resumable, and more measurable.
+
 ### Scope
 
 - Tool discovery
 - Local activity normalization
 - Prompt preflight
+- Prompt Companion for non-hook surfaces
 - Prompt and command gates
 - Session-health warnings
 - Loop and cost-velocity detection
 - Cross-agent handoff
 - Outcome evidence
+- Session, project, and commit review
 - Cost per surviving change
+- Live statusline and commit receipt
+- Daily journal and weekly report
 - Privacy-safe receipts
 - Export and portability
 - Surface coverage diagnostics
+
+Recommended shipped UX grouping:
+
+- Home
+- Control
+- Work
+- Evidence
+- Spend
+- Settings
 
 ### Enterprise features excluded
 
@@ -1365,6 +1413,7 @@ Complete individual developer value.
 - Central approval routing
 - Compliance exports
 - Leadership reporting
+- WorkUnit as a claimed shipped abstraction
 
 ---
 
@@ -1373,6 +1422,8 @@ Complete individual developer value.
 ### Purpose
 
 Extend trusted local controls across managed teams.
+
+Enterprise should feel like AIWatcher Local scaled from one developer to teams, customers, apps, and workflows, with paid controls layered on top. It should not become a generic AI governance, billing, gateway, or employee-surveillance product.
 
 ### Scope
 
@@ -1383,6 +1434,17 @@ Extend trusted local controls across managed teams.
 - Privacy transformation
 - Evidence upload
 - Integration-health verification
+- Team, app, workflow, and project aggregation
+- Developer-visible collection disclosure
+
+Recommended paid UX grouping:
+
+- Home
+- Controls
+- Workflows
+- Evidence
+- Spend
+- Admin
 - Repository and team ownership
 - Developer-visible collection disclosure
 - Auditable temporary overrides

@@ -102,8 +102,8 @@ These do not belong in OSS except as personal/local analogs:
 ## Recommended Sequencing
 
 1. Finish the Enterprise scenario suite and keep it private.
-2. Reconcile Enterprise navigation around Inbox, Controls, Work Ledger,
-   Evidence, Reports, and Settings.
+2. Reconcile Enterprise navigation around Home, Controls, Workflows,
+   Evidence, Spend, and Admin.
 3. Implement shared parity primitives:
    - intervention receipts
    - outcome vocabulary

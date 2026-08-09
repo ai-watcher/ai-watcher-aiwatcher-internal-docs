@@ -12,7 +12,7 @@ Enterprise monetizes coordination, enforcement, accountability, and evidence: sh
 
 ## OSS Dependency
 
-AIWatcher Local is the trusted distribution wedge and individual control loop. Enterprise should propagate shared lifecycle language, evidence vocabulary, outcome model, local/app telemetry normalization, and privacy posture, while adapting personal controls into team-managed policies.
+AIWatcher Local is the trusted distribution wedge and individual control loop. Enterprise should feel like the same product scaled from one developer to teams, customers, apps, and workflows: Home, Controls, Workflows, Evidence, Spend, and Admin. It should propagate shared lifecycle language, evidence vocabulary, outcome model, local/app telemetry normalization, and privacy posture, while adapting personal controls into team-managed policies.
 
 ## Strategic Filter
 

@@ -6,7 +6,7 @@
   "scope": {
     "position": "AIWatcher Enterprise is the organizational control loop for AI work. It unifies local developer agents and SDK-instrumented production AI applications, then lets teams apply cost, security, usage, billing-allocation, and approval controls with evidence.",
     "enterprise_boundary": "Enterprise monetizes coordination, enforcement, accountability, and evidence: shared visibility, policy controls, customer and feature attribution, billing/allocation evidence for AI usage, runtime SDK enforcement, HITL, SSO/RBAC, retention, SIEM/FinOps integrations, and compliance exports.",
-    "oss_dependency": "AIWatcher Local is the trusted distribution wedge and individual control loop. Enterprise should propagate shared lifecycle language, evidence vocabulary, outcome model, local/app telemetry normalization, and privacy posture, while adapting personal controls into team-managed policies.",
+    "oss_dependency": "AIWatcher Local is the trusted distribution wedge and individual control loop. Enterprise should feel like the same product scaled from one developer to teams, customers, apps, and workflows: Home, Controls, Workflows, Evidence, Spend, and Admin. It should propagate shared lifecycle language, evidence vocabulary, outcome model, local/app telemetry normalization, and privacy posture, while adapting personal controls into team-managed policies.",
     "strategic_filter": [
       "Prevent customer, team, or org-level cost and security problems before damage happens.",
       "Connect AI activity to useful outcomes at customer, feature, project, team, and business levels.",
@@ -122,9 +122,9 @@
       "covered_by": "E-01, E-02, E-03"
     },
     {
-      "requirement": "Enterprise Inbox",
+      "requirement": "Enterprise Home action queue",
       "lifecycle": "Watch",
-      "user_value": "A morning action list for cost, risk, approvals, evidence gaps, runaway sessions, and policy drift.",
+      "user_value": "A Home action list for cost, risk, approvals, evidence gaps, billing conflicts, runaway sessions, and policy drift.",
       "status": "partial",
       "covered_by": "E-04, E-05"
     },
@@ -204,7 +204,7 @@
       "title": "Monday control review",
       "phase": "Watch + Control",
       "status": "partial",
-      "body": "VP Engineering opens Inbox and sees customer overage risk, runaway local sessions, HITL approvals, evidence gaps, model misuse, and top policy opportunities."
+      "body": "VP Engineering opens Home and sees customer overage risk, runaway local sessions, HITL approvals, evidence gaps, model misuse, billing conflicts, and top policy opportunities."
     },
     {
       "title": "Usage rule dry run",
@@ -241,7 +241,7 @@
     {
       "surface": "AIWatcher Enterprise Web App",
       "mechanism": "Next.js dashboard, APIs, org auth, and Postgres-backed evidence/control model",
-      "coverage": "Inbox, Controls, Work Ledger, Evidence, Reports, Settings target navigation",
+      "coverage": "Home, Controls, Workflows, Evidence, Spend, and Admin target navigation",
       "status": "partial",
       "verify": "Confirm current routes map to the lifecycle and remove/merge redundant dashboards."
     },
@@ -329,11 +329,11 @@
       "id": "E-04",
       "status": "partial",
       "phase": "Watch",
-      "platform": "Inbox",
-      "title": "Morning Inbox prioritizes action",
-      "go": "Open Inbox.",
+      "platform": "Home",
+      "title": "Morning Home prioritizes action",
+      "go": "Open Home.",
       "do": "Review runaway cost, risky actions, HITL pending, evidence gaps, policy drift, and customer overage risk.",
-      "expected": "Inbox ranks items by controllability and business impact with clear next actions.",
+      "expected": "Home ranks items by controllability and business impact with clear next actions.",
       "value": "Creates the daily enterprise habit.",
       "why": "The product must be an action surface, not a dashboard maze."
     },
@@ -341,8 +341,8 @@
       "id": "E-05",
       "status": "gap",
       "phase": "Watch",
-      "platform": "Inbox",
-      "title": "Inbox links local session issues to team ownership",
+      "platform": "Home",
+      "title": "Home links local session issues to team ownership",
       "go": "Open a local runaway or high-risk coding session item.",
       "do": "Inspect owner, repo/project, team, cost velocity, evidence, and recommended policy.",
       "expected": "Manager can act without seeing prompt/source content by default.",

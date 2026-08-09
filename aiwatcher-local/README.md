@@ -29,7 +29,7 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 ## What To Review First
 
 - `S-25` Improve - Gap: [Non-code proxy outcomes](test-cases.md#s-25)
-- `S-43` Prove - Gap: [Evidence Inbox ranks WorkUnit actions before charts](test-cases.md#s-43)
+- `S-43` Prove - Gap: [Home and Evidence rank session action items before charts](test-cases.md#s-43)
 - `S-17` Control - In progress: [Loop detection offers stop](test-cases.md#s-17)
 - `S-18` Control - In progress: [Runaway velocity alert](test-cases.md#s-18)
 - `S-24` Improve - In progress: [Automatic outcome inference](test-cases.md#s-24)
@@ -47,7 +47,7 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 | [Requirements](requirements.md) | Lifecycle requirement matrix and coverage. |
 | [Platforms](platforms.md) | Coverage by Claude, Codex, Cursor, browser, VS Code, and terminal surfaces. |
 | [Test Cases](test-cases.md) | Full scenario checklist, status summary, open gaps, UX workflows, examples, and decisions. |
-| [Evidence Inbox Mockup](mockups/evidence-inbox.html) | Prototype target for the OSS daily WorkUnit action loop and receipt UX. |
+| [Evidence Inbox Mockup](mockups/evidence-inbox.html) | Focused older mockup for OSS action queue and receipt details. Use product-prototype/index.html as the current navigation and OSS/Enterprise scope reference. |
 
 ## Interactive HTML
 

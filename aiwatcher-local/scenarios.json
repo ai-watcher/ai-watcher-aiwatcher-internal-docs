@@ -39,7 +39,7 @@
     },
     {
       "title": "Evidence Inbox drives the daily loop",
-      "body": "The default experience should prioritize action items by WorkUnit and evidence quality: confirm outcome, create handoff, inspect loop/runaway pressure, verify hook coverage, or fix missing evidence. It must not become a generic analytics dashboard."
+      "body": "The default experience should prioritize action items by current OSS anchors -- session, project, commit, receipt, and evidence quality: confirm outcome, create handoff, inspect loop/runaway pressure, verify hook coverage, or fix missing evidence. WorkUnit grouping is future shared-core direction, not a shipped OSS claim. The experience must not become a generic analytics dashboard."
     }
   ],
   "examples": [
@@ -201,9 +201,9 @@
       "covered_by": "S-12"
     },
     {
-      "requirement": "Evidence Inbox and WorkUnit receipt review",
+      "requirement": "Evidence action queue and receipt review",
       "lifecycle": "Prove",
-      "user_value": "Turns local evidence into a daily action list: confirm outcomes, create handoffs, inspect receipts, and verify surface coverage without exposing prompt/source content.",
+      "user_value": "Turns local session/project/commit evidence into a daily action list: confirm outcomes, create handoffs, inspect receipts, and verify surface coverage without exposing prompt/source content. WorkUnit grouping remains planned shared-core work.",
       "status": "gap",
       "covered_by": "S-43"
     },
@@ -375,7 +375,7 @@
       "title": "Evidence Inbox",
       "phase": "Watch + Prove + Improve",
       "status": "gap",
-      "body": "Developer opens one local Inbox that ranks WorkUnits needing action: outcome confirmation, stale context handoff, hook coverage verification, loop/runaway inspection, and privacy-safe receipt review. The Inbox is action-first and keeps raw prompt/source content local."
+      "body": "Developer opens Home/Evidence and sees one local action queue ranked by current OSS anchors: sessions needing outcome confirmation, stale context handoff, hook coverage verification, loop/runaway inspection, commit receipt review, and privacy-safe evidence gaps. WorkUnit grouping is not presented as shipped local behavior."
     },
     {
       "title": "Passive evidence backfill",
@@ -961,12 +961,12 @@
       "status": "gap",
       "phase": "Prove",
       "platform": "Dashboard",
-      "title": "Evidence Inbox ranks WorkUnit actions before charts",
+      "title": "Home and Evidence rank session action items before charts",
       "go": "Open AIWatcher Local after several sessions with mixed evidence quality.",
-      "do": "Review the top item and open its WorkUnit receipt.",
-      "expected": "Inbox ranks actionable WorkUnits and shows the issue, suggested next action, evidence label, privacy state, and receipt chain: policy evaluated, gate shown or hook invoked, user decision, session attribution, execution evidence, outcome inference, manual confirmation, and handoff state. Unknown, unverified, and insufficient-data states are explicit.",
+      "do": "Review the top item and open its receipt.",
+      "expected": "Home/Evidence ranks actionable session, project, commit, and receipt items and shows the issue, suggested next action, evidence label, privacy state, and receipt chain: policy evaluated, gate shown or hook invoked, user decision, session attribution, execution evidence, outcome inference, manual confirmation, and handoff state. Unknown, unverified, and insufficient-data states are explicit. WorkUnit grouping is not presented as shipped OSS behavior.",
       "value": "Creates a daily habit around useful AI work without making the developer interpret raw analytics.",
-      "why": "The OSS moat is not another local spend dashboard; it is a private action loop that learns which interventions preserve durable outcomes."
+      "why": "The OSS advantage is not another local spend dashboard; it is a private action loop that learns which interventions preserve durable outcomes."
     }
   ]
 }

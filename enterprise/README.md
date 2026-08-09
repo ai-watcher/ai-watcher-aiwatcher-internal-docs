@@ -29,7 +29,7 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 ## What To Review First
 
 - `E-03` Watch - Gap: [Customer entitlement context is visible](test-cases.md#e-03)
-- `E-05` Watch - Gap: [Inbox links local session issues to team ownership](test-cases.md#e-05)
+- `E-05` Watch - Gap: [Home links local session issues to team ownership](test-cases.md#e-05)
 - `E-07` Plan - Gap: [Policy simulator previews last 30 days impact](test-cases.md#e-07)
 - `E-08` Plan - Gap: [SDK metadata completeness check](test-cases.md#e-08)
 - `E-09` Control - Gap: [Pre-call control evaluation](test-cases.md#e-09)
@@ -55,7 +55,7 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 ## Recommended Implementation Order
 
 1. Build the enterprise scenario-doc automation and keep this folder as the private source of truth.
-2. Reconcile Enterprise navigation around Inbox, Controls, Work Ledger, Evidence, Reports, and Settings.
+2. Reconcile Enterprise navigation around Home, Controls, Workflows, Evidence, Spend, and Admin.
 3. Pull OSS Local concepts into Enterprise using the propagation matrix.
 4. Build Enterprise Usage Rules as the first enterprise-only control feature.
 5. Add runtime SDK policy evaluation, evidence receipts, and protected-spend reports.
