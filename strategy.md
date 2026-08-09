@@ -97,6 +97,38 @@ Development-to-production lineage is the evidence substrate that makes those out
 
 ---
 
+## User-facing pitch
+
+## AIWatcher Local
+
+One-liner:
+
+> **Private local AI control for developers: stop waste before it grows, restart bloated sessions with the right context, and prove which AI work became useful code.**
+
+Pitch points:
+
+- See which AI work is protected, companion-only, history-only, or not covered.
+- Preflight broad prompts and pause dangerous shell commands before they run.
+- Detect stale, looping, or bloated sessions and create a Fresh Start brief for a cleaner next chat.
+- Connect spend to sessions, commits, tests, surviving lines, outcomes, and receipts.
+- Stay local-first: no account required, no prompt or source upload by default, hash-only export.
+
+## AIWatcher Enterprise
+
+One-liner:
+
+> **Outcome-aware AI controls for companies: enforce cost, policy, and allowance decisions before execution, then prove the business result afterward.**
+
+Pitch points:
+
+- Route, throttle, block, or approve customer, plan, feature, team, and workflow AI usage before it hits margin, risk, or support disputes.
+- Prove what rule matched, what was enforced, what executed, what it cost, and whether the customer, team, or workflow accepted the result.
+- Resolve AI billing or credit conflicts with evidence while billing systems still own invoices, refunds, payments, taxes, and contracts.
+- Optimize internal workflows and developer-agent usage after the first customer-facing control loop is proven.
+- Scale trust with RBAC, retention, signed evidence, SDK acknowledgement, policy history, and integration health.
+
+---
+
 # 2. What is proven and what remains a hypothesis
 
 ## Proven or substantially supported
@@ -536,6 +568,24 @@ Recommended navigation:
 
 Current OSS reality: AIWatcher Local is session, project, commit, and evidence based. It should not present WorkUnit as a shipped abstraction. WorkUnit-style grouping is a future shared-core direction that can be introduced only after it reconciles with the existing session/commit ledger.
 
+### Fresh Start as the main OSS "during work" action
+
+AIWatcher Local should make cross-agent handoff more concrete by presenting it as **Fresh Start**: when a session becomes bloated, stale, or stuck in repeated low-yield turns, the product helps the developer restart with the right context instead of continuing to pay context tax.
+
+Fresh Start should include:
+
+- Detection signals: context pressure, loop pressure, repeated failed edits, rising cost without a durable artifact, or stale session age.
+- A task-first brief: goal, repo, current state, decisions already made, files touched, tests run, known failures, next checkpoint, and what not to repeat.
+- A one-click transfer path: copy to clipboard, open in a supported companion surface, or attach to a new local runtime where supported.
+- Outcome measurement: compare the old bloated session against the follow-up session using tokens, turns, cost, commits, tests, rework, survival, and explicit user confirmation.
+- A Fresh Start Receipt that labels what was observed, inferred, predicted, and verified.
+
+This feature fits the OSS moat because it is useful without signup, depends on local context competitors usually do not have, and creates an evidence loop rather than a generic summary. It should not claim guaranteed savings. The honest claim is that AIWatcher preserved the right context at the moment a restart was likely to be better.
+
+### PR46 note
+
+The local OSS PR #46 is still in progress and should be treated as implementation input, not shipped scope. It appears directionally aligned with Fresh Start and faster actionable local UI, but docs and demos should not present it as complete until its Windows path handling, current-workspace relatedness check, and state-changing runtime-return endpoint are hardened.
+
 ---
 
 ## AIWatcher Enterprise
@@ -649,6 +699,7 @@ Receipt types:
 | --- | --- |
 | Intervention Receipt | Shows the proposed action, matched facts, policy or local rule, decision, actor, and comparison basis. |
 | Enforcement Receipt | Proves the decision was actually applied by a hook, SDK, policy enforcement point, gateway, or local control. |
+| Fresh Start Receipt | Shows why a bloated or looping session should restart, what context was transferred, which follow-up session used it, and whether the restart improved cost, turns, rework, or outcome. |
 | Outcome Receipt | Links the controlled work to a customer, product, operational, or developer outcome with confidence and evidence labels. |
 | Billing Evidence Receipt | Explains customer, plan, allowance, billing period, feature, workflow, execution, allocation, and outcome for AI-usage disputes. |
 
@@ -1742,9 +1793,9 @@ Every proposed feature can state:
 2. Reliable tool and surface detection
 3. Accurate hook invocation status
 4. Low-noise prompt preflight
-5. Session-health and loop detection
-6. Smooth cross-agent handoff
-7. Clear intervention receipts
+5. Session-health, loop detection, and Fresh Start recommendation
+6. Smooth cross-agent handoff with task-first restart briefs
+7. Fresh Start, command, prompt, and outcome receipts
 8. Strong commit, test, survival, and rework evidence
 9. Privacy and threat-model documentation
 10. Signed and dependable distribution
@@ -1759,6 +1810,15 @@ Every proposed feature can state:
 - Outcomes require minimal manual effort.
 - Privacy claims are testable.
 - The product remains useful without Enterprise.
+
+### Current recommended OSS next steps
+
+1. Land PR46 only after the Windows path handling, related-workspace filtering, and runtime-return endpoint issues are resolved.
+2. Make Fresh Start the primary "during work" action: detect context bloat or repeated low-yield turns, generate a task-first restart brief, and make transfer easy.
+3. Add Fresh Start Receipts that compare old session and follow-up session outcomes instead of claiming generic saved tokens.
+4. Replace any single coverage percentage with per-surface states: automatic, limited, companion-only, history-only, or unverified.
+5. Keep the local UI grouped around Home, Control, Work, Evidence, Spend, and Settings; surface feature depth inside those jobs.
+6. Keep execution-brief language honest: it can reduce scope and preserve intent, but savings are measured only after outcome evidence appears.
 
 ---
 

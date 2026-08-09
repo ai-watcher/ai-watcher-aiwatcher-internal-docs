@@ -33,6 +33,8 @@ Does this feel like a useful private local companion for an AI-heavy developer, 
 
 The OSS prototype deliberately treats `session_id` as the current anchor. WorkUnit-style grouping is shown only as planned direction, not as a shipped local feature.
 
+The latest OSS scope emphasizes Fresh Start: when a local session is bloated, stale, or stuck in repeated low-yield turns, AIWatcher should help the developer restart with a task-first brief and then measure whether the follow-up session produced a better outcome.
+
 ### Enterprise - Premium Company Product
 
 Switch to `Enterprise`, then review:
@@ -56,9 +58,17 @@ Enterprise should feel narrower than a generic governance dashboard. The first p
 Stop customer-facing AI margin leakage or billing disputes before execution, without hurting the customer outcome.
 ```
 
-The broader Enterprise vision still includes team, org, support, finance, operations, product-development, and non-customer-facing AI workflows. Those are expansion paths after the first control/evidence loop is proven.
+The broader Enterprise vision still includes team, org, support, finance, operations, product-development, developer-agent, and non-customer-facing AI workflows. Those are expansion paths after the first control/evidence loop is proven.
 
 Enterprise surfaces in this prototype are planned paid product direction. Usage Rules, dry-run simulation, SDK acknowledgement, Billing Evidence, Internal Workflow optimization, and Evidence Inputs are not presented as shipped OSS capabilities.
+
+## Latest Scope Notes
+
+- OSS should keep shipped product depth visible: setup, doctor, hook-status, prompt preflight, dangerous-command gate, sessions, projects, changes ledger, live statusline, commit receipts, journal, reports, exports, extensions, and honest coverage states.
+- OSS Fresh Start should be measured with a receipt, not claimed as automatic savings.
+- Enterprise should feel like the same control and evidence language scaled to customers, teams, workflows, apps, policies, approvals, spend, and signed evidence.
+- Enterprise Billing Evidence should explain AI usage conflicts while billing systems continue to own invoices, refunds, payments, taxes, and contracts.
+- PR46 in aiwatcher-local is still in progress; use it as implementation input, not as shipped product truth.
 
 ## Prototype Boundary
 
