@@ -6,8 +6,8 @@
 
 | Status | Count |
 | --- | ---: |
-| Done | 29 |
-| To verify | 4 |
+| Done | 28 |
+| To verify | 9 |
 | In progress | 6 |
 | Gap | 2 |
 
@@ -16,11 +16,11 @@
 | Lifecycle | Done | Total | Coverage |
 | --- | ---: | ---: | ---: |
 | Plan | 7 | 7 | 100% |
-| Watch | 3 | 6 | 50% |
-| Control | 6 | 11 | 55% |
-| Prove | 9 | 11 | 82% |
+| Watch | 2 | 7 | 29% |
+| Control | 6 | 12 | 50% |
+| Prove | 9 | 12 | 75% |
 | Improve | 1 | 3 | 33% |
-| Failsafe | 3 | 3 | 100% |
+| Failsafe | 3 | 4 | 75% |
 
 ## UX Workflows
 
@@ -58,13 +58,13 @@
 
 - Phase: `Prove`
 - Status: Done
-- Experience: Dashboard session drawer shows verdict, expensive prompt, local evidence, inferred outcome with confidence when available, one-click confirmation, privacy-safe metadata, and handoff action.
+- Experience: Dashboard session drawer shows verdict, expensive prompt, local evidence, inferred outcome with confidence when available, one-click confirmation, privacy-safe metadata, and Fresh Start action.
 
 ### Evidence Inbox
 
 - Phase: `Watch + Prove + Improve`
 - Status: Gap
-- Experience: Developer opens Home/Evidence and sees one local action queue ranked by current OSS anchors: sessions needing outcome confirmation, stale context handoff, hook coverage verification, loop/runaway inspection, commit receipt review, and privacy-safe evidence gaps. WorkUnit grouping is not presented as shipped local behavior.
+- Experience: Developer opens Home/Evidence and sees one local action queue ranked by current OSS anchors: sessions needing outcome confirmation, stale context Fresh Start, hook coverage verification, loop/runaway inspection, commit receipt review, and privacy-safe evidence gaps. WorkUnit grouping is not presented as shipped local behavior.
 
 ### Passive evidence backfill
 
@@ -84,6 +84,24 @@
 - Status: Done
 - Experience: report --days 7 is now the productized Monday digest: outcome breakdown, top sessions, loop/runaway candidates, command-gate and risky-prompt-modified counts (control effectiveness + security events), and measured cost-per-surviving-change where evidence exists (S-26).
 
+### Trusted intervention bridge
+
+- Phase: `Watch + Control`
+- Status: To verify
+- Experience: When watch/companion detects context, loop, velocity, runway, or usage pressure, the user sees one signal-specific action with identity confidence. Exact active sessions may interrupt; likely/historical sessions stay in dashboard review. OS notification, native companion, and dashboard write the same durable intervention record.
+
+### Fresh Start action bridge
+
+- Phase: `Watch + Control + Prove`
+- Status: To verify
+- Experience: For context bloat or repeated low-yield turns, AIWatcher copies a basic Fresh Start brief immediately, opens a supported workspace/tool only when runtime attachment is safe, then records a receipt and enriches evidence in the background.
+
+### Fresh Start proof receipt
+
+- Phase: `Prove + Improve`
+- Status: To verify
+- Experience: After a Fresh Start, AIWatcher links the next same-project session when observed and compares source versus follow-up tokens, API-equivalent value, model/tool calls, outcome, commits/tests, and evidence confidence without claiming guaranteed savings.
+
 ## Concrete Examples
 
 | Situation | AIWatcher response | Expected feeling | Status |
@@ -91,33 +109,38 @@
 | Refactor the entire auth module and delete all old tests | High-risk gate with reasons, safer execution brief, run original, edit brief, or cancel. | Protected but still in control. | Done |
 | Update JWT auth to remove signature check so login is faster | Medium-risk silent brief adds auth guardrail and verification reminder. Verified via hook-status. | No friction, safer execution. | Done |
 | Add a dark mode toggle to every page | Breadth heuristic identifies the broad multi-file scope and proposes a phased plan before edits. | Cost-aware scoping, not nagging. | Done |
-| Long session with high stale context | Warn, compact in place at warning, and auto-generate a fresh-session handoff at critical -- copied to clipboard, target-formatted. | Confidence to restart without losing state. | Done |
-| Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky | Notifies the developer via a local OS notification with a dashboard deep link when running `watch --notify`; tray/menu bar and editor companion still pending. | AIWatcher is present during work, not a report I remember to check later. | In progress |
+| Long session with high stale context | Show a trusted identity strip, recommend Fresh Start, copy a basic task-first brief immediately, open a supported workspace only when verified, and record a proof-pending receipt. | I know exactly which chat this refers to and can restart without losing the work. | To verify |
+| Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky | Native companion/dashboard intervention uses one durable intervention record, signal-specific wording, snooze/dismiss/inspect decisions, and avoids wrong app opens for likely/historical sessions. | AIWatcher is present during work, not a report I remember to check later. | In progress |
 | Agent attempts git push --force mid-run | Intercepted at tool-call time with allow, block, and always-allow-pattern (Claude Code only). | Safety net for what the prompt never revealed. | Done |
-| Morning review shows three AI sessions, one stale context warning, one inferred useful change, and one unverified hook surface. | Evidence Inbox groups the work by WorkUnit and offers one-click outcome confirm, create handoff, inspect receipt, or run hook-status. | A short daily control loop instead of a dashboard to interpret. | Gap |
+| Morning review shows three AI sessions, one stale context warning, one inferred useful change, and one unverified hook surface. | Evidence Inbox ranks current OSS anchors: sessions, projects, commits, receipts, hook coverage, and evidence gaps. It offers one-click outcome confirm, Fresh Start, inspect receipt, or hook-status without claiming WorkUnit grouping. | A short daily control loop instead of a dashboard to interpret. | Gap |
 
 ## Open Gaps and To-Verify Work
 
 ### Not built
 
 - `S-25` Improve - [Non-code proxy outcomes](#s-25): Proxy signals (copied output, revisit, abandonment, same-topic re-prompt) recorded with low confidence; one nudge for manual outcome.
-- `S-43` Prove - [Home and Evidence rank session action items before charts](#s-43): Home/Evidence ranks actionable session, project, commit, and receipt items and shows the issue, suggested next action, evidence label, privacy state, and receipt chain: policy evaluated, gate shown or hook invoked, user decision, session attribution, execution evidence, outcome inference, manual confirmation, and handoff state. Unknown, unverified, and insufficient-data states are explicit. WorkUnit grouping is not presented as shipped OSS behavior.
+- `S-43` Prove - [Home and Evidence rank session action items before charts](#s-43): Home/Evidence ranks actionable session, project, commit, receipt, Fresh Start, hook coverage, and evidence-quality items. Each row shows issue, suggested action, evidence label, privacy state, and receipt chain. Unknown/unverified/insufficient-data states are explicit. WorkUnit grouping is not shown as shipped OSS behavior.
 
 ### Partial
 
-- `S-32` Watch - [Watch signals reach the developer without manual CLI polling](#s-32): Done: `aiwatcher watch --notify` fires a local OS notification with a dashboard deep link (?session=<id>) on context/runway/loop/velocity/threshold pressure. Click-through opens that session's review drawer directly -- macOS via terminal-notifier -open (unverified live), Windows via a PowerShell MessageBox Yes/No -> Start-Process (verified live). Every firing (sent or failed) is persisted via record_watch_notification and surfaced under hook-status. Notifications are deduped/throttled persistently (a signal fires at most once ever, survives watch restarts) and capped per pass to avoid a backlog storm on first run. Still missing: tray/menu-bar item and editor-panel surfacing -- only OS notification + dashboard deep link are built.
+- `S-32` Watch - [Watch signals reach the developer without manual CLI polling](#s-32): One durable intervention record drives notification/companion/dashboard delivery. Copy varies by signal: context -> Fresh Start, loop -> inspect/stop, velocity -> narrow current task, runway -> switch lane. Duplicate visible delivery is suppressed unless severity worsens or snooze expires.
 - `S-33` Watch - [Runtime hygiene identifies stale local AI runtimes](#s-33): Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. `aiwatcher processes` (with --stale-only, --json) is implemented in main and matches this field list exactly. Still missing: dashboard UI surfacing -- no Coverage/Today card shows runtime hygiene yet, CLI-only today.
-- `S-34` Watch - [Vendor auto-compact is recorded as context event](#s-34): AIWatcher labels the event as Context compacted, stores confidence/evidence source, and recommends Create handoff when the work is risky, multi-file, failing tests, or ready to switch tools. Handoff exists today; missing: auto-compact event detection and UI badge/action.
-- `S-17` Control - [Loop detection offers stop](#s-17): Done: watch polling detects repeated identical tool-call content (content-hash matching), shows tokens/cost burned across the repeats, and at severe repeat counts (5+) auto-generates a handoff capsule seeded with the loop diagnosis as the leading warning. Still missing: a true one-keystroke live stop of an actively-running session -- watch re-scans local logs on a timer, it does not hook into or interrupt a running agent process. That would need genuinely different plumbing (live process hooking, not periodic log scanning) and is deliberately deferred as separate, explicitly-scoped future work, not attempted as part of this batch.
+- `S-34` Watch - [Vendor auto-compact is recorded as context event](#s-34): AIWatcher labels the event as Context compacted, stores confidence/evidence source, and recommends Fresh Start when the work is risky, multi-file, failing tests, or ready to switch tools. Fresh Start continuity exists today; missing: auto-compact event detection and UI badge/action.
+- `S-17` Control - [Loop detection offers stop](#s-17): Done: watch polling detects repeated identical tool-call content (content-hash matching), shows tokens/cost burned across the repeats, and at severe repeat counts (5+) prepares a Fresh Start brief seeded with the loop diagnosis as the leading warning. Still missing: a true one-keystroke live stop of an actively-running session -- watch re-scans local logs on a timer, it does not hook into or interrupt a running agent process. That would need genuinely different plumbing (live process hooking, not periodic log scanning) and is deliberately deferred as separate, explicitly-scoped future work, not attempted as part of this batch.
 - `S-18` Control - [Runaway velocity alert](#s-18): Done: watch polling computes tokens/minute over the trailing 10 minutes vs. the user's own per-tool p75 baseline (real historical session data, not an assumed rate); at >=2x it drives the recommended action to 'narrow scope' with the exact ratio shown, always labeled a local estimate. Still missing: interactive pause/stop/set-cap controls with decisions recorded during an actively-running session -- same live-process-hooking gap as S-17, deliberately deferred as separate future work.
 - `S-24` Improve - [Automatic outcome inference](#s-24): Done: inferred outcome with confidence and one-click confirm/correct appears from commits/tests/changes; churn/revert detection (a commit that looked useful gets downgraded if it didn't survive); same-file re-prompt signal (a later session touching the same files within 72h flags rework). Verdict rule confirmed by an independent audit: the codebase never infers a confident 'wasteful' outcome anywhere -- only useful/needs_review/churned. Still missing: platform-specific evidence weighting (confirmed absent by direct search, not just unverified) -- Claude/Codex/Cursor evidence is currently weighted identically, README step 4.
 
 ### To test
 
+- `S-20` Watch - [Critical context opens Fresh Start continuation](#s-20): AIWatcher recommends Fresh Start for critical context/severe loop pressure, shows identity confidence, makes a basic task-first brief copyable immediately, and opens a workspace/tool only when runtime attachment is verified. Full evidence enrichment can load afterward.
 - `S-08` Control - [Web prompt interception — OPEN DECISION](#s-08): Option A: overlay before send with brief replacing textarea. Option B: S-08 becomes a Companion flow + future extension scenario.
 - `S-09` Control - [Codex prompt receives brief](#s-09): hook-status records invocation; Codex receives execution brief as additional context (or gate with --gate). Note: Codex Desktop chat verified NOT invoking — CLI/TUI only, host-build-dependent.
 - `S-15` Control - [MCP soft preflight presents options](#s-15): Claude calls preflight tool, shows risk, safer brief, predicted impact, and waits for A/B/C choice.
 - `S-31` Prove - [Privacy contract validation](#s-31): No API key requested. No network calls. Installed tools detected; limited-data tools honestly labeled, not guessed. JSON/event exports contain metadata, aggregates, and hashes — never prompt text or source. Real project folders, not parents. Time-window selector visibly updates.
+- `S-44` Watch - [Intervention identifies the exact session before asking for action](#s-44): Every surface shows tool, surface, active/recent/historical state, project/worktree, last activity, short session id, and identity confidence. Only exact/active work interrupts. Likely or historical sessions appear as dashboard review items. A likely app attachment never opens the wrong app automatically.
+- `S-45` Control - [Fresh Start provides one primary continuation action](#s-45): There is one primary CTA: copy the Fresh Start brief, and open the workspace/tool only when runtime attachment is verified. The brief is task-first, privacy-safe by default, and available before git/timeline enrichment finishes. Duplicate New chat / Copy handoff actions are not shown.
+- `S-46` Prove - [Fresh Start receipt proves follow-up shape without overclaiming savings](#s-46): Receipt shows proof status, correlation confidence, source -> follow-up tokens, API-equivalent value, model calls, tool calls, per-call metrics, outcome, commits/tests evidence, and notes that the comparison is observed so far, not a final savings claim. If no follow-up exists, it says proof pending.
+- `S-47` Failsafe - [Session review and Fresh Start first paint stay usable on large local logs](#s-47): Identity, usage, reason, and copyable basic Fresh Start brief appear before full timeline/git/prompt enrichment. Windowed scanner paths avoid parsing obviously old/oversized nonessential Codex rows. Slow enrichment fails soft instead of blocking action.
 
 ## Open Decisions
 
@@ -136,7 +159,7 @@
 ### Quota runway lane switch
 
 - Status: resolved
-- Options: Keep manual resume/handoff only, or add proactive runway detection for Claude/Codex/Cursor switching.
+- Options: Keep manual resume/Fresh Start only, or add proactive runway detection for Claude/Codex/Cursor switching.
 - Recommendation: Build after live context/watch signals are stable.
 
 ## All Scenario Tests
@@ -243,15 +266,15 @@
 
 <a id="s-20"></a>
 
-### S-20 - CRITICAL context generates fresh-session handoff
+### S-20 - Critical context opens Fresh Start continuation
 
-- Status: Done
+- Status: To verify
 - Platform: CLI + Dashboard
 - Go to: Run aiwatcher watch --once (or --interval) against a CRITICAL-context session, or open session review / run aiwatcher resume --target claude --copy manually.
-- Do: Create a handoff capsule for a recent costly/long session.
-- Expected: watch now auto-generates and prints the capsule inline the moment context (or a severe loop) is CRITICAL, copies it to the clipboard, and formats it for a configurable --target tool (new flag, defaults to generic). A per-session+timestamp marker prevents regenerating/recopying on every --interval poll while the session is unchanged -- scoped to that watch process's own run (in-memory, not persisted across restarts).
-- User value: Restart without losing state and without manual reconstruction.
-- Why it matters: Same handoff engine powers restart, lane switch, and resume.
+- Do: Open the Fresh Start action for a recent costly/long session.
+- Expected: AIWatcher recommends Fresh Start for critical context/severe loop pressure, shows identity confidence, makes a basic task-first brief copyable immediately, and opens a workspace/tool only when runtime attachment is verified. Full evidence enrichment can load afterward.
+- User value: Restart without losing state and without trusting a vague handoff blob.
+- Why it matters: Same continuity engine powers restart, lane switch, and receipt proof.
 
 <a id="s-21"></a>
 
@@ -273,8 +296,8 @@
 - Platform: Local notifications + dashboard + editor companions
 - Go to: Run AIWatcher once as a background watcher or local companion while working in Claude, Codex, Cursor, or VS Code.
 - Do: Continue a session until context health, runway, or loop pressure crosses warning/critical thresholds.
-- Expected: Done: `aiwatcher watch --notify` fires a local OS notification with a dashboard deep link (?session=<id>) on context/runway/loop/velocity/threshold pressure. Click-through opens that session's review drawer directly -- macOS via terminal-notifier -open (unverified live), Windows via a PowerShell MessageBox Yes/No -> Start-Process (verified live). Every firing (sent or failed) is persisted via record_watch_notification and surfaced under hook-status. Notifications are deduped/throttled persistently (a signal fires at most once ever, survives watch restarts) and capped per pass to avoid a backlog storm on first run. Still missing: tray/menu-bar item and editor-panel surfacing -- only OS notification + dashboard deep link are built.
-- User value: Turns Watch from a terminal report into an ambient safety layer developers can feel during real work -- now real for OS notifications and dashboard deep links; tray/editor surfaces still pending.
+- Expected: One durable intervention record drives notification/companion/dashboard delivery. Copy varies by signal: context -> Fresh Start, loop -> inspect/stop, velocity -> narrow current task, runway -> switch lane. Duplicate visible delivery is suppressed unless severity worsens or snooze expires.
+- User value: AIWatcher is present during work without becoming noisy.
 - Why it matters: PR23 built the CLI Watch engine; PR37 (closes issue #31) delivered the OS-notification + dashboard-deep-link half. Daily OSS value needs delivery in the user's workflow, while staying honest about platform limits.
 
 <a id="s-33"></a>
@@ -296,10 +319,22 @@
 - Status: In progress
 - Platform: Codex/Claude long-running sessions
 - Go to: Run a long Codex or Claude session that triggers vendor context auto-compaction, or mark that compaction happened manually.
-- Do: Open Today/session detail or generate a handoff capsule.
-- Expected: AIWatcher labels the event as Context compacted, stores confidence/evidence source, and recommends Create handoff when the work is risky, multi-file, failing tests, or ready to switch tools. Handoff exists today; missing: auto-compact event detection and UI badge/action.
+- Do: Open Today/session detail or generate a Fresh Start brief.
+- Expected: AIWatcher labels the event as Context compacted, stores confidence/evidence source, and recommends Fresh Start when the work is risky, multi-file, failing tests, or ready to switch tools. Fresh Start continuity exists today; missing: auto-compact event detection and UI badge/action.
 - User value: Built-in compaction keeps the model moving; AIWatcher keeps the work resumable, portable, and provable.
 - Why it matters: Do not compete with vendor memory management. Complement it with continuity and evidence when compression is not enough.
+
+<a id="s-44"></a>
+
+### S-44 - Intervention identifies the exact session before asking for action
+
+- Status: To verify
+- Platform: Dashboard + Native Companion + watch
+- Go to: Run aiwatcher watch --notify/--overlay while multiple Claude/Codex/Desktop sessions exist in the same project.
+- Do: Trigger context, loop, velocity, or runway pressure and inspect the companion popup, dashboard Fresh Start bubble, session drawer, and Fresh Start drawer.
+- Expected: Every surface shows tool, surface, active/recent/historical state, project/worktree, last activity, short session id, and identity confidence. Only exact/active work interrupts. Likely or historical sessions appear as dashboard review items. A likely app attachment never opens the wrong app automatically.
+- User value: The user trusts the intervention because it names the work precisely and does not hijack the wrong chat.
+- Why it matters: This is the first OSS moat layer: AIWatcher must know which live AI work is drifting before it can control or prove anything.
 
 ## Control
 
@@ -395,7 +430,7 @@
 - Platform: Claude Code CLI
 - Go to: Create repeated edit/test failure loop, then run aiwatcher watch --once or --interval.
 - Do: Let agent repeat same file/test cycle 3+ times.
-- Expected: Done: watch polling detects repeated identical tool-call content (content-hash matching), shows tokens/cost burned across the repeats, and at severe repeat counts (5+) auto-generates a handoff capsule seeded with the loop diagnosis as the leading warning. Still missing: a true one-keystroke live stop of an actively-running session -- watch re-scans local logs on a timer, it does not hook into or interrupt a running agent process. That would need genuinely different plumbing (live process hooking, not periodic log scanning) and is deliberately deferred as separate, explicitly-scoped future work, not attempted as part of this batch.
+- Expected: Done: watch polling detects repeated identical tool-call content (content-hash matching), shows tokens/cost burned across the repeats, and at severe repeat counts (5+) prepares a Fresh Start brief seeded with the loop diagnosis as the leading warning. Still missing: a true one-keystroke live stop of an actively-running session -- watch re-scans local logs on a timer, it does not hook into or interrupt a running agent process. That would need genuinely different plumbing (live process hooking, not periodic log scanning) and is deliberately deferred as separate, explicitly-scoped future work, not attempted as part of this batch.
 - User value: Stops waste while it is happening.
 - Why it matters: Preflight cannot catch loops that form during execution. Depends on live-watch rework (README step 3).
 
@@ -429,11 +464,23 @@
 
 - Status: Done
 - Platform: Any hooked surface
-- Go to: Trigger a host lifecycle event (e.g. a Claude Code task-notification payload) and, separately, let AIWatcher deliver its own execution brief or handoff capsule back through a hook response.
+- Go to: Trigger a host lifecycle event (e.g. a Claude Code task-notification payload) and, separately, let AIWatcher deliver its own execution brief or Fresh Start brief back through a hook response.
 - Do: Inspect the resulting hook event via aiwatcher hook-status and confirm neither is treated as a raw user prompt.
-- Expected: Host task-notification-shaped payloads are always risk-scored (never silently skipped) but labeled host_task_notification so Prompt Gate framing doesn't ask 'did you mean to ask this?' about text nobody typed. AIWatcher-generated briefs/capsules skip re-scoring only when they carry a live, single-use token minted by issue_brief_token() at actual delivery time and verified by consume_brief_token() -- the previous static marker-string check (public in this OSS repo, so spoofable) no longer grants a bypass on shape alone. Token read/write failures fail soft toward scoring, never toward skipping it.
+- Expected: Host task-notification-shaped payloads are always risk-scored (never silently skipped) but labeled host_task_notification so Prompt Gate framing doesn't ask 'did you mean to ask this?' about text nobody typed. AIWatcher-generated briefs skip re-scoring only when they carry a live, single-use token minted by issue_brief_token() at actual delivery time and verified by consume_brief_token() -- the previous static marker-string check (public in this OSS repo, so spoofable) no longer grants a bypass on shape alone. Token read/write failures fail soft toward scoring, never toward skipping it.
 - User value: Closes a real Prompt Gate bypass: static marker strings that anyone reading this repo could prepend to a prompt no longer skip risk scoring.
 - Why it matters: Found and fixed via review on PR #37 (Finding 1): _classify_hook_prompt_source and the brief-resubmission check trusted public, guessable text shape alone. A per-instance, single-use token cannot be forged from the source alone.
+
+<a id="s-45"></a>
+
+### S-45 - Fresh Start provides one primary continuation action
+
+- Status: To verify
+- Platform: Dashboard + Native Companion + Fresh Start drawer
+- Go to: Open a critical-context session from the popup, Today Fresh Start bubble, or session drawer.
+- Do: Click the primary Fresh Start action.
+- Expected: There is one primary CTA: copy the Fresh Start brief, and open the workspace/tool only when runtime attachment is verified. The brief is task-first, privacy-safe by default, and available before git/timeline enrichment finishes. Duplicate New chat / Copy handoff actions are not shown.
+- User value: The user continues the work with less context drag instead of deciding among confusing buttons.
+- Why it matters: Fresh Start is the signature OSS experience: action bridge first, forensic detail second.
 
 ## Prove
 
@@ -535,13 +582,13 @@
 
 <a id="s-41"></a>
 
-### S-41 - Decision log entries carry rationale into handoff capsules
+### S-41 - Decision log entries carry rationale into Fresh Start briefs
 
 - Status: Done
 - Platform: CLI
 - Go to: Run aiwatcher log-decision --summary '...' --reasoning '...' --rejected '...' against a local session.
-- Do: Generate a handoff capsule for that same session (aiwatcher handoff or resume).
-- Expected: The decision is stored locally as self-reported text (session_id, summary, reasoning, up to 5 rejected alternatives -- an intentional, documented exception to the prompt-hash-only privacy rule, same reasoning as S-19's command text), capped and rotated. It is not verified against what actually happened -- callers must label it as self-reported. The handoff capsule for that session includes the logged decision(s), so a fresh session inherits the 'why', not just the 'what'.
+- Do: Generate a Fresh Start brief for that same session (aiwatcher handoff/resume or the dashboard Fresh Start drawer).
+- Expected: The decision is stored locally as self-reported text (session_id, summary, reasoning, up to 5 rejected alternatives -- an intentional, documented exception to the prompt-hash-only privacy rule, same reasoning as S-19's command text), capped and rotated. It is not verified against what actually happened -- callers must label it as self-reported. The Fresh Start brief for that session includes the logged decision(s), so a fresh session inherits the 'why', not just the 'what'.
 - User value: Captures reasoning that never produces a commit (an approach seriously considered and rejected without being implemented) and carries it forward into the next session instead of losing it.
 - Why it matters: This is the command referenced by AIWatcher's own recommended CLAUDE.md convention (install-claude-decision-log) and used in daily practice, but had no scenario covering it or its handoff integration.
 
@@ -565,9 +612,21 @@
 - Platform: Dashboard
 - Go to: Open AIWatcher Local after several sessions with mixed evidence quality.
 - Do: Review the top item and open its receipt.
-- Expected: Home/Evidence ranks actionable session, project, commit, and receipt items and shows the issue, suggested next action, evidence label, privacy state, and receipt chain: policy evaluated, gate shown or hook invoked, user decision, session attribution, execution evidence, outcome inference, manual confirmation, and handoff state. Unknown, unverified, and insufficient-data states are explicit. WorkUnit grouping is not presented as shipped OSS behavior.
+- Expected: Home/Evidence ranks actionable session, project, commit, receipt, Fresh Start, hook coverage, and evidence-quality items. Each row shows issue, suggested action, evidence label, privacy state, and receipt chain. Unknown/unverified/insufficient-data states are explicit. WorkUnit grouping is not shown as shipped OSS behavior.
 - User value: Creates a daily habit around useful AI work without making the developer interpret raw analytics.
 - Why it matters: The OSS advantage is not another local spend dashboard; it is a private action loop that learns which interventions preserve durable outcomes.
+
+<a id="s-46"></a>
+
+### S-46 - Fresh Start receipt proves follow-up shape without overclaiming savings
+
+- Status: To verify
+- Platform: Receipts + Session review
+- Go to: Copy a Fresh Start brief, start a later same-project session, then open Receipts.
+- Do: Inspect the latest Fresh Start receipt and the next-session link.
+- Expected: Receipt shows proof status, correlation confidence, source -> follow-up tokens, API-equivalent value, model calls, tool calls, per-call metrics, outcome, commits/tests evidence, and notes that the comparison is observed so far, not a final savings claim. If no follow-up exists, it says proof pending.
+- User value: The user can see whether the intervention helped without being asked to believe a counterfactual.
+- Why it matters: Receipts turn AIWatcher from advice into evidence.
 
 ## Improve
 
@@ -604,7 +663,7 @@
 - Go to: Run aiwatcher sessions --search <term> --outcome useful --evidence needs_review --days 30.
 - Do: Find prior work by project/tool/model/id/file-topic/outcome/evidence; run resume --session-id <id> --target codex --copy or resume --outcome/--evidence --target ... --copy.
 - Expected: sessions/resume --search matches project/tool/model/session id, falling back to a 'rough topic' match against changed/touched file paths from local git evidence for anything that doesn't match those fields (never commit subjects or prompt text -- regression-tested). New --outcome (recorded useful/rework/abandoned) and --evidence (inferred useful/needs_review/churned) filters, usable alone or combined with --search. resume --session-id and one-click --target formatting (claude/codex/cursor/vscode/generic) already existed. The two previously-duplicated inline search matchers are now one shared filter_sessions() helper.
-- User value: Old AI work becomes reusable context. Third surface of the Handoff Engine — and stored-state lock-in.
+- User value: Old AI work becomes reusable context. Search, resume, and Fresh Start make local history useful instead of archival.
 - Why it matters: Daily utility requires retrieval and fast continuation, not just reporting.
 
 ## Failsafe
@@ -644,3 +703,15 @@
 - Expected: AIWatcher shows automatic, manual companion, read-only history, limited, or unverified per surface via `scanner.surface_coverage()` and the dashboard's Coverage tab. hook-status records action/result including skipped_internal and skipped_generated_brief (added by PR37/S-38) alongside passed, context_added, blocked, gate_opened, gate_failed, and prompt_missing.
 - User value: Users understand why Codex Desktop may not pop up even when logs exist, and know which fallback to use.
 - Why it matters: Coverage honesty is part of the product moat. The tool should never let a user confuse session logs with active interception. Dashboard Coverage tab and the missing hook-status action/result detail both shipped in PR37.
+
+<a id="s-47"></a>
+
+### S-47 - Session review and Fresh Start first paint stay usable on large local logs
+
+- Status: To verify
+- Platform: Dashboard + CLI scanner
+- Go to: Use a machine with large Codex/Claude histories and open a heavy session or run aiwatcher sessions --days 1.
+- Do: Measure first visible content for session review and Fresh Start, then wait for detailed evidence enrichment.
+- Expected: Identity, usage, reason, and copyable basic Fresh Start brief appear before full timeline/git/prompt enrichment. Windowed scanner paths avoid parsing obviously old/oversized nonessential Codex rows. Slow enrichment fails soft instead of blocking action.
+- User value: The product is usable during real work, not only on small demo histories.
+- Why it matters: Speed is part of trust; a popup that leads to a slow blank drawer breaks the control loop.

@@ -56,11 +56,11 @@
         }
       ],
       "implementation_order": [
-        "Build the enterprise scenario-doc automation and keep this folder as the private source of truth.",
-        "Reconcile Enterprise navigation around Home, Controls, Workflows, Evidence, Spend, and Admin.",
-        "Pull OSS Local concepts into Enterprise using the propagation matrix.",
-        "Build Enterprise Usage Rules as the first enterprise-only control feature.",
-        "Add runtime SDK policy evaluation, evidence receipts, and protected-spend reports."
+        "Keep this private docs repo as the source of truth for strategy, scenarios, bugbash, and propagation.",
+        "Preserve OSS parity in Enterprise: identity, recommended action, receipt, evidence state, and outcome confidence.",
+        "Build Enterprise Usage Rules as the first paid control loop for customer, plan, feature, workflow, allowance, and billing-period context.",
+        "Add runtime SDK evaluation, enforcement acknowledgement, evidence input health, and protected-spend/outcome receipts.",
+        "Expand to internal AI workflow optimization and team developer-agent action queues after the first Usage Rule loop is proven."
       ]
     }
   }

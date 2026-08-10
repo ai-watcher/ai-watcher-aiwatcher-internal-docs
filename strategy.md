@@ -4,7 +4,7 @@
 
 **Status:** Product source of truth
 
-**Date:** July 25th 2026
+**Date:** August 10th 2026
 
 **Scope:** AIWatcher Local, Enterprise endpoint controls, production SDK, control plane, and evidence system
 
@@ -139,7 +139,7 @@ Pitch points:
 - AI activity metrics alone do not establish useful engineering or business outcomes.
 - AIWatcher Local already demonstrates meaningful portions of a private plan–watch–control–prove–improve loop.
 
-The OSS implementation includes normalized local sessions and events, prompt preflight, prompt gating, local receipts, cross-process-safe state, session-health analysis, handoff support, and code-outcome evidence.
+The OSS implementation includes normalized local sessions and events, prompt preflight, prompt gating, local receipts, cross-process-safe state, session-health analysis, Fresh Start continuity, and code-outcome evidence.
 
 ## Not yet proven
 
@@ -383,7 +383,7 @@ An agent repeats tool calls, retries unsuccessfully, or accumulates cost without
 
 - Detect unusual cost, call, retry, or loop velocity.
 - Alert, pause, throttle, rescope, or stop.
-- Preserve a handoff or recovery state.
+- Preserve Fresh Start or recovery state.
 - Record the outcome and protected-value estimate.
 
 ### Customer value
@@ -418,7 +418,7 @@ Developers use multiple coding agents but lack a private, cross-tool way to prev
 - Preflight risky work
 - Add an execution brief or open a decision gate
 - Detect unhealthy sessions and loops
-- Generate a handoff capsule
+- Generate a Fresh Start brief and receipt when continuing in the same context is likely to waste work
 - Infer outcomes from commits, tests, changes, and later rework
 - Keep prompts and source local by default
 
@@ -519,8 +519,8 @@ The top-level product experience should be organized around user jobs, not every
 | Job | AIWatcher Local - free OSS | AIWatcher Enterprise - paid |
 | --- | --- | --- |
 | Home | Private daily loop: what happened, what needs attention, and what to do next | Company control loop: customer, team, workflow, and policy items needing action |
-| Control / Controls | Prompt preflight, Prompt Companion, prompt gate, dangerous-command gate, handoff controls | Usage Rules, routing, throttling, blocking, approvals, observe-only mode, dry-run simulation |
-| Work / Workflows | Sessions, projects, expensive asks, handoffs, commits, surviving lines, unbanked spend | Teams, apps, customers, features, production workflows, internal workflows, developer-agent work |
+| Control / Controls | Prompt preflight, Prompt Companion, prompt gate, dangerous-command gate, Fresh Start controls | Usage Rules, routing, throttling, blocking, approvals, observe-only mode, dry-run simulation |
+| Work / Workflows | Sessions, projects, expensive asks, Fresh Starts, commits, surviving lines, unbanked spend | Teams, apps, customers, features, production workflows, internal workflows, developer-agent work |
 | Evidence | Local receipts, outcome confirmation, commit/test evidence, journal, weekly report, hash-only export | Receipts with customer/team/workflow context, billing evidence, enforcement acknowledgement, evidence health, signed export |
 | Spend | API-equivalent value, API-priced versus subscription-limited usage, live statusline, projected month | Spend by customer, plan, feature, team, workflow, model, rule, outcome, and protected-value basis |
 | Settings / Admin | Setup, doctor, hook-status, privacy, coverage diagnostics, local extensions, export controls | SSO/RBAC, integrations, SDKs, retention, disclosure, policy versions, evidence exports, billing-system imports |
@@ -551,7 +551,7 @@ Recommended navigation:
     - What narrower execution brief preserves the intent?
     - Did a dangerous command need to be blocked?
 3. **Work**
-    - Which sessions, projects, prompts, handoffs, and commits drove the work?
+    - Which sessions, projects, prompts, Fresh Starts, and commits drove the work?
     - Is context health degrading or stale?
     - What changed, survived, or had no commit behind it?
 4. **Evidence**
@@ -574,17 +574,26 @@ AIWatcher Local should make cross-agent handoff more concrete by presenting it a
 
 Fresh Start should include:
 
-- Detection signals: context pressure, loop pressure, repeated failed edits, rising cost without a durable artifact, or stale session age.
+- Detection signals: context pressure, loop pressure, repeated failed edits, rising cost without a durable artifact, stale session age, or runaway velocity.
+- Identity before action: every popup, dashboard card, session drawer, and Fresh Start drawer must show tool, surface, active/recent/historical state, project/worktree, last activity, short session id, and confidence.
 - A task-first brief: goal, repo, current state, decisions already made, files touched, tests run, known failures, next checkpoint, and what not to repeat.
-- A one-click transfer path: copy to clipboard, open in a supported companion surface, or attach to a new local runtime where supported.
-- Outcome measurement: compare the old bloated session against the follow-up session using tokens, turns, cost, commits, tests, rework, survival, and explicit user confirmation.
-- A Fresh Start Receipt that labels what was observed, inferred, predicted, and verified.
+- An action bridge: copy a basic brief immediately, open a supported workspace/tool only when runtime attachment is verified, and fall back to explicit copy/paste when it is not.
+- Deferred enrichment: timeline, git evidence, prompt analysis, and related-workspace context load after the user can act.
+- Outcome measurement: compare the old bloated session against the follow-up session using tokens, turns, cost, model/tool calls, commits, tests, rework, survival, and explicit user confirmation.
+- A Fresh Start Receipt that labels what was observed, inferred, predicted, measured, and verified.
 
 This feature fits the OSS moat because it is useful without signup, depends on local context competitors usually do not have, and creates an evidence loop rather than a generic summary. It should not claim guaranteed savings. The honest claim is that AIWatcher preserved the right context at the moment a restart was likely to be better.
 
-### PR46 note
+### Current OSS readiness focus
 
-The local OSS PR #46 is still in progress and should be treated as implementation input, not shipped scope. It appears directionally aligned with Fresh Start and faster actionable local UI, but docs and demos should not present it as complete until its Windows path handling, current-workspace relatedness check, and state-changing runtime-return endpoint are hardened.
+The current OSS readiness pass should be tested against four phases:
+
+1. **Trust the intervention** - no wrong/noisy popups; identity strip everywhere; exact, likely, and historical sessions behave differently; velocity/context/loop/runway signals map to distinct actions.
+2. **Make Fresh Start useful** - one primary action, immediate copyable brief, safe workspace/tool opening only when verified, no duplicate handoff buttons, no false live-return claim.
+3. **Prove it worked** - receipt links the source and follow-up session when observed, compares usage/calls/cost/outcome/evidence, and says proof pending when correlation is missing.
+4. **Speed and polish** - identity and action first; timeline/git/prompt enrichment later; large local logs do not block the user's next action; setup/coverage/privacy states remain explicit.
+
+Bugbash should use these four phases as the acceptance checklist for AIWatcher Local before calling the OSS experience customer-ready.
 
 ---
 
@@ -652,9 +661,9 @@ Enterprise should mirror OSS where the mental model helps adoption, but it shoul
 | --- | --- | --- |
 | Primary user | Individual AI-heavy developer | Product, platform, engineering, finance, support, and governance teams |
 | Core job | Make local AI work safer, smaller, more resumable, and more measurable | Control AI work across customer-facing and internal workflows with policy, evidence, and outcomes |
-| First value | Private Evidence Inbox, prompt/command gates, session health, handoff, local receipts | One controlled workflow with customer/plan/feature/allowance context, enforcement acknowledgement, outcome, and receipt |
+| First value | Private Evidence Inbox, prompt/command gates, session health, Fresh Start, local receipts | One controlled workflow with customer/plan/feature/team/workflow/allowance context, enforcement acknowledgement, outcome, and receipt |
 | Evidence | Local metadata, hashes, decisions, cost, surface coverage, code survival, manual outcome correction | Organization-retained receipts, customer/workflow context, policy versions, enforcement, outcomes, protected value, exports |
-| Controls | Personal prompt gates, command gates, preflight, handoff, local watch signals | Usage Rules, routing, throttling, blocking, approvals, signed policy distribution, retention, RBAC |
+| Controls | Personal prompt gates, command gates, preflight, Fresh Start, local watch signals | Usage Rules, routing, throttling, blocking, approvals, signed policy distribution, retention, RBAC |
 | Privacy stance | Prompt/source local by default; useful without account signup | Metadata/evidence by default; content collection explicit; developer-visible collection disclosure |
 | Not included | SSO, central admin policy, customer entitlements, org retention, compliance exports | Billing system of record, hidden employee surveillance, generic gateway replacement, broad GRC as the first wedge |
 
@@ -679,7 +688,7 @@ Charts support the product. They are not the product.
 
 Every intervention should produce a receipt containing:
 
-- Work-unit context
+- Relevant work context: local session/project/commit for OSS, or customer/team/app/feature/workflow for Enterprise
 - Proposed action
 - Relevant customer, feature, or development context
 - Policy and immutable version
@@ -1164,6 +1173,29 @@ OSS may provide:
 
 This is an advantage only if OSS remains genuinely developer-first.
 
+## 13.6 Enterprise parity without surveillance
+
+Enterprise should feel like AIWatcher Local scaled up, not like management replaced a developer tool with surveillance.
+
+The shared pattern is:
+
+```text
+Identify the work
+→ recommend the action
+→ apply or request control
+→ record a receipt
+→ prove the outcome
+```
+
+The entity changes by license:
+
+- OSS: session, project, prompt, command, commit, receipt, outcome.
+- Enterprise developer-agent view: team, repo, service, local session metadata, coverage, receipt, outcome.
+- Enterprise product workflow view: customer, plan, feature, app, workflow, allowance, policy, execution, outcome.
+- Enterprise internal workflow view: team, function, workflow, model/tool usage, control, accepted output, rework.
+
+Default Enterprise views must not expose prompt or source content from developer machines. They should expose enough metadata and evidence confidence for team action while preserving developer-visible collection state and admin disclosure.
+
 ---
 
 # 14. Why competitors may still replicate it
@@ -1357,7 +1389,7 @@ A WorkUnit may span multiple:
 Important implementation boundary:
 
 - AIWatcher Local does not ship WorkUnit today. Current OSS surfaces are anchored on session id, project, commit, evidence snapshots, receipts, and local outcomes.
-- The shared-core WorkUnit model should be introduced only after it can reconcile multiple sessions, commits, handoffs, and production executions without losing the current local ledger value.
+- The shared-core WorkUnit model should be introduced only after it can reconcile multiple sessions, commits, Fresh Starts, and production executions without losing the current local ledger value.
 - Enterprise may present Workflows or controlled work as the paid product abstraction, but any UI or documentation must distinguish shipped local session evidence from planned cross-session WorkUnit grouping.
 
 ## Essential entities
@@ -1653,7 +1685,7 @@ The first Enterprise demo should not lead with:
 - Full billing integrations
 - Leadership rollups
 
-Those surfaces may matter later, but they are already crowded by gateways, observability systems, security tools, provenance products, and FinOps dashboards. The first demo must show one controlled WorkUnit: customer context, decision, enforcement acknowledgement, actual execution, outcome, and receipt.
+Those surfaces may matter later, but they are already crowded by gateways, observability systems, security tools, provenance products, and FinOps dashboards. The first demo must show one controlled customer or workflow action: declared context, decision, enforcement acknowledgement, actual execution, outcome, and receipt.
 
 ---
 
@@ -1776,7 +1808,7 @@ Do not price primarily per policy or dashboard seat; those do not reflect custom
 Every proposed feature can state:
 
 - User
-- WorkUnit
+- Relevant work context (session/project/commit for OSS, customer/team/app/feature/workflow for Enterprise)
 - Decision
 - Control
 - Evidence
@@ -1794,7 +1826,7 @@ Every proposed feature can state:
 3. Accurate hook invocation status
 4. Low-noise prompt preflight
 5. Session-health, loop detection, and Fresh Start recommendation
-6. Smooth cross-agent handoff with task-first restart briefs
+6. Smooth cross-agent Fresh Start with task-first restart briefs
 7. Fresh Start, command, prompt, and outcome receipts
 8. Strong commit, test, survival, and rework evidence
 9. Privacy and threat-model documentation
@@ -1813,12 +1845,13 @@ Every proposed feature can state:
 
 ### Current recommended OSS next steps
 
-1. Land PR46 only after the Windows path handling, related-workspace filtering, and runtime-return endpoint issues are resolved.
-2. Make Fresh Start the primary "during work" action: detect context bloat or repeated low-yield turns, generate a task-first restart brief, and make transfer easy.
-3. Add Fresh Start Receipts that compare old session and follow-up session outcomes instead of claiming generic saved tokens.
-4. Replace any single coverage percentage with per-surface states: automatic, limited, companion-only, history-only, or unverified.
-5. Keep the local UI grouped around Home, Control, Work, Evidence, Spend, and Settings; surface feature depth inside those jobs.
-6. Keep execution-brief language honest: it can reduce scope and preserve intent, but savings are measured only after outcome evidence appears.
+1. Bugbash Phase 1 - Trust the intervention: exact/likely/historical identity, signal-specific copy/actions, no duplicate notification/overlay delivery, no wrong app auto-open, and POST-only runtime return.
+2. Bugbash Phase 2 - Make Fresh Start useful: one primary CTA, immediate copyable basic brief, safe workspace/tool opening only when verified, prompt/source privacy opt-in, and no duplicate handoff actions.
+3. Bugbash Phase 3 - Prove Fresh Start: receipts link source and follow-up sessions where observed, compare tokens/cost/calls/outcome/evidence, and label proof pending or insufficient data honestly.
+4. Bugbash Phase 4 - Speed and polish: session summary and Fresh Start first paint show identity/action quickly; timeline/git/prompt enrichment is deferred; large local logs fail soft; setup/coverage states remain explicit.
+5. Replace any single coverage percentage with per-surface states: automatic, limited, companion-only, history-only, or unverified.
+6. Keep the local UI grouped around Home, Control, Work, Evidence, Spend, and Settings; surface feature depth inside those jobs.
+7. Keep execution-brief language honest: it can reduce scope and preserve intent, but savings are measured only after outcome evidence appears.
 
 ---
 
@@ -1830,6 +1863,7 @@ This phase runs while OSS improves.
 
 - WorkUnit context
 - Customer and plan context
+- Team, feature, and workflow context
 - One immutable Usage Rule
 - Pre-call evaluation API
 - Allow and route decisions
@@ -1837,6 +1871,8 @@ This phase runs while OSS improves.
 - Actual-cost record
 - Outcome attachment
 - Evidence receipt
+- Evidence input health for SDK, local collector, billing/plan metadata, and outcome callbacks
+- A narrow internal-workflow control scenario using the same policy/evidence/outcome loop
 
 ### Do not build yet
 

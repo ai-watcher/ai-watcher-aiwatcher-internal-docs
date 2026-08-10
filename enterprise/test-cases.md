@@ -9,18 +9,18 @@
 | Done | 0 |
 | To verify | 0 |
 | In progress | 8 |
-| Gap | 22 |
+| Gap | 26 |
 
 ## Lifecycle Coverage
 
 | Lifecycle | Done | Total | Coverage |
 | --- | ---: | ---: | ---: |
 | Plan | 0 | 3 | 0% |
-| Watch | 0 | 5 | 0% |
-| Control | 0 | 11 | 0% |
+| Watch | 0 | 6 | 0% |
+| Control | 0 | 12 | 0% |
 | Prove | 0 | 6 | 0% |
-| Improve | 0 | 3 | 0% |
-| Failsafe | 0 | 2 | 0% |
+| Improve | 0 | 4 | 0% |
+| Failsafe | 0 | 3 | 0% |
 
 ## UX Workflows
 
@@ -60,6 +60,24 @@
 - Status: Gap
 - Experience: Each OSS scenario is classified as propagate, adapt, OSS-only, or enterprise-only so the two products compound instead of drifting.
 
+### Internal workflow optimization
+
+- Phase: `Watch + Control + Prove`
+- Status: Gap
+- Experience: A non-AI product company uses AI internally for support triage, sales research, finance analysis, QA, or product ops. AIWatcher attributes usage by team/workflow, applies routing/approval/budget controls, and proves cost per accepted internal outcome.
+
+### Team developer-agent control loop
+
+- Phase: `Watch + Improve`
+- Status: Gap
+- Experience: Enterprise Home shows local AI sessions by team/project with identity/evidence confidence, Fresh Start/loop/runaway recommendations, and outcome economics without exposing prompt/source content by default.
+
+### Evidence input health
+
+- Phase: `Failsafe`
+- Status: Gap
+- Experience: Admin opens Evidence Inputs and sees whether SDKs, local collectors, billing imports, plan metadata, outcome callbacks, and enforcement acknowledgements are complete enough to support each receipt.
+
 ## Concrete Examples
 
 | Situation | AIWatcher response | Buyer value | Status |
@@ -70,6 +88,7 @@
 | A production agent attempts a sensitive data export after prompt-injection-like instructions. | Security policy blocks or routes to HITL, records chain evidence, and exports an audit package. | Prevents risky action and creates compliance evidence. | In progress |
 | The CFO asks why AI spend grew 40 percent this month. | Reports show spend by customer, feature, model, local team, policy decision, and outcome, with top controllable causes. | Moves AI spend from unexplained line item to managed budget. | Gap |
 | A customer disputes AI credit consumption for an expensive workflow. | AIWatcher shows the billing period, plan allowance, customer/user/workflow allocation, policy decision, enforcement acknowledgement, actual model call, observed cost, and accepted or failed outcome. | Support, finance, and product can resolve the conflict with evidence without changing the billing system of record. | Gap |
+| An internal support triage workflow repeatedly uses a premium model for low-complexity tickets. | AIWatcher attributes spend to support/team/workflow, simulates lower-cost routing, applies observe-only or enforced route, and records accepted-resolution outcome evidence. | Internal AI spend becomes optimizable work, not invisible overhead. | Gap |
 
 ## Open Gaps and To-Verify Work
 
@@ -79,7 +98,7 @@
 - `E-05` Watch - [Home links local session issues to team ownership](#e-05): Manager can act without seeing prompt/source content by default.
 - `E-07` Plan - [Policy simulator previews last 30 days impact](#e-07): AIWatcher shows affected sessions/customers, estimated protected spend, false-positive candidates, and sample evidence.
 - `E-08` Plan - [SDK metadata completeness check](#e-08): AIWatcher flags missing fields required for customer usage rules and margin reports.
-- `E-09` Control - [Pre-call control evaluation](#e-09): Hosted policy engine evaluates the proposed action against its WorkUnit context and returns allow, route, throttle, block, or approval before the AI call executes.
+- `E-09` Control - [Pre-call control evaluation](#e-09): Hosted policy engine evaluates the proposed action against its declared work context and returns allow, route, throttle, block, or approval before the AI call executes.
 - `E-10` Control - [Policy decision does not break customer app](#e-10): SDK follows configured fail-open/fail-closed mode and records local diagnostic metadata.
 - `E-12` Control - [Customer monthly AI budget rule](#e-12): Rule can run observe-only, alert, throttle, route, block, or require approval.
 - `E-13` Control - [Premium model entitlement rule](#e-13): AIWatcher routes to allowed model or blocks with evidence.
@@ -96,13 +115,17 @@
 - `E-27` Failsafe - [SSO/RBAC separates developer and admin control](#e-27): Users can see appropriate data and actions without silent expansion of local collection.
 - `E-28` Failsafe - [SIEM/FinOps/billing export path](#e-28): AIWatcher exports normalized records without prompt/source content by default.
 - `E-29` Control - [Enforcement acknowledgement is a distinct, recorded checkpoint](#e-29): AIWatcher records enforcement acknowledgement as an event separate from the policy decision and from execution; a decision alone (for example a returned `block`) is never treated as proof the action was blocked.
-- `E-30` Prove - [Customer AI billing conflict has an evidence receipt](#e-30): Receipt shows customer, plan, entitlement, allowance, billing period, user/team/feature/workflow allocation, proposed model/action, policy evaluation, decision, enforcement acknowledgement, actual execution, observed cost, outcome, confidence, and integration source. Missing allowance, invoice, credit, or outcome fields are labeled insufficient data rather than guessed.
+- `E-30` Prove - [AI usage billing conflict has an evidence receipt](#e-30): Receipt shows customer, plan, entitlement, allowance, billing period, invoice/credit reference when integrated, user/team/feature/workflow allocation, proposed model/action, policy evaluation, decision, enforcement acknowledgement, actual execution, observed cost, outcome, confidence, and integration source. Missing fields are labeled insufficient data rather than guessed.
+- `E-31` Improve - [Enterprise preserves OSS intervention parity](#e-31): Each item shows identity/context, confidence, recommended action, policy/intervention state, receipt status, evidence state, and outcome confidence using the same vocabulary. Entity scope changes from session/project to team/customer/app/workflow, but the loop is recognizable.
+- `E-32` Control - [Internal AI workflow optimization](#e-32): AIWatcher attributes spend by team/workflow/owner, recommends routing/throttling/approval where cost or retries exceed baseline, and records accepted output or rework outcome. No customer-facing product metadata is required.
+- `E-33` Failsafe - [Evidence input health labels missing data before receipts are trusted](#e-33): Each input shows healthy, degraded, missing, or insufficient data; affected receipts explain exactly which claims cannot be made. Missing invoice/credit/outcome fields are not guessed.
+- `E-34` Watch - [Team developer-agent action queue preserves developer trust](#e-34): Managers see project/team/session metadata, risk, cost velocity, recommended action, coverage state, and outcome confidence, but not prompt/source content by default. Admin disclosure and developer-visible collection state are explicit.
 
 ### Partial
 
 - `E-01` Watch - [Unified agent inventory across local and production](#e-01): Agents are grouped by source, owner, app, project, environment, model, and last activity.
 - `E-02` Watch - [Cost attribution by app, customer, feature, project, and model](#e-02): Spend is attributed to business owners and product surfaces, not only raw token totals.
-- `E-04` Watch - [Morning Home prioritizes action](#e-04): Home ranks items by controllability and business impact with clear next actions.
+- `E-04` Watch - [Morning Home prioritizes action](#e-04): Home ranks customer overage risk, internal workflow waste, runaway local/production sessions, risky actions, HITL pending, evidence gaps, policy drift, billing conflicts, and top controllable opportunities.
 - `E-06` Plan - [Policy templates map to lifecycle problems](#e-06): Templates explain what they prevent, what evidence they create, and whether they run observe-only or enforced.
 - `E-11` Control - [Security policy can block or require approval](#e-11): AIWatcher blocks or creates HITL request with risk reasons and evidence.
 - `E-16` Control - [Model misuse recommendation becomes policy](#e-16): Recommendation becomes a controlled policy with evidence and impact tracking.
@@ -221,7 +244,7 @@
 - Platform: Home
 - Go to: Open Home.
 - Do: Review runaway cost, risky actions, HITL pending, evidence gaps, policy drift, and customer overage risk.
-- Expected: Home ranks items by controllability and business impact with clear next actions.
+- Expected: Home ranks customer overage risk, internal workflow waste, runaway local/production sessions, risky actions, HITL pending, evidence gaps, policy drift, billing conflicts, and top controllable opportunities.
 - User value: Creates the daily enterprise habit.
 - Why it matters: The product must be an action surface, not a dashboard maze.
 
@@ -237,6 +260,18 @@
 - User value: Preserves developer trust while enabling org accountability.
 - Why it matters: This is how OSS Local upgrades into Enterprise without feeling hostile.
 
+<a id="e-34"></a>
+
+### E-34 - Team developer-agent action queue preserves developer trust
+
+- Status: Gap
+- Platform: Home + Local Collector
+- Go to: Open Enterprise Home with Local collector metadata from several teams.
+- Do: Review context bloat, loop, command-gate, Fresh Start, and outcome-evidence items by team/project.
+- Expected: Managers see project/team/session metadata, risk, cost velocity, recommended action, coverage state, and outcome confidence, but not prompt/source content by default. Admin disclosure and developer-visible collection state are explicit.
+- User value: Turns OSS local signals into team-level operational control without hostile surveillance.
+- Why it matters: This is the upgrade path from developer trust to enterprise governance.
+
 ## Control
 
 <a id="e-09"></a>
@@ -245,11 +280,11 @@
 
 - Status: Gap
 - Platform: SDK API
-- Go to: Instrument a product AI call with SDK evaluateControl, declaring the WorkUnit context (customer, plan, feature, workflow) that the proposed action belongs to.
+- Go to: Instrument a product AI call with SDK evaluateControl, declaring the work context (customer, plan, feature, workflow) that the proposed action belongs to.
 - Do: Make an expensive request near customer quota.
-- Expected: Hosted policy engine evaluates the proposed action against its WorkUnit context and returns allow, route, throttle, block, or approval before the AI call executes.
+- Expected: Hosted policy engine evaluates the proposed action against its declared work context and returns allow, route, throttle, block, or approval before the AI call executes.
 - User value: Prevents cost/security problems before the model call.
-- Why it matters: This is the shift from observability to runtime control, evaluated against the canonical WorkUnit -- the business task being completed -- rather than a bare API call.
+- Why it matters: This is the shift from observability to runtime control, evaluated against the business task being completed rather than a bare API call.
 
 <a id="e-10"></a>
 
@@ -371,6 +406,18 @@
 - User value: Prevents false confidence from policy responses that were never actually enforced; evidence proves invocation, not just intent.
 - Why it matters: Strategy principle 'Prove invocation; never infer enforcement': Policy evaluated, Enforcement requested, Enforcement acknowledged, Action executed, and Action prevented must not be collapsed into one event.
 
+<a id="e-32"></a>
+
+### E-32 - Internal AI workflow optimization
+
+- Status: Gap
+- Platform: Workflows + Controls
+- Go to: Instrument an internal workflow such as support triage, sales research, QA, finance analysis, or product ops.
+- Do: Run usage through team/workflow metadata and apply an observe-only route or budget rule.
+- Expected: AIWatcher attributes spend by team/workflow/owner, recommends routing/throttling/approval where cost or retries exceed baseline, and records accepted output or rework outcome. No customer-facing product metadata is required.
+- User value: Expands Enterprise beyond AI-native products without diluting the first wedge.
+- Why it matters: The same moat applies wherever AI usage has controllable cost, risk, and outcome evidence.
+
 ## Prove
 
 <a id="e-19"></a>
@@ -435,15 +482,15 @@
 
 <a id="e-30"></a>
 
-### E-30 - Customer AI billing conflict has an evidence receipt
+### E-30 - AI usage billing conflict has an evidence receipt
 
 - Status: Gap
 - Platform: Inbox + Evidence
 - Go to: Open an Inbox item for a customer disputing AI credit or overage consumption.
 - Do: Inspect the receipt for the disputed billing period and workflow.
-- Expected: Receipt shows customer, plan, entitlement, allowance, billing period, user/team/feature/workflow allocation, proposed model/action, policy evaluation, decision, enforcement acknowledgement, actual execution, observed cost, outcome, confidence, and integration source. Missing allowance, invoice, credit, or outcome fields are labeled insufficient data rather than guessed.
+- Expected: Receipt shows customer, plan, entitlement, allowance, billing period, invoice/credit reference when integrated, user/team/feature/workflow allocation, proposed model/action, policy evaluation, decision, enforcement acknowledgement, actual execution, observed cost, outcome, confidence, and integration source. Missing fields are labeled insufficient data rather than guessed.
 - User value: Support, finance, product, and platform teams can resolve AI usage disputes with shared evidence while the billing platform remains the system of record.
-- Why it matters: Customer discovery suggests billing conflict may be a sharper enterprise pain than attribution alone, but AIWatcher should win it through control and evidence, not by becoming billing software.
+- Why it matters: Customer discovery suggests billing conflict may be a sharp enterprise pain. AIWatcher should win through control and evidence, not by becoming billing software.
 
 ## Improve
 
@@ -483,6 +530,18 @@
 - User value: Creates enterprise habit and renewal evidence.
 - Why it matters: Enterprise needs recurring proof that AIWatcher changed behavior.
 
+<a id="e-31"></a>
+
+### E-31 - Enterprise preserves OSS intervention parity
+
+- Status: Gap
+- Platform: Home + Evidence
+- Go to: Open Enterprise Home after local and production controls have fired.
+- Do: Compare a local developer-session item, a product workflow item, and a Usage Rule item.
+- Expected: Each item shows identity/context, confidence, recommended action, policy/intervention state, receipt status, evidence state, and outcome confidence using the same vocabulary. Entity scope changes from session/project to team/customer/app/workflow, but the loop is recognizable.
+- User value: Users understand OSS and Enterprise as one product with different license scope.
+- Why it matters: Brand and moat depend on one control-evidence-outcome system, not two disconnected dashboards.
+
 ## Failsafe
 
 <a id="e-27"></a>
@@ -508,3 +567,15 @@
 - Expected: AIWatcher exports normalized records without prompt/source content by default.
 - User value: Fits existing enterprise workflows.
 - Why it matters: Enterprises need AIWatcher to feed systems they already trust.
+
+<a id="e-33"></a>
+
+### E-33 - Evidence input health labels missing data before receipts are trusted
+
+- Status: Gap
+- Platform: Admin + Evidence Inputs
+- Go to: Open Admin -> Evidence Inputs.
+- Do: Inspect SDK, local collector, billing import, plan metadata, enforcement acknowledgement, outcome callback, and export configuration.
+- Expected: Each input shows healthy, degraded, missing, or insufficient data; affected receipts explain exactly which claims cannot be made. Missing invoice/credit/outcome fields are not guessed.
+- User value: Prevents enterprise users from trusting incomplete evidence.
+- Why it matters: Evidence quality is a product surface and a competitive barrier.

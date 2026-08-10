@@ -38,7 +38,8 @@ enterprise/
 ```
 
 - `strategy.md` is the locked product source of truth: category, wedge,
-  product lifecycle, scope by layer, metrics, risks, and execution phases.
+  product lifecycle, OSS/Enterprise split, moat principles, metrics, risks,
+  bugbash gates, and execution phases.
 - `product-prototype/index.html` is the current combined OSS/Enterprise
   clickable product-shape prototype. Use it to review navigation, scope split,
   and shared product language.
@@ -71,11 +72,12 @@ OSS/Enterprise scope split:
 ## How To Use This Repo
 
 Use `strategy.md` to decide whether a proposed feature belongs in AIWatcher at
-all. Use the Local and Enterprise scenario files to track implementation status,
-manual verification, UX workflows, platform coverage, and gaps. Code changes in
-the OSS or Enterprise repos should create a docs-review PR here; the reviewer
-then decides whether to update Local scenarios, Enterprise scenarios, or the OSS
-to Enterprise propagation matrix.
+all. Use the Local and Enterprise scenario files as the bugbash and readiness
+source of truth: implementation status, manual verification, UX workflows,
+platform coverage, evidence quality, and gaps. Code changes in the OSS or
+Enterprise repos should create a docs-review PR here; the reviewer then decides
+whether to update Local scenarios, Enterprise scenarios, or the OSS to
+Enterprise propagation matrix.
 
 ## Automation
 

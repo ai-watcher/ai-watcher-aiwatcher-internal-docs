@@ -2,9 +2,9 @@
 
 [Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Usage Controls Mockup](mockups/outcome-usage-billing-controls.html) · [Propagation Matrix](propagation-matrix.md)
 
-Updated: `2026-08-08`
+Updated: `2026-08-10`
 
-AIWatcher Enterprise is the organizational control loop for AI work. It unifies local developer agents and SDK-instrumented production AI applications, then lets teams apply cost, security, usage, billing-allocation, and approval controls with evidence.
+AIWatcher Enterprise is the organizational control loop for AI work. It scales the Local mental model from one developer to teams, customers, applications, product features, internal workflows, and production SDK calls, then applies cost, security, usage, billing-allocation, routing, and approval controls with evidence.
 
 ## Status
 
@@ -13,18 +13,18 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 | Done | 0 |
 | To verify | 0 |
 | In progress | 8 |
-| Gap | 22 |
+| Gap | 26 |
 
 ## Lifecycle Coverage
 
 | Lifecycle | Done | Total | Coverage |
 | --- | ---: | ---: | ---: |
 | Plan | 0 | 3 | 0% |
-| Watch | 0 | 5 | 0% |
-| Control | 0 | 11 | 0% |
+| Watch | 0 | 6 | 0% |
+| Control | 0 | 12 | 0% |
 | Prove | 0 | 6 | 0% |
-| Improve | 0 | 3 | 0% |
-| Failsafe | 0 | 2 | 0% |
+| Improve | 0 | 4 | 0% |
+| Failsafe | 0 | 3 | 0% |
 
 ## What To Review First
 
@@ -54,11 +54,11 @@ AIWatcher Enterprise is the organizational control loop for AI work. It unifies 
 
 ## Recommended Implementation Order
 
-1. Build the enterprise scenario-doc automation and keep this folder as the private source of truth.
-2. Reconcile Enterprise navigation around Home, Controls, Workflows, Evidence, Spend, and Admin.
-3. Pull OSS Local concepts into Enterprise using the propagation matrix.
-4. Build Enterprise Usage Rules as the first enterprise-only control feature.
-5. Add runtime SDK policy evaluation, evidence receipts, and protected-spend reports.
+1. Keep this private docs repo as the source of truth for strategy, scenarios, bugbash, and propagation.
+2. Preserve OSS parity in Enterprise: identity, recommended action, receipt, evidence state, and outcome confidence.
+3. Build Enterprise Usage Rules as the first paid control loop for customer, plan, feature, workflow, allowance, and billing-period context.
+4. Add runtime SDK evaluation, enforcement acknowledgement, evidence input health, and protected-spend/outcome receipts.
+5. Expand to internal AI workflow optimization and team developer-agent action queues after the first Usage Rule loop is proven.
 
 ## Interactive HTML
 

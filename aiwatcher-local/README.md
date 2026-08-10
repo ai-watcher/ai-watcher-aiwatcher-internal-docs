@@ -2,16 +2,16 @@
 
 [Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Evidence Inbox Mockup](mockups/evidence-inbox.html)
 
-Updated: `2026-08-08`
+Updated: `2026-08-10`
 
-AIWatcher Local is a private control loop for individual AI work, not another dashboard. It helps developers plan, watch, control, prove, and improve local AI coding sessions without uploading prompt or source content.
+AIWatcher Local is a private action loop for individual AI work, not another dashboard. It helps developers identify the exact local AI session that needs action, control prompts/tools before waste grows, restart bloated work with a Fresh Start brief, and prove whether the follow-up produced useful code without uploading prompt or source content.
 
 ## Status
 
 | Status | Count |
 | --- | ---: |
-| Done | 29 |
-| To verify | 4 |
+| Done | 28 |
+| To verify | 9 |
 | In progress | 6 |
 | Gap | 2 |
 
@@ -20,11 +20,11 @@ AIWatcher Local is a private control loop for individual AI work, not another da
 | Lifecycle | Done | Total | Coverage |
 | --- | ---: | ---: | ---: |
 | Plan | 7 | 7 | 100% |
-| Watch | 3 | 6 | 50% |
-| Control | 6 | 11 | 55% |
-| Prove | 9 | 11 | 82% |
+| Watch | 2 | 7 | 29% |
+| Control | 6 | 12 | 50% |
+| Prove | 9 | 12 | 75% |
 | Improve | 1 | 3 | 33% |
-| Failsafe | 3 | 3 | 100% |
+| Failsafe | 3 | 4 | 75% |
 
 ## What To Review First
 
