@@ -1,6 +1,6 @@
 # AIWatcher Local Review Home
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [Evidence Inbox Mockup](mockups/evidence-inbox.html)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [OSS Bug Bash](bug-bash.md) · [Evidence Inbox Mockup](mockups/evidence-inbox.html)
 
 Updated: `2026-08-10`
 
@@ -47,6 +47,7 @@ AIWatcher Local is a private action loop for individual AI work, not another das
 | [Requirements](requirements.md) | Lifecycle requirement matrix and coverage. |
 | [Platforms](platforms.md) | Coverage by Claude, Codex, Cursor, browser, VS Code, and terminal surfaces. |
 | [Test Cases](test-cases.md) | Full scenario checklist, status summary, open gaps, UX workflows, examples, and decisions. |
+| [OSS Bug Bash](bug-bash.md) | Manual readiness runbook for the four OSS phases: trusted interventions, Fresh Start, proof receipts, and speed/polish. |
 | [Evidence Inbox Mockup](mockups/evidence-inbox.html) | Focused older mockup for OSS action queue and receipt details. Use product-prototype/index.html as the current navigation and OSS/Enterprise scope reference. |
 
 ## Interactive HTML

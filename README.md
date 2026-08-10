@@ -23,6 +23,7 @@ aiwatcher-local/
   requirements.md
   platforms.md
   test-cases.md
+  bug-bash.md
   index.html
 
 enterprise/
@@ -45,8 +46,8 @@ enterprise/
   and shared product language.
 - `*/scenarios.json` is the source of truth.
 - `README.md`, `scope.md`, `requirements.md`, `platforms.md`,
-  `test-cases.md`, `propagation-matrix.md`, and `index.html` are generated or
-  derived review surfaces.
+  `test-cases.md`, `bug-bash.md`, `propagation-matrix.md`, and `index.html`
+  are generated or derived review surfaces.
 - Use Markdown pages for GitHub review.
 - Use `index.html` for offline interactive viewing.
 - Product docs review records live under `reviews/`.
@@ -59,6 +60,7 @@ enterprise/
 - [Product Strategy](strategy.md)
 - [Combined OSS/Enterprise Product Prototype](product-prototype/index.html) — primary current UX/scope review artifact
 - [AIWatcher Local](aiwatcher-local/README.md)
+- [AIWatcher Local OSS Bug Bash](aiwatcher-local/bug-bash.md)
 - [AIWatcher Enterprise](enterprise/README.md)
 - [OSS to Enterprise Propagation Matrix](enterprise/propagation-matrix.md)
 

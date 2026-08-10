@@ -9,11 +9,20 @@
       "propagation_required": true,
       "extra_nav": [
         {
+          "label": "OSS Bug Bash",
+          "href": "bug-bash.md"
+        },
+        {
           "label": "Evidence Inbox Mockup",
           "href": "mockups/evidence-inbox.html"
         }
       ],
       "extra_review_sections": [
+        {
+          "section": "OSS Bug Bash",
+          "href": "bug-bash.md",
+          "use": "Manual readiness runbook for the four OSS phases: trusted interventions, Fresh Start, proof receipts, and speed/polish."
+        },
         {
           "section": "Evidence Inbox Mockup",
           "href": "mockups/evidence-inbox.html",
