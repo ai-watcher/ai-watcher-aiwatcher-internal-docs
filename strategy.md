@@ -4,7 +4,7 @@
 
 **Status:** Product source of truth
 
-**Date:** July 25th 2026
+**Date:** August 10th 2026
 
 **Scope:** AIWatcher Local, Enterprise endpoint controls, production SDK, control plane, and evidence system
 
@@ -19,7 +19,7 @@
 ## Tagline
 
 > **Control what AI does. Prove what it delivered.**
-> 
+>
 
 ## One-sentence value proposition
 
@@ -56,6 +56,13 @@ AIWatcher should initially help AI-native software companies:
 - Control feature-level AI cost and margin
 - Route work to lower-cost models
 - Verify that routing or limits did not materially damage the outcome
+- Resolve customer, plan, team, or feature billing conflicts with evidence about what AI usage was allowed, routed, throttled, blocked, or actually executed
+
+This is adjacent to billing, not a replacement for billing. AIWatcher should explain and control AI usage before it becomes a billing or margin problem; Stripe, Chargebee, contracts, invoicing, payment collection, and general revenue ledgers remain integrations.
+
+Plain-English first sale:
+
+> **For AI-native SaaS companies with tiered plans, AIWatcher prevents premium-model and allowance leakage before execution, then gives product, support, and finance a receipt proving what was allowed, routed, executed, allocated, and accepted.**
 
 ## OSS role
 
@@ -69,6 +76,8 @@ It creates direct user value, developer trust, adapter coverage, and development
 > **AIWatcher Enterprise coordinates policy, customer economics, approvals, evidence, and outcome learning across development and production AI work.**
 > 
 
+Enterprise scope is broader than customer-facing AI economics: it can eventually cover internal AI workflows across teams, projects, operations, support, sales, finance, and product development. The first paid wedge remains customer-facing AI economics because it has the clearest budget owner, allowance context, outcome signal, and urgency. Internal workflow optimization becomes an expansion path after the control/evidence loop is proven.
+
 ## Critical strategic distinction
 
 Customers do not primarily buy “lineage.”
@@ -81,9 +90,42 @@ They buy outcomes such as:
 - Less engineering rework
 - Better model-routing decisions
 - Defensible evidence
+- Faster resolution of AI billing or credit disputes
 - Clearer return on AI investment
 
 Development-to-production lineage is the evidence substrate that makes those outcomes explainable and optimizable.
+
+---
+
+## User-facing pitch
+
+## AIWatcher Local
+
+One-liner:
+
+> **Private local AI control for developers: stop waste before it grows, restart bloated sessions with the right context, and prove which AI work became useful code.**
+
+Pitch points:
+
+- See which AI work is protected, companion-only, history-only, or not covered.
+- Preflight broad prompts and pause dangerous shell commands before they run.
+- Detect stale, looping, or bloated sessions and create a Fresh Start brief for a cleaner next chat.
+- Connect spend to sessions, commits, tests, surviving lines, outcomes, and receipts.
+- Stay local-first: no account required, no prompt or source upload by default, hash-only export.
+
+## AIWatcher Enterprise
+
+One-liner:
+
+> **Outcome-aware AI controls for companies: enforce cost, policy, and allowance decisions before execution, then prove the business result afterward.**
+
+Pitch points:
+
+- Route, throttle, block, or approve customer, plan, feature, team, and workflow AI usage before it hits margin, risk, or support disputes.
+- Prove what rule matched, what was enforced, what executed, what it cost, and whether the customer, team, or workflow accepted the result.
+- Resolve AI billing or credit conflicts with evidence while billing systems still own invoices, refunds, payments, taxes, and contracts.
+- Optimize internal workflows and developer-agent usage after the first customer-facing control loop is proven.
+- Scale trust with RBAC, retention, signed evidence, SDK acknowledgement, policy history, and integration health.
 
 ---
 
@@ -97,7 +139,7 @@ Development-to-production lineage is the evidence substrate that makes those out
 - AI activity metrics alone do not establish useful engineering or business outcomes.
 - AIWatcher Local already demonstrates meaningful portions of a private plan–watch–control–prove–improve loop.
 
-The OSS implementation includes normalized local sessions and events, prompt preflight, prompt gating, local receipts, cross-process-safe state, session-health analysis, handoff support, and code-outcome evidence.
+The OSS implementation includes normalized local sessions and events, prompt preflight, prompt gating, local receipts, cross-process-safe state, session-health analysis, Fresh Start continuity, and code-outcome evidence.
 
 ## Not yet proven
 
@@ -297,6 +339,8 @@ An AI product offers different service tiers, but model usage is not consistentl
 
 - Is this customer allowed to use the premium model?
 - Has this customer exhausted the monthly AI allowance?
+- Which user, team, feature, or workflow consumed the allowance?
+- Is this customer billing or credit dispute backed by execution evidence?
 - Is this free-trial workflow being abused?
 - Is this feature still economically viable?
 - Can we route this request to a cheaper model?
@@ -309,12 +353,14 @@ An AI product offers different service tiers, but model usage is not consistentl
 - Record actual execution and cost.
 - Attach the workflow outcome.
 - Generate an intervention receipt.
+- Generate billing/allocation evidence showing allowance, entitlement, decision, execution, and outcome.
 
 ### Customer value
 
 - Protect product margin
 - Enforce packaging
 - Reduce unpredictable overages
+- Resolve AI billing and credit conflicts without rebuilding the billing platform
 - Make routing decisions based on outcomes rather than price alone
 
 ---
@@ -337,7 +383,7 @@ An agent repeats tool calls, retries unsuccessfully, or accumulates cost without
 
 - Detect unusual cost, call, retry, or loop velocity.
 - Alert, pause, throttle, rescope, or stop.
-- Preserve a handoff or recovery state.
+- Preserve Fresh Start or recovery state.
 - Record the outcome and protected-value estimate.
 
 ### Customer value
@@ -372,7 +418,7 @@ Developers use multiple coding agents but lack a private, cross-tool way to prev
 - Preflight risky work
 - Add an execution brief or open a decision gate
 - Detect unhealthy sessions and loops
-- Generate a handoff capsule
+- Generate a Fresh Start brief and receipt when continuing in the same context is likely to waste work
 - Infer outcomes from commits, tests, changes, and later rework
 - Keep prompts and source local by default
 
@@ -464,6 +510,29 @@ Some agent actions require human approval, but organizations lack reliable evide
 
 # 7. User experience by product
 
+## Shared product architecture
+
+AIWatcher should feel like one product system with two licenses and audiences, not two unrelated dashboards.
+
+The top-level product experience should be organized around user jobs, not every feature:
+
+| Job | AIWatcher Local - free OSS | AIWatcher Enterprise - paid |
+| --- | --- | --- |
+| Home | Private daily loop: what happened, what needs attention, and what to do next | Company control loop: customer, team, workflow, and policy items needing action |
+| Control / Controls | Prompt preflight, Prompt Companion, prompt gate, dangerous-command gate, Fresh Start controls | Usage Rules, routing, throttling, blocking, approvals, observe-only mode, dry-run simulation |
+| Work / Workflows | Sessions, projects, expensive asks, Fresh Starts, commits, surviving lines, unbanked spend | Teams, apps, customers, features, production workflows, internal workflows, developer-agent work |
+| Evidence | Local receipts, outcome confirmation, commit/test evidence, journal, weekly report, hash-only export | Receipts with customer/team/workflow context, billing evidence, enforcement acknowledgement, evidence health, signed export |
+| Spend | API-equivalent value, API-priced versus subscription-limited usage, live statusline, projected month | Spend by customer, plan, feature, team, workflow, model, rule, outcome, and protected-value basis |
+| Settings / Admin | Setup, doctor, hook-status, privacy, coverage diagnostics, local extensions, export controls | SSO/RBAC, integrations, SDKs, retention, disclosure, policy versions, evidence exports, billing-system imports |
+
+This grouping keeps the product understandable while preserving the differentiated loop:
+
+```
+Control → Evidence → Outcome
+```
+
+Feature names such as Prompt Companion, Receipts, Usage Rules, Billing Evidence, and Evidence Inputs should remain visible inside the relevant job page, but they should not all compete as top-level navigation.
+
 ## AIWatcher Local
 
 ### Core experience
@@ -471,33 +540,60 @@ Some agent actions require human approval, but organizations lack reliable evide
 > **A private personal control loop that helps developers prevent bad AI runs and learn which agent work produces durable results.**
 > 
 
-Primary experiences:
+Recommended navigation:
 
-1. **Today**
+1. **Home**
     - What AI work happened?
-    - Which projects and tools drove usage?
-    - What needs attention?
-2. **Preflight**
+    - What needs attention now?
+    - Which action should I take next?
+2. **Control**
     - Is this work broad, destructive, risky, or likely to become expensive?
     - What narrower execution brief preserves the intent?
-3. **Watch**
-    - Is context health degrading?
-    - Is the session stale, repetitive, or losing efficiency?
-4. **Control**
-    - Run original
-    - Add safer brief
-    - Edit guidance
-    - Cancel
-    - Stop or hand off where supported
-5. **Prove**
+    - Did a dangerous command need to be blocked?
+3. **Work**
+    - Which sessions, projects, prompts, Fresh Starts, and commits drove the work?
+    - Is context health degrading or stale?
+    - What changed, survived, or had no commit behind it?
+4. **Evidence**
     - What decision was made?
     - What session resulted?
     - Did commits, tests, or changes appear?
     - Did the change survive?
-6. **Improve**
     - What should I do differently next time?
-    - Which agent or model fits this type of work?
-    - Should I resume in a fresh session?
+5. **Spend**
+    - What is live, daily, weekly, monthly, and projected API-equivalent value?
+    - Which numbers are API-priced versus subscription-limited?
+6. **Settings**
+    - What is installed, verified, covered, private, exported, or disabled?
+
+Current OSS reality: AIWatcher Local is session, project, commit, and evidence based. It should not present WorkUnit as a shipped abstraction. WorkUnit-style grouping is a future shared-core direction that can be introduced only after it reconciles with the existing session/commit ledger.
+
+### Fresh Start as the main OSS "during work" action
+
+AIWatcher Local should make cross-agent handoff more concrete by presenting it as **Fresh Start**: when a session becomes bloated, stale, or stuck in repeated low-yield turns, the product helps the developer restart with the right context instead of continuing to pay context tax.
+
+Fresh Start should include:
+
+- Detection signals: context pressure, loop pressure, repeated failed edits, rising cost without a durable artifact, stale session age, or runaway velocity.
+- Identity before action: every popup, dashboard card, session drawer, and Fresh Start drawer must show tool, surface, active/recent/historical state, project/worktree, last activity, short session id, and confidence.
+- A task-first brief: goal, repo, current state, decisions already made, files touched, tests run, known failures, next checkpoint, and what not to repeat.
+- An action bridge: copy a basic brief immediately, open a supported workspace/tool only when runtime attachment is verified, and fall back to explicit copy/paste when it is not.
+- Deferred enrichment: timeline, git evidence, prompt analysis, and related-workspace context load after the user can act.
+- Outcome measurement: compare the old bloated session against the follow-up session using tokens, turns, cost, model/tool calls, commits, tests, rework, survival, and explicit user confirmation.
+- A Fresh Start Receipt that labels what was observed, inferred, predicted, measured, and verified.
+
+This feature fits the OSS moat because it is useful without signup, depends on local context competitors usually do not have, and creates an evidence loop rather than a generic summary. It should not claim guaranteed savings. The honest claim is that AIWatcher preserved the right context at the moment a restart was likely to be better.
+
+### Current OSS readiness focus
+
+The current OSS readiness pass should be tested against four phases:
+
+1. **Trust the intervention** - no wrong/noisy popups; identity strip everywhere; exact, likely, and historical sessions behave differently; velocity/context/loop/runway signals map to distinct actions.
+2. **Make Fresh Start useful** - one primary action, immediate copyable brief, safe workspace/tool opening only when verified, no duplicate handoff buttons, no false live-return claim.
+3. **Prove it worked** - receipt links the source and follow-up session when observed, compares usage/calls/cost/outcome/evidence, and says proof pending when correlation is missing.
+4. **Speed and polish** - identity and action first; timeline/git/prompt enrichment later; large local logs do not block the user's next action; setup/coverage/privacy states remain explicit.
+
+Bugbash should use these four phases as the acceptance checklist for AIWatcher Local before calling the OSS experience customer-ready.
 
 ---
 
@@ -510,37 +606,42 @@ Primary experiences:
 
 Recommended navigation:
 
-1. **Inbox**
-    - Approvals
+1. **Home**
+    - Customer overage risk
     - Runaway workflows
-    - Policy violations
-    - Integration failures
-    - High-value findings
+    - Policy conflicts
+    - Approvals
+    - Evidence gaps
+    - Billing and allocation conflicts
 2. **Controls**
     - Usage Rules
-    - Policy versions
-    - Simulations
+    - Allowance and entitlement policies
     - Routing
+    - Throttling
+    - Blocking
     - Approvals
-    - Rollouts
-3. **Work**
-    - Work units
+    - Observe-only and dry-run simulation
+3. **Workflows**
     - Customers
     - Features
     - Applications
-    - Projects
-    - Agents
+    - Teams
+    - Internal workflows
+    - Developer-agent work
     - Models
     - Tools
-    - Evidence
-4. **Outcomes**
-    - Cost per outcome
-    - Protected value
-    - Rework
-    - Success rates
-    - Feature margins
-    - Intervention effectiveness
-5. **Settings**
+4. **Evidence**
+    - Intervention receipts
+    - Enforcement acknowledgement
+    - Outcome receipts
+    - Billing allocation evidence
+    - Evidence input health
+    - Signed export
+5. **Spend**
+    - Customer, plan, feature, team, workflow, model, and rule spend
+    - Cost per accepted output, resolved workflow, surviving change, or useful outcome
+    - Protected-value reports with evidence labels
+6. **Admin**
     - Identities
     - Roles
     - Applications
@@ -549,6 +650,24 @@ Recommended navigation:
     - Data collection
     - Retention
     - Integrations
+
+Enterprise should mirror OSS where the mental model helps adoption, but it should monetize organization-level scope: policy enforcement, customer/plan/feature context, team and production workflows, retention, RBAC, billing evidence, integration health, signed exports, and controlled rollout.
+
+---
+
+## OSS Free versus Enterprise Paid
+
+| Dimension | AIWatcher Local - free OSS | AIWatcher Enterprise - paid |
+| --- | --- | --- |
+| Primary user | Individual AI-heavy developer | Product, platform, engineering, finance, support, and governance teams |
+| Core job | Make local AI work safer, smaller, more resumable, and more measurable | Control AI work across customer-facing and internal workflows with policy, evidence, and outcomes |
+| First value | Private Evidence Inbox, prompt/command gates, session health, Fresh Start, local receipts | One controlled workflow with customer/plan/feature/team/workflow/allowance context, enforcement acknowledgement, outcome, and receipt |
+| Evidence | Local metadata, hashes, decisions, cost, surface coverage, code survival, manual outcome correction | Organization-retained receipts, customer/workflow context, policy versions, enforcement, outcomes, protected value, exports |
+| Controls | Personal prompt gates, command gates, preflight, Fresh Start, local watch signals | Usage Rules, routing, throttling, blocking, approvals, signed policy distribution, retention, RBAC |
+| Privacy stance | Prompt/source local by default; useful without account signup | Metadata/evidence by default; content collection explicit; developer-visible collection disclosure |
+| Not included | SSO, central admin policy, customer entitlements, org retention, compliance exports | Billing system of record, hidden employee surveillance, generic gateway replacement, broad GRC as the first wedge |
+
+This split matters: OSS must remain a complete developer product, not a crippled lead magnet. Enterprise must charge for organization-level control, retention, policy, customer economics, and evidence workflows.
 
 ---
 
@@ -569,7 +688,7 @@ Charts support the product. They are not the product.
 
 Every intervention should produce a receipt containing:
 
-- Work-unit context
+- Relevant work context: local session/project/commit for OSS, or customer/team/app/feature/workflow for Enterprise
 - Proposed action
 - Relevant customer, feature, or development context
 - Policy and immutable version
@@ -582,6 +701,18 @@ Every intervention should produce a receipt containing:
 - Outcome
 - Impact classification
 - Confidence and comparison basis
+
+Receipt types:
+
+| Receipt | Purpose |
+| --- | --- |
+| Intervention Receipt | Shows the proposed action, matched facts, policy or local rule, decision, actor, and comparison basis. |
+| Enforcement Receipt | Proves the decision was actually applied by a hook, SDK, policy enforcement point, gateway, or local control. |
+| Fresh Start Receipt | Shows why a bloated or looping session should restart, what context was transferred, which follow-up session used it, and whether the restart improved cost, turns, rework, or outcome. |
+| Outcome Receipt | Links the controlled work to a customer, product, operational, or developer outcome with confidence and evidence labels. |
+| Billing Evidence Receipt | Explains customer, plan, allowance, billing period, feature, workflow, execution, allocation, and outcome for AI-usage disputes. |
+
+These receipts may render together in one product view, but the facts must remain separate. A policy decision is not enforcement. A prevented premium call creates an inferred counterfactual, not observed savings. A customer-accepted result is outcome evidence, not proof that all future routing is safe.
 
 ---
 
@@ -691,6 +822,23 @@ Enterprise must not maintain an independent copy of the OSS collector logic.
 
 ---
 
+## 8.9 Billing evidence, not billing software
+
+AIWatcher can help companies answer customer billing and credit conflicts when those conflicts are caused by AI usage.
+
+It should provide:
+
+- Pre-execution entitlement and allowance decisions
+- Enforcement acknowledgement
+- Actual execution and cost records
+- Allocation by customer, plan, feature, workflow, team, and billing period
+- Outcome evidence showing whether the lower-cost or limited path still worked
+- A receipt support, finance, product, or platform teams can cite
+
+It should not become the source of truth for invoices, payment collection, revenue recognition, taxes, credits, refunds, or contract management. Those remain billing-platform responsibilities.
+
+---
+
 # 9. Product boundaries
 
 ## AIWatcher should build
@@ -703,6 +851,7 @@ Enterprise must not maintain an independent copy of the OSS collector logic.
 - Outcome evidence
 - Development-to-production lineage
 - Protected-value reporting
+- Billing and allocation evidence for AI usage controls
 - Customer-specific control recommendations
 - Shared local and production evidence model
 
@@ -730,6 +879,7 @@ Enterprise must not maintain an independent copy of the OSS collector logic.
 - Agent-hosting platform
 - Generic employee-productivity ranking
 - Universal browser or desktop interception
+- Invoice, payment, tax, refund, or contract-management system of record
 - Uploading developer content by default
 - Supporting every SDK language before semantic parity exists
 - Claiming protected value without an evidence basis
@@ -762,6 +912,8 @@ Add business context and outcomes:
 Customer
 + plan
 + entitlement
++ allowance
++ billing period
 + feature
 + workflow
 + control
@@ -1021,6 +1173,29 @@ OSS may provide:
 
 This is an advantage only if OSS remains genuinely developer-first.
 
+## 13.6 Enterprise parity without surveillance
+
+Enterprise should feel like AIWatcher Local scaled up, not like management replaced a developer tool with surveillance.
+
+The shared pattern is:
+
+```text
+Identify the work
+→ recommend the action
+→ apply or request control
+→ record a receipt
+→ prove the outcome
+```
+
+The entity changes by license:
+
+- OSS: session, project, prompt, command, commit, receipt, outcome.
+- Enterprise developer-agent view: team, repo, service, local session metadata, coverage, receipt, outcome.
+- Enterprise product workflow view: customer, plan, feature, app, workflow, allowance, policy, execution, outcome.
+- Enterprise internal workflow view: team, function, workflow, model/tool usage, control, accepted output, rework.
+
+Default Enterprise views must not expose prompt or source content from developer machines. They should expose enough metadata and evidence confidence for team action while preserving developer-visible collection state and admin disclosure.
+
 ---
 
 # 14. Why competitors may still replicate it
@@ -1211,6 +1386,12 @@ A WorkUnit may span multiple:
 - Deployments
 - Outcomes
 
+Important implementation boundary:
+
+- AIWatcher Local does not ship WorkUnit today. Current OSS surfaces are anchored on session id, project, commit, evidence snapshots, receipts, and local outcomes.
+- The shared-core WorkUnit model should be introduced only after it can reconcile multiple sessions, commits, Fresh Starts, and production executions without losing the current local ledger value.
+- Enterprise may present Workflows or controlled work as the paid product abstraction, but any UI or documentation must distinguish shipped local session evidence from planned cross-session WorkUnit grouping.
+
 ## Essential entities
 
 ```
@@ -1223,6 +1404,7 @@ Repository
 Customer
 Plan
 Entitlement
+UsageAllowance
 Feature
 Agent
 AgentVersion
@@ -1246,6 +1428,8 @@ Deployment
 Outcome
 Evidence
 CostAllocation
+BillingPeriod
+BillingEvidenceReceipt
 InterventionImpact
 ```
 
@@ -1273,20 +1457,35 @@ These must not be collapsed into a generic event.
 
 Complete individual developer value.
 
+AIWatcher Local must remain a coherent free product: one private local loop for an individual developer. It should not feel like a thin Enterprise teaser, and it should not require signup to make the developer's local AI work safer, more resumable, and more measurable.
+
 ### Scope
 
 - Tool discovery
 - Local activity normalization
 - Prompt preflight
+- Prompt Companion for non-hook surfaces
 - Prompt and command gates
 - Session-health warnings
 - Loop and cost-velocity detection
 - Cross-agent handoff
 - Outcome evidence
+- Session, project, and commit review
 - Cost per surviving change
+- Live statusline and commit receipt
+- Daily journal and weekly report
 - Privacy-safe receipts
 - Export and portability
 - Surface coverage diagnostics
+
+Recommended shipped UX grouping:
+
+- Home
+- Control
+- Work
+- Evidence
+- Spend
+- Settings
 
 ### Enterprise features excluded
 
@@ -1297,6 +1496,7 @@ Complete individual developer value.
 - Central approval routing
 - Compliance exports
 - Leadership reporting
+- WorkUnit as a claimed shipped abstraction
 
 ---
 
@@ -1305,6 +1505,8 @@ Complete individual developer value.
 ### Purpose
 
 Extend trusted local controls across managed teams.
+
+Enterprise should feel like AIWatcher Local scaled from one developer to teams, customers, apps, and workflows, with paid controls layered on top. It should not become a generic AI governance, billing, gateway, or employee-surveillance product.
 
 ### Scope
 
@@ -1315,6 +1517,17 @@ Extend trusted local controls across managed teams.
 - Privacy transformation
 - Evidence upload
 - Integration-health verification
+- Team, app, workflow, and project aggregation
+- Developer-visible collection disclosure
+
+Recommended paid UX grouping:
+
+- Home
+- Controls
+- Workflows
+- Evidence
+- Spend
+- Admin
 - Repository and team ownership
 - Developer-visible collection disclosure
 - Auditable temporary overrides
@@ -1355,6 +1568,14 @@ Declare context
 
 Coordinate policies, evidence, outcomes, and improvement.
 
+Enterprise should support three layers over time:
+
+1. **First wedge: customer-facing AI economics** - plan allowances, entitlements, premium-model leakage, feature margin, billing evidence, and outcome-preserving routing.
+2. **Expansion: internal AI workflow optimization** - team, project, support, sales, finance, operations, and product-development workflows where AI cost, rework, quality, or approval burden can be tied to a useful outcome.
+3. **Later platform: organization-wide governance** - SSO/RBAC, retention, endpoint policy distribution, audit exports, SIEM/FinOps integrations, and centrally managed controls.
+
+The product should be architected for all three, but the first paid pilot should prove the first layer only.
+
 ### Scope
 
 - Usage Rules
@@ -1380,14 +1601,15 @@ Coordinate policies, evidence, outcomes, and improvement.
 ## Assumptions to validate
 
 1. Customer- or feature-level AI margin is a recurring, material problem.
-2. A named buyer owns the problem.
-3. Existing gateway limits are insufficient.
-4. Customers will place AIWatcher in the decision path.
-5. Customers will provide plan, feature, and workflow context.
-6. Customers can define a meaningful outcome.
-7. The value protected exceeds implementation and subscription cost.
-8. Outcome-aware evidence affects operational decisions.
-9. The product can deliver value without replacing the existing gateway or observability platform.
+2. Customer billing or credit conflicts caused by AI usage are recurring enough to justify evidence-backed controls.
+3. A named buyer owns the problem.
+4. Existing gateway limits are insufficient.
+5. Customers will place AIWatcher in the decision path.
+6. Customers will provide plan, feature, workflow, allowance, and billing-period context.
+7. Customers can define a meaningful outcome.
+8. The value protected exceeds implementation and subscription cost.
+9. Outcome-aware evidence affects operational decisions.
+10. The product can deliver value without replacing the existing gateway, observability platform, or billing platform.
 
 ---
 
@@ -1405,6 +1627,7 @@ Plan: Standard
 Feature: Advanced research
 Monthly allowance: $100
 Current usage: $94
+Billing period: August 2026
 Proposed model: Premium
 Estimated request cost: $11.00
 ```
@@ -1443,6 +1666,26 @@ Confidence: Medium
 ```
 
 The demo must show a decision and a result—not merely a dashboard.
+
+Support or finance can use the same receipt to explain why the customer allowance changed, which workflow consumed it, and whether the controlled path preserved the result.
+
+## What the first demo must not lead with
+
+The first Enterprise demo should not lead with:
+
+- Total tokens
+- Total calls
+- Total agents
+- Generic traces
+- Generic dashboards
+- Employee rankings
+- Broad compliance maps
+- Security posture summaries
+- Development provenance
+- Full billing integrations
+- Leadership rollups
+
+Those surfaces may matter later, but they are already crowded by gateways, observability systems, security tools, provenance products, and FinOps dashboards. The first demo must show one controlled customer or workflow action: declared context, decision, enforcement acknowledgement, actual execution, outcome, and receipt.
 
 ---
 
@@ -1502,6 +1745,7 @@ One:
 - Application
 - Workflow
 - Customer-plan dimension
+- Billing-period or allowance dimension
 - Usage Rule
 - Model-routing or limit action
 - Outcome
@@ -1564,7 +1808,7 @@ Do not price primarily per policy or dashboard seat; those do not reflect custom
 Every proposed feature can state:
 
 - User
-- WorkUnit
+- Relevant work context (session/project/commit for OSS, customer/team/app/feature/workflow for Enterprise)
 - Decision
 - Control
 - Evidence
@@ -1581,9 +1825,9 @@ Every proposed feature can state:
 2. Reliable tool and surface detection
 3. Accurate hook invocation status
 4. Low-noise prompt preflight
-5. Session-health and loop detection
-6. Smooth cross-agent handoff
-7. Clear intervention receipts
+5. Session-health, loop detection, and Fresh Start recommendation
+6. Smooth cross-agent Fresh Start with task-first restart briefs
+7. Fresh Start, command, prompt, and outcome receipts
 8. Strong commit, test, survival, and rework evidence
 9. Privacy and threat-model documentation
 10. Signed and dependable distribution
@@ -1599,6 +1843,16 @@ Every proposed feature can state:
 - Privacy claims are testable.
 - The product remains useful without Enterprise.
 
+### Current recommended OSS next steps
+
+1. Bugbash Phase 1 - Trust the intervention: exact/likely/historical identity, signal-specific copy/actions, no duplicate notification/overlay delivery, no wrong app auto-open, and POST-only runtime return.
+2. Bugbash Phase 2 - Make Fresh Start useful: one primary CTA, immediate copyable basic brief, safe workspace/tool opening only when verified, prompt/source privacy opt-in, and no duplicate handoff actions.
+3. Bugbash Phase 3 - Prove Fresh Start: receipts link source and follow-up sessions where observed, compare tokens/cost/calls/outcome/evidence, and label proof pending or insufficient data honestly.
+4. Bugbash Phase 4 - Speed and polish: session summary and Fresh Start first paint show identity/action quickly; timeline/git/prompt enrichment is deferred; large local logs fail soft; setup/coverage states remain explicit.
+5. Replace any single coverage percentage with per-surface states: automatic, limited, companion-only, history-only, or unverified.
+6. Keep the local UI grouped around Home, Control, Work, Evidence, Spend, and Settings; surface feature depth inside those jobs.
+7. Keep execution-brief language honest: it can reduce scope and preserve intent, but savings are measured only after outcome evidence appears.
+
 ---
 
 ## Phase 2: Validate Enterprise concurrently
@@ -1609,6 +1863,7 @@ This phase runs while OSS improves.
 
 - WorkUnit context
 - Customer and plan context
+- Team, feature, and workflow context
 - One immutable Usage Rule
 - Pre-call evaluation API
 - Allow and route decisions
@@ -1616,6 +1871,8 @@ This phase runs while OSS improves.
 - Actual-cost record
 - Outcome attachment
 - Evidence receipt
+- Evidence input health for SDK, local collector, billing/plan metadata, and outcome callbacks
+- A narrow internal-workflow control scenario using the same policy/evidence/outcome loop
 
 ### Do not build yet
 
@@ -1645,6 +1902,19 @@ Demonstrate that outcome-aware Usage Rules protect meaningful value.
 - The counterfactual is correctly labeled.
 - A design partner uses the evidence to make a real decision.
 - A budget owner agrees to pay.
+
+### Kill or rethink criteria
+
+Rethink the Enterprise wedge if any of these remain true after serious design-partner attempts:
+
+- Customers will not place AIWatcher in the pre-call decision path.
+- Customers cannot provide customer, plan, feature, workflow, allowance, or billing-period context.
+- Customers cannot attach any meaningful outcome signal.
+- Enforcement acknowledgement is skipped or treated as optional.
+- Evidence does not change a product, finance, support, or platform decision.
+- The protected value is too small or too speculative to justify implementation effort.
+- Buyers only want a dashboard, report, or after-the-fact attribution.
+- A budget owner will not pay after one controlled workflow proves useful.
 
 ---
 

@@ -11,17 +11,24 @@ surfaces here instead of in the OSS repo.
 ```text
 strategy.md
 
+product-prototype/
+  README.md
+  index.html
+
 aiwatcher-local/
   scenarios.json
+  mockups/
   README.md
   scope.md
   requirements.md
   platforms.md
   test-cases.md
+  bug-bash.md
   index.html
 
 enterprise/
   scenarios.json
+  mockups/
   README.md
   scope.md
   requirements.md
@@ -32,11 +39,15 @@ enterprise/
 ```
 
 - `strategy.md` is the locked product source of truth: category, wedge,
-  product lifecycle, scope by layer, metrics, risks, and execution phases.
+  product lifecycle, OSS/Enterprise split, moat principles, metrics, risks,
+  bugbash gates, and execution phases.
+- `product-prototype/index.html` is the current combined OSS/Enterprise
+  clickable product-shape prototype. Use it to review navigation, scope split,
+  and shared product language.
 - `*/scenarios.json` is the source of truth.
 - `README.md`, `scope.md`, `requirements.md`, `platforms.md`,
-  `test-cases.md`, `propagation-matrix.md`, and `index.html` are generated or
-  derived review surfaces.
+  `test-cases.md`, `bug-bash.md`, `propagation-matrix.md`, and `index.html`
+  are generated or derived review surfaces.
 - Use Markdown pages for GitHub review.
 - Use `index.html` for offline interactive viewing.
 - Product docs review records live under `reviews/`.
@@ -47,18 +58,28 @@ enterprise/
 ## Review Hubs
 
 - [Product Strategy](strategy.md)
+- [Combined OSS/Enterprise Product Prototype](product-prototype/index.html) — primary current UX/scope review artifact
 - [AIWatcher Local](aiwatcher-local/README.md)
+- [AIWatcher Local OSS Bug Bash](aiwatcher-local/bug-bash.md)
 - [AIWatcher Enterprise](enterprise/README.md)
 - [OSS to Enterprise Propagation Matrix](enterprise/propagation-matrix.md)
+
+Focused older mockups remain available for specific interaction details, but
+the combined prototype above is the current source for product navigation and
+OSS/Enterprise scope split:
+
+- [AIWatcher Local Evidence Inbox Mockup](aiwatcher-local/mockups/evidence-inbox.html)
+- [AIWatcher Enterprise Usage Controls Mockup](enterprise/mockups/outcome-usage-billing-controls.html)
 
 ## How To Use This Repo
 
 Use `strategy.md` to decide whether a proposed feature belongs in AIWatcher at
-all. Use the Local and Enterprise scenario files to track implementation status,
-manual verification, UX workflows, platform coverage, and gaps. Code changes in
-the OSS or Enterprise repos should create a docs-review PR here; the reviewer
-then decides whether to update Local scenarios, Enterprise scenarios, or the OSS
-to Enterprise propagation matrix.
+all. Use the Local and Enterprise scenario files as the bugbash and readiness
+source of truth: implementation status, manual verification, UX workflows,
+platform coverage, evidence quality, and gaps. Code changes in the OSS or
+Enterprise repos should create a docs-review PR here; the reviewer then decides
+whether to update Local scenarios, Enterprise scenarios, or the OSS to
+Enterprise propagation matrix.
 
 ## Automation
 

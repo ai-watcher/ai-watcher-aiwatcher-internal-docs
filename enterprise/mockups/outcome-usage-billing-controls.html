@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIWatcher Enterprise Outcome Usage Controls Mockup</title>
+<style>
+:root {
+  --bg: #f4f6f8;
+  --panel: #ffffff;
+  --ink: #17202b;
+  --muted: #5b6674;
+  --faint: #8c96a3;
+  --line: #d7dde5;
+  --nav: #0f1722;
+  --blue: #1d67cc;
+  --green: #157447;
+  --amber: #9c6200;
+  --red: #b3263a;
+  --violet: #6043b8;
+  --teal: #09726b;
+  --soft-blue: #edf5ff;
+  --soft-green: #eff9f3;
+  --soft-amber: #fff7e6;
+  --soft-red: #fff1f3;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.45 var(--sans);
+}
+.shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 244px minmax(0, 1fr);
+}
+.sidebar {
+  background: var(--nav);
+  color: #e8eef5;
+  padding: 18px 14px;
+}
+.brand {
+  margin-bottom: 20px;
+}
+.brand strong { display: block; font-size: 17px; }
+.brand span { color: #9ba8b7; font-size: 12px; }
+.nav-label {
+  margin: 18px 10px 7px;
+  color: #8d9aaa;
+  font: 11px var(--mono);
+  text-transform: uppercase;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  color: #c9d3df;
+}
+.nav-item.active { background: #233145; color: #fff; }
+.count {
+  min-width: 22px;
+  text-align: center;
+  border-radius: 999px;
+  background: rgba(255,255,255,.12);
+  font: 700 11px var(--mono);
+  padding: 2px 6px;
+}
+.main { padding: 18px 22px 30px; }
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+h1 { margin: 0; font-size: 24px; letter-spacing: 0; }
+.sub { color: var(--muted); font-size: 12px; margin-top: 3px; }
+button {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--ink);
+  padding: 8px 11px;
+  font: 700 13px var(--sans);
+}
+button.primary { background: #17202b; color: #fff; border-color: #17202b; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.metric {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+}
+.metric-value { font: 800 24px var(--mono); }
+.metric-label { color: var(--muted); font-size: 12px; }
+.metric small { display: block; color: var(--faint); margin-top: 5px; }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(350px, 38%) minmax(0, 1fr) 312px;
+  gap: 14px;
+  align-items: start;
+}
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.panel-head {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfd;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.panel-title { font-weight: 800; }
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 2px 7px;
+  font: 700 11px var(--mono);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  background: #fff;
+  white-space: nowrap;
+}
+.pill.blue { color: var(--blue); border-color: #bfd4f4; background: var(--soft-blue); }
+.pill.green { color: var(--green); border-color: #add7c0; background: var(--soft-green); }
+.pill.amber { color: var(--amber); border-color: #edcb91; background: var(--soft-amber); }
+.pill.red { color: var(--red); border-color: #efb5bd; background: var(--soft-red); }
+.pill.violet { color: var(--violet); border-color: #ccc0ee; background: #f7f3ff; }
+.queue-item {
+  display: grid;
+  grid-template-columns: 7px minmax(0, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+.queue-item:last-child { border-bottom: 0; }
+.stripe.red { background: var(--red); }
+.stripe.amber { background: var(--amber); }
+.stripe.blue { background: var(--blue); }
+.stripe.green { background: var(--green); }
+.stripe.violet { background: var(--violet); }
+.item-body { padding: 12px; }
+.item-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+.item-title { font-weight: 800; }
+.item-meta {
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.detail { padding: 14px; }
+.detail h2 {
+  font-size: 19px;
+  margin: 0 0 4px;
+}
+.context-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.field {
+  border: 1px solid var(--line);
+  background: #fbfcfd;
+  border-radius: 7px;
+  padding: 9px;
+}
+.label {
+  font: 11px var(--mono);
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 4px;
+}
+.value { font-weight: 760; }
+.chain {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 12px 0;
+}
+.step {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) 106px;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.step:last-child { border-bottom: 0; }
+.step strong { display: block; }
+.step span { color: var(--muted); }
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px;
+  background: #fbfcfd;
+}
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+th {
+  text-align: left;
+  color: var(--faint);
+  font: 11px var(--mono);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+  padding: 7px 0;
+}
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 8px 0;
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: 0; }
+.side-section {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.side-section:last-child { border-bottom: 0; }
+.side-section h3 {
+  margin: 0 0 9px;
+  font-size: 15px;
+}
+.health {
+  display: grid;
+  gap: 8px;
+}
+.health-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+.rollout {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-top: 8px;
+}
+.rollout div {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 8px;
+  text-align: center;
+  background: #fff;
+}
+.mono { font-family: var(--mono); }
+@media (max-width: 1180px) {
+  .layout { grid-template-columns: 1fr; }
+  .metrics, .context-grid, .split { grid-template-columns: 1fr; }
+}
+@media (max-width: 850px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .topbar { align-items: flex-start; flex-direction: column; }
+  .step { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <strong>AIWatcher Enterprise</strong>
+      <span>Northstar Health tenant</span>
+    </div>
+    <div class="nav-label">Control</div>
+    <div class="nav-item active"><span>Inbox</span><span class="count">12</span></div>
+    <div class="nav-item"><span>Controls</span><span class="count">8</span></div>
+    <div class="nav-item"><span>Approvals</span><span class="count">3</span></div>
+    <div class="nav-label">Evidence</div>
+    <div class="nav-item"><span>Work</span><span class="count">84</span></div>
+    <div class="nav-item"><span>Outcomes</span><span class="count">41</span></div>
+    <div class="nav-item"><span>Reports</span><span class="count">5</span></div>
+    <div class="nav-label">Admin</div>
+    <div class="nav-item"><span>Integrations</span><span class="count">2</span></div>
+    <div class="nav-item"><span>Settings</span><span class="count">0</span></div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <h1>Enterprise Inbox</h1>
+        <div class="sub">Focused older mockup. Current Enterprise navigation and OSS parity live in ../../product-prototype/index.html.</div>
+      </div>
+      <div class="actions">
+        <button>Simulate policy</button>
+        <button>Export receipt</button>
+        <button class="primary">Create usage rule</button>
+      </div>
+    </div>
+
+    <section class="metrics">
+      <div class="metric"><div class="metric-value" style="color:var(--green)">$42.8k</div><div class="metric-label">Protected value this month</div><small>72% inferred, 28% measured</small></div>
+      <div class="metric"><div class="metric-value">1.9M</div><div class="metric-label">Controlled AI events</div><small>SDK and local endpoints</small></div>
+      <div class="metric"><div class="metric-value" style="color:var(--blue)">97%</div><div class="metric-label">Enforcement ack rate</div><small>3 integrations need attention</small></div>
+      <div class="metric"><div class="metric-value" style="color:var(--amber)">6</div><div class="metric-label">Billing conflicts open</div><small>4 have complete evidence</small></div>
+    </section>
+
+    <section class="layout">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Ranked Findings</div>
+            <div class="sub">Actionable issues first, charts second.</div>
+          </div>
+          <span class="pill blue">observe + enforce</span>
+        </div>
+        <article class="queue-item">
+          <div class="stripe red"></div>
+          <div class="item-body">
+            <div class="item-top"><div class="item-title">Premium model blocked near allowance</div><span class="pill red">requires review</span></div>
+            <div class="item-meta"><span>Acme</span><span>Standard</span><span>Research workflow</span><span>$7.80 inferred protected</span></div>
+          </div>
+        </article>
+        <article class="queue-item">
+          <div class="stripe amber"></div>
+          <div class="item-body">
+            <div class="item-top"><div class="item-title">Customer disputes AI credit drawdown</div><span class="pill amber">billing evidence</span></div>
+            <div class="item-meta"><span>Brightpath</span><span>August 2026</span><span>3 workflows</span><span>invoice id missing</span></div>
+          </div>
+        </article>
+        <article class="queue-item">
+          <div class="stripe blue"></div>
+          <div class="item-body">
+            <div class="item-top"><div class="item-title">Route low-complexity summaries to Haiku</div><span class="pill blue">simulate</span></div>
+            <div class="item-meta"><span>Claims app</span><span>last 30 days</span><span>success delta unknown</span></div>
+          </div>
+        </article>
+        <article class="queue-item">
+          <div class="stripe violet"></div>
+          <div class="item-body">
+            <div class="item-top"><div class="item-title">BYO provider costs are low confidence</div><span class="pill violet">insufficient data</span></div>
+            <div class="item-meta"><span>Custom Azure route</span><span>cost import stale</span><span>do not claim protected value</span></div>
+          </div>
+        </article>
+        <article class="queue-item">
+          <div class="stripe green"></div>
+          <div class="item-body">
+            <div class="item-top"><div class="item-title">Local retry loop stopped in payment repo</div><span class="pill green">verified</span></div>
+            <div class="item-meta"><span>Platform team</span><span>Claude Code</span><span>handoff created</span><span>source private</span></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Usage Rule Event</div>
+            <div class="sub">Receipt WU-prod-88917, rule version 8.</div>
+          </div>
+          <span class="pill green">enforced</span>
+        </div>
+        <div class="detail">
+          <h2>Standard customer premium-model request</h2>
+          <div class="sub">Decision point before the model call, followed by enforcement acknowledgement and outcome attachment.</div>
+          <div class="context-grid">
+            <div class="field"><div class="label">Customer</div><div class="value">Acme</div></div>
+            <div class="field"><div class="label">Plan</div><div class="value">Standard</div></div>
+            <div class="field"><div class="label">Feature</div><div class="value">Advanced research</div></div>
+            <div class="field"><div class="label">Workflow</div><div class="value">Market scan</div></div>
+            <div class="field"><div class="label">Allowance</div><div class="value">$100 monthly</div></div>
+            <div class="field"><div class="label">Current usage</div><div class="value">$94.00 observed</div></div>
+            <div class="field"><div class="label">Proposed model</div><div class="value">Premium</div></div>
+            <div class="field"><div class="label">Selected model</div><div class="value">Standard</div></div>
+            <div class="field"><div class="label">Billing period</div><div class="value">August 2026</div></div>
+          </div>
+
+          <div class="chain">
+            <div class="step"><strong>Policy evaluated</strong><span>Matched customer plan, feature, allowance, billing period, and proposed model.</span><span class="pill green">observed</span></div>
+            <div class="step"><strong>Decision</strong><span>Route premium request to standard model after allowance threshold.</span><span class="pill green">observed</span></div>
+            <div class="step"><strong>Enforcement requested</strong><span>SDK returned route instruction before model call.</span><span class="pill blue">observed</span></div>
+            <div class="step"><strong>Acknowledged</strong><span>SDK confirmed standard model was called, not premium.</span><span class="pill green">verified</span></div>
+            <div class="step"><strong>Execution</strong><span>Observed routed-model cost $3.20; premium cost remains counterfactual.</span><span class="pill green">observed</span></div>
+            <div class="step"><strong>Outcome</strong><span>Customer accepted result. Historical success-rate difference has insufficient data.</span><span class="pill amber">observed</span></div>
+          </div>
+
+          <div class="split">
+            <div class="card">
+              <h3>Protected Value Receipt</h3>
+              <table>
+                <tr><th>Measure</th><th>Value</th></tr>
+                <tr><td>Estimated original cost</td><td>$11.00 predicted</td></tr>
+                <tr><td>Observed routed cost</td><td>$3.20 observed</td></tr>
+                <tr><td>Avoided cost</td><td>$7.80 inferred</td></tr>
+                <tr><td>Outcome</td><td>Accepted observed</td></tr>
+                <tr><td>Confidence</td><td>Medium</td></tr>
+              </table>
+            </div>
+            <div class="card">
+              <h3>Billing Allocation</h3>
+              <table>
+                <tr><th>Dimension</th><th>Allocation</th></tr>
+                <tr><td>Customer</td><td>Acme</td></tr>
+                <tr><td>User</td><td>nora@acme.example</td></tr>
+                <tr><td>Team</td><td>Research ops</td></tr>
+                <tr><td>Feature</td><td>Advanced research</td></tr>
+                <tr><td>Invoice ref</td><td>Imported from Stripe</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <div class="side-section">
+          <h3>Policy Rollout</h3>
+          <span class="pill blue">30-day simulation</span>
+          <div class="rollout">
+            <div><strong>148</strong><br><span class="sub">events hit</span></div>
+            <div><strong>11</strong><br><span class="sub">review</span></div>
+            <div><strong>$9.4k</strong><br><span class="sub">inferred</span></div>
+          </div>
+          <div class="actions" style="margin-top:10px">
+            <button class="primary">Enable observe</button>
+            <button>Keep draft</button>
+          </div>
+        </div>
+        <div class="side-section">
+          <h3>Integration Health</h3>
+          <div class="health">
+            <div class="health-row"><span>TypeScript SDK</span><span class="pill green">healthy</span></div>
+            <div class="health-row"><span>Python SDK</span><span class="pill green">healthy</span></div>
+            <div class="health-row"><span>Stripe import</span><span class="pill amber">invoice lag</span></div>
+            <div class="health-row"><span>Azure cost import</span><span class="pill red">stale</span></div>
+            <div class="health-row"><span>Local endpoint</span><span class="pill blue">metadata only</span></div>
+          </div>
+        </div>
+        <div class="side-section">
+          <h3>Approval Detail</h3>
+          <table>
+            <tr><th>Field</th><th>Value</th></tr>
+            <tr><td>Approver</td><td>Finance ops</td></tr>
+            <tr><td>Expiry</td><td>2 hours</td></tr>
+            <tr><td>Scope</td><td>Acme, August 2026</td></tr>
+            <tr><td>Required for</td><td>Override above allowance</td></tr>
+          </table>
+        </div>
+        <div class="side-section">
+          <h3>Boundary</h3>
+          <p class="sub">AIWatcher explains and controls AI usage. Invoices, refunds, credits, taxes, and payment state remain in billing systems.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+</div>
+</body>
+</html>

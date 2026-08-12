@@ -1,6 +1,6 @@
 # Platform Coverage
 
-[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md)
+[Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [OSS Bug Bash](bug-bash.md) · [Evidence Inbox Mockup](mockups/evidence-inbox.html)
 
 > Do not claim universal interception. Verify each platform with hook-status or live behavior. Where hooks do not exist, use Prompt Companion, MCP, wrappers, or thin extensions through the local preflight API.
 
@@ -17,3 +17,4 @@
 | Local notification/tray/editor companions | Not built: background watcher should emit local OS notifications and deep-link into dashboard/session review; tray/editor surfaces should consume the same local Watch API. | Planned ambient Watch delivery | Gap | Start one watcher, create or replay a critical context/session signal, confirm a native notification appears, opens the right local page, and records no prompt/source upload. |
 | Windsurf | No current adapter | None | Gap | Define whether hook, extension, or log collector is possible. Post-launch. |
 | Terminal CLI | aiwatcher preflight, claude/codex wrappers, watch, handoff, resume, outcome, export | Manual and wrapped control | Done | Run validation script; verify local-only state, honest limited-data labeling, hash-only exports. |
+| Native Companion / local overlay | watch --overlay opens a local native or browser companion tied to a durable intervention record | Fresh Start, focused continuation, inspect loop, snooze/dismiss, and receipt recording depending on signal and identity confidence | To verify | Run S-44/S-45. Confirm exact active work interrupts, likely/historical work stays review-first, and runtime return is POST-only/safe. |

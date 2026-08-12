@@ -6,7 +6,29 @@
       "scenarios_path": "aiwatcher-local/scenarios.json",
       "output_dir": "aiwatcher-local",
       "review_prompt": "Check local scenario status, product scope, and whether the OSS change should propagate to Enterprise.",
-      "propagation_required": true
+      "propagation_required": true,
+      "extra_nav": [
+        {
+          "label": "OSS Bug Bash",
+          "href": "bug-bash.md"
+        },
+        {
+          "label": "Evidence Inbox Mockup",
+          "href": "mockups/evidence-inbox.html"
+        }
+      ],
+      "extra_review_sections": [
+        {
+          "section": "OSS Bug Bash",
+          "href": "bug-bash.md",
+          "use": "Manual readiness runbook for the four OSS phases: trusted interventions, Fresh Start, proof receipts, and speed/polish."
+        },
+        {
+          "section": "Evidence Inbox Mockup",
+          "href": "mockups/evidence-inbox.html",
+          "use": "Focused older mockup for OSS action queue and receipt details. Use product-prototype/index.html as the current navigation and OSS/Enterprise scope reference."
+        }
+      ]
     },
     "enterprise": {
       "label": "AIWatcher Enterprise",
@@ -22,11 +44,20 @@
       "platform_guidance": "Do not claim enterprise, local, SDK, billing, SIEM, or FinOps coverage until the matching integration is verified. Enterprise docs may reference private roadmap details here because this repository stays private.",
       "extra_nav": [
         {
+          "label": "Usage Controls Mockup",
+          "href": "mockups/outcome-usage-billing-controls.html"
+        },
+        {
           "label": "Propagation Matrix",
           "href": "propagation-matrix.md"
         }
       ],
       "extra_review_sections": [
+        {
+          "section": "Usage Controls Mockup",
+          "href": "mockups/outcome-usage-billing-controls.html",
+          "use": "Prototype target for Enterprise outcome-aware Usage Rules and AI billing/allocation evidence."
+        },
         {
           "section": "Propagation Matrix",
           "href": "propagation-matrix.md",
@@ -34,11 +65,11 @@
         }
       ],
       "implementation_order": [
-        "Build the enterprise scenario-doc automation and keep this folder as the private source of truth.",
-        "Reconcile Enterprise navigation around Inbox, Controls, Work Ledger, Evidence, Reports, and Settings.",
-        "Pull OSS Local concepts into Enterprise using the propagation matrix.",
-        "Build Enterprise Usage Rules as the first enterprise-only control feature.",
-        "Add runtime SDK policy evaluation, evidence receipts, and protected-spend reports."
+        "Keep this private docs repo as the source of truth for strategy, scenarios, bugbash, and propagation.",
+        "Preserve OSS parity in Enterprise: identity, recommended action, receipt, evidence state, and outcome confidence.",
+        "Build Enterprise Usage Rules as the first paid control loop for customer, plan, feature, workflow, allowance, and billing-period context.",
+        "Add runtime SDK evaluation, enforcement acknowledgement, evidence input health, and protected-spend/outcome receipts.",
+        "Expand to internal AI workflow optimization and team developer-agent action queues after the first Usage Rule loop is proven."
       ]
     }
   }

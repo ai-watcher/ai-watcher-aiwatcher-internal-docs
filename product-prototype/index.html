@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIWatcher Product Prototype</title>
+<style>
+:root {
+  --bg: #f5f7fa;
+  --panel: #ffffff;
+  --ink: #17202b;
+  --muted: #5d6876;
+  --faint: #8b96a4;
+  --line: #d8dee7;
+  --soft: #eef2f6;
+  --nav: #101823;
+  --nav-active: #1e2b3d;
+  --green: #16784b;
+  --blue: #1f67c7;
+  --amber: #a46200;
+  --red: #b3263a;
+  --violet: #6043b8;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 var(--sans); }
+button, input, select { font: inherit; }
+button {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  border-radius: 7px;
+  min-height: 34px;
+  padding: 7px 11px;
+  font-weight: 750;
+  cursor: pointer;
+}
+button:hover { border-color: #aeb8c5; }
+button.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+button.danger { color: var(--red); border-color: #efb5bd; }
+input, select {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+  min-height: 34px;
+  padding: 7px 10px;
+  color: var(--ink);
+}
+.shell { min-height: 100vh; display: grid; grid-template-columns: 252px minmax(0, 1fr); }
+.sidebar { background: var(--nav); color: #e9eff6; padding: 16px 14px; }
+.brand { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.brand strong { display: block; font-size: 17px; }
+.brand span { color: #9da9b8; font-size: 12px; }
+.product-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 9px;
+  background: rgba(255,255,255,.05);
+  margin-bottom: 18px;
+}
+.switch-btn { border: 0; background: transparent; color: #adb8c8; border-radius: 7px; min-height: 32px; }
+.switch-btn.active { background: var(--nav-active); color: #fff; }
+.nav-section { margin: 18px 10px 7px; color: #8794a6; font: 11px var(--mono); text-transform: uppercase; }
+.nav-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border: 0;
+  color: #cbd5e1;
+  background: transparent;
+  text-align: left;
+  border-radius: 8px;
+  min-height: 38px;
+}
+.nav-btn.active, .nav-btn:hover { background: var(--nav-active); color: #fff; }
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: rgba(255,255,255,.1);
+  font: 850 10px var(--mono);
+}
+.content { min-width: 0; padding: 18px 22px 34px; }
+.topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+h1 { margin: 0; font-size: 25px; line-height: 1.15; }
+h2 { margin: 0; font-size: 19px; }
+h3 { margin: 0 0 8px; font-size: 15px; }
+.sub { margin-top: 4px; color: var(--muted); font-size: 12.5px; }
+.actions, .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.filters { margin-bottom: 12px; }
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  padding: 2px 7px;
+  font: 750 11px var(--mono);
+  white-space: nowrap;
+}
+.pill.green { color: var(--green); border-color: #acd7c0; background: #eff9f3; }
+.pill.blue { color: var(--blue); border-color: #bfd4f4; background: #edf5ff; }
+.pill.amber { color: var(--amber); border-color: #edcb91; background: #fff7e6; }
+.pill.red { color: var(--red); border-color: #efb5bd; background: #fff1f3; }
+.pill.violet { color: var(--violet); border-color: #ccc0ee; background: #f7f3ff; }
+.metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
+.metric { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+.metric-value { font: 850 22px var(--mono); }
+.metric-label { color: var(--muted); font-size: 12px; }
+.metric-note { color: var(--faint); font-size: 12px; margin-top: 4px; }
+.tone-green { color: var(--green); }
+.tone-blue { color: var(--blue); }
+.tone-amber { color: var(--amber); }
+.tone-red { color: var(--red); }
+.tone-violet { color: var(--violet); }
+.tone-ink { color: var(--ink); }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfd;
+}
+.panel-title { font-weight: 850; }
+.panel-body { padding: 14px; }
+.grid-two { display: grid; grid-template-columns: minmax(340px, 40%) minmax(0, 1fr); gap: 14px; align-items: start; }
+.grid-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.field-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 12px 0; }
+.field { border: 1px solid var(--line); border-radius: 7px; background: #fbfcfd; padding: 9px; }
+.label { margin-bottom: 4px; color: var(--faint); font: 11px var(--mono); text-transform: uppercase; }
+.value { font-weight: 780; overflow-wrap: anywhere; }
+.list-item {
+  display: grid;
+  grid-template-columns: 7px minmax(0, 1fr);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  border-radius: 0;
+  text-align: left;
+  padding: 0;
+  width: 100%;
+}
+.list-item:last-child { border-bottom: 0; }
+.list-item.active { background: #f6f9fd; }
+.stripe.green { background: var(--green); }
+.stripe.blue { background: var(--blue); }
+.stripe.amber { background: var(--amber); }
+.stripe.red { background: var(--red); }
+.stripe.violet { background: var(--violet); }
+.item-body { padding: 12px; }
+.item-top { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.item-title { font-weight: 850; }
+.item-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; color: var(--muted); font-size: 12px; }
+.item-detail { margin-top: 7px; color: var(--muted); }
+.timeline { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 12px 0; }
+.step { display: grid; grid-template-columns: 150px minmax(0, 1fr) 106px; gap: 10px; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.step:last-child { border-bottom: 0; }
+.step-name { font-weight: 850; }
+.step-detail { color: var(--muted); }
+.flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-bottom: 14px; }
+.flow-step { border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 10px; }
+.flow-step .num { width: 22px; height: 22px; display: grid; place-items: center; border-radius: 999px; background: var(--ink); color: #fff; font: 850 11px var(--mono); margin-bottom: 8px; }
+.callout { border-left: 3px solid var(--blue); background: #f1f6ff; border-radius: 7px; padding: 10px 12px; color: var(--muted); }
+.callout strong { color: var(--ink); }
+.mini-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.mini-table td, .mini-table th { border-bottom: 1px solid var(--line); padding: 8px 0; text-align: left; vertical-align: top; }
+.mini-table tr:last-child td { border-bottom: 0; }
+.mini-table th { color: var(--faint); font: 11px var(--mono); text-transform: uppercase; }
+.prompt-box { width: 100%; min-height: 112px; border: 1px solid var(--line); border-radius: 8px; padding: 11px; resize: vertical; background: #fbfcfd; }
+.brief { border: 1px solid var(--line); border-radius: 8px; padding: 11px; background: #fbfcfd; color: var(--muted); white-space: pre-wrap; }
+.empty { padding: 26px; text-align: center; color: var(--muted); }
+.stack { display: grid; gap: 10px; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.footer-note { margin-top: 14px; color: var(--faint); font-size: 12px; }
+@media (max-width: 1180px) {
+  .metrics, .grid-two, .grid-three, .field-grid, .flow, .split { grid-template-columns: 1fr; }
+}
+@media (max-width: 820px) {
+  .shell { grid-template-columns: 1fr; }
+  .topbar { flex-direction: column; }
+  .step { grid-template-columns: 1fr; }
+  .content { padding: 14px; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const state = {
+  product: "oss",
+  page: "today",
+  localItem: "outcome",
+  enterpriseItem: "acme",
+  outcome: "needs confirmation",
+  policy: "observe-only",
+  gate: "waiting",
+  empty: false
+};
+
+const currentLoop = [
+  ["Plan", "preflight and setup"],
+  ["Watch", "sessions, spend, context"],
+  ["Control", "prompt or command gate"],
+  ["Fresh Start", "restart with right context"],
+  ["Prove", "receipts, ledgers, export"],
+  ["Improve", "journal, report, coaching"]
+];
+
+const enterpriseLoop = [
+  ["Propose", "customer or internal AI work"],
+  ["Decide", "usage rule evaluates"],
+  ["Enforce", "SDK acknowledges action"],
+  ["Execute", "selected model/tool runs"],
+  ["Outcome", "business result attached"],
+  ["Receipt", "evidence record"]
+];
+
+const data = {
+  ossMetrics: [
+    ["Today", "$18.42", "API-priced $7.30 + subscription-limited $11.12", "ink"],
+    ["Week", "$94.18", "Projected month $416", "blue"],
+    ["Need action", "4", "outcome, fresh start, command, coverage", "amber"],
+    ["Statusline", "$0.42 live", "current session estimate", "green"]
+  ],
+  enterpriseMetrics: [
+    ["Customer", "Acme", "Standard plan, Advanced research", "ink"],
+    ["Allowance", "$94/$100", "August billing period", "amber"],
+    ["Decision", "Route", "premium request moved before execution", "blue"],
+    ["Outcome", "Accepted", "observed result, medium confidence", "green"]
+  ],
+  localItems: {
+    outcome: {
+      title: "Confirm session outcome",
+      meta: ["session claude-8f3a", "2 commits", "$8.41", "tests passed"],
+      detail: "Current product is session-based. WorkUnit grouping is shown as planned, not shipped.",
+      tone: "amber",
+      badge: "inferred",
+      fields: [["Current anchor", "session_id"], ["Planned grouping", "WorkUnit"], ["Cost", "$8.41 observed"], ["Stored", "hashes + metadata"], ["Survival", "7d checked"], ["Privacy", "prompt/source local"]],
+      receipt: [
+        ["Preflight", "Broad auth change scored medium risk; safer brief attached.", "observed"],
+        ["Hook", "Claude Code hook-status linked prompt hash to session id.", "verified"],
+        ["Execution", "2 commits and 4 files touched; no durable source content stored.", "observed"],
+        ["Outcome", "Likely useful from survival and tests; waiting for confirmation.", "inferred"]
+      ]
+    },
+    handoff: {
+      title: "Fresh Start recommended",
+      meta: ["Codex CLI", "128k context", "loop pressure 2.4x"],
+      detail: "The current session is bloated and repeating work; restart with a task-first brief instead of replaying the whole chat.",
+      tone: "red",
+      badge: "observed",
+      fields: [["Old session", "codex-9442"], ["Context", "128k critical"], ["Loop pressure", "2.4x observed"], ["Brief includes", "goal, repo, files, tests, failures"], ["Transfer", "copy or open companion"], ["Measure", "follow-up outcome"]],
+      receipt: [
+        ["Detect", "Context and repeated failed edits crossed Fresh Start threshold.", "observed"],
+        ["Brief", "Created task-first restart context with goal, decisions, files, tests, failures, and next checkpoint.", "verified"],
+        ["Transfer", "Developer copied the brief to a new chat or companion surface.", "observed"],
+        ["Follow-up", "Next session will be compared on turns, cost, commits, tests, and rework.", "unknown"],
+        ["Outcome", "Receipt stays open until the follow-up work is confirmed useful, reworked, or abandoned.", "unknown"]
+      ]
+    },
+    command: {
+      title: "Review dangerous-command gate",
+      meta: ["Claude Code", "PreToolUse", "git push --force", "blocked"],
+      detail: "The sharper shipped control is a shell-command gate before the agent command runs.",
+      tone: "red",
+      badge: "verified",
+      fields: [["Hook", "PreToolUse"], ["Surface", "Claude Code CLI only"], ["Command", "git push --force"], ["Decision", "blocked once"], ["Receipt", "command text local"], ["Status", "verified"]],
+      receipt: [
+        ["Command proposed", "Agent attempted a destructive shell command.", "observed"],
+        ["Gate opened", "PreToolUse hook fired before execution.", "verified"],
+        ["Decision", "Developer blocked the command.", "observed"],
+        ["Execution", "Command did not run.", "verified"]
+      ]
+    },
+    coverage: {
+      title: "Fix coverage gap",
+      meta: ["Codex Desktop", "companion-only", "no hard hook"],
+      detail: "Coverage is shown per surface. No aggregate percentage hides uncovered surfaces.",
+      tone: "blue",
+      badge: "verified",
+      fields: [["Claude Code", "automatic"], ["Codex CLI", "build-dependent"], ["Cursor", "limited"], ["Codex Desktop", "companion"], ["Browser chat", "unverified"], ["Rule", "logs are not interception"]],
+      receipt: [
+        ["Detect", "Surfaces classified as automatic, limited, companion, history-only, or unverified.", "observed"],
+        ["Explain", "Session logs are not treated as active interception.", "verified"],
+        ["Fallback", "Prompt Companion, MCP, wrapper, or extension path named.", "observed"],
+        ["Privacy", "No prompt/source upload by default.", "verified"]
+      ]
+    }
+  },
+  enterpriseItems: {
+    acme: {
+      title: "Prevent allowance leakage",
+      meta: ["Acme", "Standard", "Advanced research", "$94/$100"],
+      detail: "Planned Enterprise product: route a premium model request before execution and preserve the customer outcome.",
+      tone: "red",
+      badge: "planned",
+      fields: [["Customer", "Acme"], ["Plan", "Standard"], ["Feature", "Advanced research"], ["Workflow", "Market scan"], ["Allowance", "$100 monthly"], ["Current usage", "$94 observed"], ["Billing period", "August"], ["Proposed model", "Premium"], ["Selected model", "Standard"]],
+      receipt: [
+        ["Policy evaluated", "Matched customer, plan, feature, workflow, allowance, period, and proposed model.", "observed"],
+        ["Decision", "Route premium request to Standard model after allowance threshold.", "observed"],
+        ["Enforcement ack", "SDK confirms Standard model was called, not Premium.", "planned"],
+        ["Execution", "Observed routed-model cost $3.20; premium cost remains counterfactual.", "observed"],
+        ["Outcome", "Customer accepted result; success-rate difference has insufficient history.", "observed"],
+        ["Receipt", "Product, support, and finance can cite what was allowed, routed, executed, allocated, and accepted.", "planned"]
+      ],
+      values: [["Estimated original cost", "$11.00 predicted"], ["Observed routed cost", "$3.20 observed"], ["Avoided cost", "$7.80 inferred"], ["Outcome", "Accepted observed"], ["Confidence", "Medium"]]
+    },
+    internal: {
+      title: "Optimize internal AI workflow",
+      meta: ["Support ops", "case summaries", "team workflow"],
+      detail: "Expansion path for non-customer-facing AI workflows where outcome is measurable.",
+      tone: "blue",
+      badge: "expansion",
+      fields: [["Team", "Support ops"], ["Workflow", "Case summaries"], ["Owner", "Customer operations"], ["Current model", "Premium"], ["Candidate route", "Standard"], ["Outcome", "Accepted summary"], ["Metric", "cost per accepted case"], ["Evidence", "edits + QA pass"], ["Scope", "after first wedge"]],
+      receipt: [
+        ["Policy evaluated", "Low-complexity summary classified before model call.", "planned"],
+        ["Decision", "Route to lower-cost model for standard cases.", "predicted"],
+        ["Enforcement ack", "Requires SDK acknowledgement in production.", "planned"],
+        ["Execution", "Pilot compares accepted summaries and rework.", "unknown"],
+        ["Outcome", "Use after first paid customer-facing loop is proven.", "inferred"]
+      ],
+      values: [["Primary buyer", "Ops or platform"], ["Risk", "Softer urgency than customer-facing margin"], ["Use later", "team/project/workflow optimization"], ["Do not lead with", "employee ranking"]]
+    },
+    dispute: {
+      title: "Resolve AI credit dispute",
+      meta: ["Brightpath", "Growth", "Claims summary", "$182.40"],
+      detail: "Billing evidence explains usage allocation without becoming the billing system of record.",
+      tone: "amber",
+      badge: "planned",
+      fields: [["Customer", "Brightpath"], ["Plan", "Growth"], ["Billing period", "August"], ["Feature", "Claims summary"], ["Workflow", "Bulk case review"], ["Team", "Customer ops"], ["Observed cost", "$182.40"], ["Invoice id", "missing"], ["Outcome", "41 accepted, 6 edited, 5 unknown"]],
+      receipt: [
+        ["Entitlement loaded", "Growth plan allows $250 monthly AI credits.", "observed"],
+        ["Usage allocated", "$182.40 allocated to claims summary workflows.", "observed"],
+        ["Policy decision", "Allowed; customer remained under plan allowance.", "observed"],
+        ["Execution", "52 model calls across 3 planned WorkUnits.", "observed"],
+        ["Outcome", "Accepted/edit/unknown mix is shown.", "inferred"],
+        ["Boundary", "Invoice, refund, payment, and contract state stay in billing systems.", "verified"]
+      ],
+      values: [["Support value", "explain dispute"], ["Finance value", "trace allowance use"], ["Product value", "find margin pressure"], ["Boundary", "not billing software"]]
+    }
+  }
+};
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+}
+function tone(value) {
+  const v = String(value || "").toLowerCase();
+  if (["verified", "enforced", "accepted", "free"].includes(v)) return "green";
+  if (["observed", "expansion", "paid", "planned"].includes(v)) return "blue";
+  if (["inferred", "insufficient", "needs confirmation"].includes(v)) return "amber";
+  if (["predicted", "unknown"].includes(v)) return "violet";
+  return "blue";
+}
+function pill(value, t) { return `<span class="pill ${t || tone(value)}">${escapeHtml(value)}</span>`; }
+function metrics(rows) {
+  return `<section class="metrics">${rows.map(([label, value, note, t]) => `<div class="metric"><div class="metric-value tone-${t}">${escapeHtml(value)}</div><div class="metric-label">${escapeHtml(label)}</div><div class="metric-note">${escapeHtml(note)}</div></div>`).join("")}</section>`;
+}
+function fields(rows) {
+  return `<div class="field-grid">${rows.map(([label, value]) => `<div class="field"><div class="label">${escapeHtml(label)}</div><div class="value">${escapeHtml(value)}</div></div>`).join("")}</div>`;
+}
+function flow(rows) {
+  return `<section class="flow">${rows.map(([name, detail], index) => `<div class="flow-step"><div class="num">${index + 1}</div><div class="item-title">${escapeHtml(name)}</div><div class="sub">${escapeHtml(detail)}</div></div>`).join("")}</section>`;
+}
+function timeline(rows) {
+  return `<div class="timeline">${rows.map(([name, detail, status]) => `<div class="step"><div class="step-name">${escapeHtml(name)}</div><div class="step-detail">${escapeHtml(detail)}</div>${pill(status)}</div>`).join("")}</div>`;
+}
+function table(rows) {
+  return `<table class="mini-table"><tbody>${rows.map(row => `<tr>${row.map(cell => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+}
+function filters() {
+  return `<div class="filters"><input placeholder="Search session, project, command" value=""><select><option>Last 7 days</option><option>Today</option><option>Last 30 days</option></select><select><option>All evidence</option><option>Verified</option><option>Observed</option><option>Inferred</option><option>Unknown</option></select></div>`;
+}
+function enterpriseFilters() {
+  return `<div class="filters"><input placeholder="Search customer, team, workflow, rule" value=""><select><option>Last 30 days</option><option>Today</option><option>This quarter</option></select><select><option>All scopes</option><option>Customer-facing</option><option>Internal workflow</option><option>Developer agents</option></select><select><option>All evidence</option><option>Verified</option><option>Observed</option><option>Inferred</option><option>Insufficient</option></select></div>`;
+}
+function itemButton(product, id, item) {
+  const selected = product === "oss" ? state.localItem === id : state.enterpriseItem === id;
+  return `<button class="list-item ${selected ? "active" : ""}" onclick="selectItem('${product}','${id}')"><div class="stripe ${item.tone}"></div><div class="item-body"><div class="item-top"><div class="item-title">${escapeHtml(item.title)}</div>${pill(item.badge)}</div><div class="item-meta">${item.meta.map(m => `<span>${escapeHtml(m)}</span>`).join("")}</div><div class="item-detail">${escapeHtml(item.detail)}</div></div></button>`;
+}
+function sideNav() {
+  const pages = state.product === "oss"
+    ? [["today", "Home", "H"], ["control", "Control", "C"], ["work", "Work", "W"], ["evidence", "Evidence", "E"], ["spend", "Spend", "$"], ["settings", "Settings", "S"]]
+    : [["overview", "Home", "H"], ["controls", "Controls", "C"], ["workflows", "Workflows", "W"], ["evidence", "Evidence", "E"], ["spend", "Spend", "$"], ["admin", "Admin", "A"]];
+  return pages.map(([id, label, icon]) => `<button class="nav-btn ${state.page === id ? "active" : ""}" onclick="setPage('${id}')"><span class="nav-icon">${icon}</span>${label}</button>`).join("");
+}
+function shell(title, subtitle, actions, body) {
+  const productLabel = state.product === "oss" ? "AIWatcher Local" : "AIWatcher Enterprise";
+  const productSub = state.product === "oss" ? "Free private developer product" : "Planned paid company product";
+  return `<div class="shell"><aside class="sidebar"><div class="brand"><div><strong>${productLabel}</strong><span>${productSub}</span></div>${pill(state.product === "oss" ? "current" : "planned", state.product === "oss" ? "green" : "blue")}</div><div class="product-switch"><button class="switch-btn ${state.product === "oss" ? "active" : ""}" onclick="setProduct('oss')">OSS</button><button class="switch-btn ${state.product === "enterprise" ? "active" : ""}" onclick="setProduct('enterprise')">Enterprise</button></div><div class="nav-section">${state.product === "oss" ? "Local app" : "Enterprise app"}</div>${sideNav()}<div class="nav-section">Design truth</div><div class="callout"><strong>${state.product === "oss" ? "Current surfaces first." : "Future product, labeled."}</strong><br>${state.product === "oss" ? "Session-based today; WorkUnit grouping is planned." : "Usage Rules and SDK acknowledgement are not in OSS today."}</div></aside><main class="content"><div class="topbar"><div><h1>${escapeHtml(title)}</h1><div class="sub">${escapeHtml(subtitle)}</div></div><div class="actions">${actions || ""}</div></div>${body}</main></div>`;
+}
+function receiptPanel(item) {
+  return `<div class="panel"><div class="panel-head"><div><div class="panel-title">${escapeHtml(item.title)}</div><div class="sub">${escapeHtml(item.detail)}</div></div>${pill(item.badge)}</div><div class="panel-body stack">${fields(item.fields)}${timeline(item.receipt)}</div></div>`;
+}
+function renderOss() {
+  const item = data.localItems[state.localItem];
+  if (state.empty) return shell("First Run", "No local AI activity has been recorded yet.", `<button class="primary" onclick="state.empty=false; setPage('settings')">Start setup</button>`, `<section class="panel"><div class="empty"><h2>No sessions yet</h2><p>Run setup to detect tools, install hooks, verify coverage, and start the local watcher.</p></div></section>`);
+  if (state.page === "today") return shell("Home", "Private local control loop for one AI-heavy developer.", `<button onclick="state.empty=true; render()">Preview first run</button><button class="primary" onclick="setPage('settings')">Setup</button>`, `${metrics(data.ossMetrics)}${flow(currentLoop)}${filters()}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Needs Attention</div><div class="sub">Act on the next useful item: confirm an outcome, start fresh, block a command, or fix coverage.</div></div>${pill("4 open","amber")}</div>${Object.entries(data.localItems).map(([id, row]) => itemButton("oss", id, row)).join("")}</div>${receiptPanel(item)}</section>`);
+  if (state.page === "control") return shell("Control", "Review work before it runs and stop risky commands before execution.", `<button>Analyze prompt</button><button class="primary" onclick="state.gate='block command'; render()">Block command</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Prompt Preflight</div><div class="sub">Automatic where hooks exist; companion where they do not.</div></div>${pill("current","green")}</div><div class="panel-body stack"><textarea class="prompt-box">Refactor auth, billing import, and permissions in one pass.</textarea><div class="brief">Split into one checkpoint: inspect auth timeout handling, preserve existing tests, make the smallest fix, then stop for review.</div>${fields([["Prompt text", "transient"], ["Persisted", "hash + decision"], ["Hook", "UserPromptSubmit"], ["Fallback", "Prompt Companion"], ["Endpoint", "local /api/preflight"], ["Risk", "medium"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Command Gate</div><div class="sub">Different event, sharper control.</div></div>${pill("PreToolUse","red")}</div><div class="panel-body">${timeline(data.localItems.command.receipt)}${table([["Surface", "State"], ["Claude Code CLI", "prompt hook + command gate"], ["Codex CLI", "hook or wrapper"], ["Cursor", "limited prompt gate"], ["Codex Desktop", "companion only"], ["Browser chat", "extension/companion path"]])}</div></div></section>`);
+  if (state.page === "work") return shell("Work", "Understand where AI work happened, what changed, and when a fresh session is better.", `<button>Find Tuesday</button><button class="primary">Fresh Start</button>`, `${filters()}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Projects And Sessions</div><div class="sub">Current OSS is session/project based.</div></div>${pill("session_id","blue")}</div><div class="panel-body">${table([["Project", "API value", "Sessions"], ["~/code/auth-api", "$44.30", "8"], ["~/code/billing-import", "$21.18", "3"], ["~/work/prototype", "$14.90", "5"]])}${fields([["Session", "claude-8f3a"], ["Expensive ask", "$6.80"], ["Costliest step", "test loop"], ["Prompt worth tightening", "broad refactor"], ["Context", "Fresh Start suggested"], ["Outcome", "needs confirmation"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Changes Ledger</div><div class="sub">Connect work to commits, surviving lines, and unbanked spend.</div></div>${pill("current direction","green")}</div><div class="panel-body">${table([["Commit", "Cost", "Lines", "Surviving", "Unbanked"], ["a13f9c", "$8.41", "+184/-39", "72%", "$0.00"], ["c0ffee", "$3.12", "+0/-0", "-", "$3.12"], ["b17a22", "$11.04", "+43/-18", "needs 7d", "$0.00"]])}${timeline(data.localItems.handoff.receipt)}</div></div></section>`);
+  if (state.page === "evidence") return shell("Evidence", "Receipts, outcomes, journal, and exports make local work useful without uploading private content.", `<button>Review outcome</button><button class="primary">Export evidence</button>`, `${filters()}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Receipts And Outcomes</div><div class="sub">Separate prediction, observation, inference, and verification.</div></div>${pill("current","green")}</div><div class="panel-body">${table([["Time", "Decision", "Result"], ["10:41", "safer brief added", "observed $8.41"], ["11:08", "Fresh Start suggested", "follow-up pending"], ["12:15", "command blocked", "verified no execution"], ["14:02", "prompt companion", "copied brief"]])}${timeline(data.localItems.outcome.receipt)}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Journal And Insights</div><div class="sub">A private coach, not a surveillance report.</div></div>${pill("local","green")}</div><div class="panel-body">${table([["Signal", "Action"], ["Concentrated spend", "review auth-api sessions"], ["Large context", "Fresh Start into a clean session"], ["Possible loop", "tighten prompt before retry"], ["Subscription-limited usage", "read as pressure, not invoice spend"], ["Unmarked outcome", "confirm useful/rework/abandoned"]])}${fields([["Daily journal", "summary + one improvement"], ["Weekly report", "waste/risk/outcomes"], ["Decision log", "self-reported"], ["Export", "hashes + metadata"], ["Prompt/source", "not uploaded"], ["Enterprise", "additive only"]])}</div></div></section>`);
+  if (state.page === "setup") return shell("Setup", "Get from nothing installed to verified local protection.", `<button>Run doctor</button><button class="primary">Run hook-status</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Install Checklist</div><div class="sub">Reflects setup, doctor, hook-status, and install commands.</div></div>${pill("current","green")}</div><div class="panel-body">${fields([["Detect tools", "setup"], ["Health check", "doctor"], ["Verify hook", "hook-status"], ["Claude hook", "install/uninstall"], ["Command gate", "install/uninstall"], ["Codex/Cursor", "hook or wrapper"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Privacy Defaults</div><div class="sub">Visible controls, not hidden collection.</div></div>${pill("local","green")}</div><div class="panel-body stack">${fields([["Prompt/source upload", "off"], ["Content collection", "explicit only"], ["Exports", "hashes + metadata"], ["Network", "not required"], ["MCP", "local stdio"], ["Extensions", "browser / VS Code paths"]])}</div></div></section>`);
+  if (state.page === "prompt") return shell("Prompt", "Local Prompt Companion plus automatic prompt preflight where hooks exist.", `<button>Analyze prompt</button><button class="primary">Copy safer brief</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Prompt Companion</div><div class="sub">For Codex Desktop, web chat, editor chat, and any surface without a native hook.</div></div>${pill("current","green")}</div><div class="panel-body stack"><textarea class="prompt-box">Refactor auth, billing import, and permissions in one pass.</textarea><div class="brief">Split into one checkpoint: inspect auth timeout handling, preserve existing tests, make the smallest fix, then stop for review.</div>${fields([["Risk", "medium"], ["Prompt text", "transient"], ["Persisted", "hash + decision"], ["Endpoint", "local /api/preflight"], ["Fallback", "copy brief"], ["Hook path", "UserPromptSubmit when available"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Coverage Reality</div><div class="sub">Manual companion is a strength only when labeled honestly.</div></div>${pill("no overclaim","blue")}</div><div class="panel-body">${table([["Claude Code", "hook can add brief or block"], ["Cursor", "limited: resubmit brief"], ["Codex CLI", "build-dependent hook or wrapper"], ["Codex Desktop", "companion or MCP"], ["Browser chat", "extension/companion path"], ["Rule", "logs do not equal interception"]])}</div></div></section>`);
+  if (state.page === "spend") return shell("Spend", "Show money detail without confusing API-equivalent value with subscription spend.", `<button>Statusline on</button><button class="primary">Export spend</button>`, `${metrics(data.ossMetrics)}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Spend Breakdown</div><div class="sub">Today, week, month, projection, and billing caveats.</div></div>${pill("current","green")}</div><div class="panel-body">${table([["Today", "$18.42"], ["Week", "$94.18"], ["Month", "$271.80"], ["Projected month", "$416.00"], ["API-priced", "$118.30"], ["Subscription-limited", "$153.50"], ["Pricing basis", "rate at time of spend"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Live Statusline</div><div class="sub">Cost while the user is still spending.</div></div>${pill("$0.42 live","green")}</div><div class="panel-body"><div class="brief">aiwatcher  $0.42 session  18.6k tokens  claude-code  auth-api  context warning</div></div></div></section>`);
+  if (state.page === "projects") return shell("Projects", "Local repos and folders driving usage, without turning the developer into a managed employee.", `<button>Search projects</button><button class="primary">Open sessions</button>`, `${filters()}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Project Usage</div><div class="sub">The current product already knows where local AI work clusters.</div></div>${pill("current","green")}</div><div class="panel-body">${table([["Project", "API value", "Sessions"], ["~/code/auth-api", "$44.30", "8"], ["~/code/billing-import", "$21.18", "3"], ["~/work/prototype", "$14.90", "5"], ["unknown", "$3.12", "1"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Why It Matters</div><div class="sub">Project context is the bridge from local utility to future evidence.</div></div>${pill("local first","blue")}</div><div class="panel-body">${fields([["Developer value", "find expensive repos"], ["Fresh Start value", "continue by project"], ["Evidence value", "connect to commits/tests"], ["Enterprise boundary", "no upload by default"], ["Future", "shared core maps projects to controlled work"], ["Do not lead with", "manager surveillance"]])}</div></div></section>`);
+  if (state.page === "changes") return shell("Changes", "Ledger behind cost per commit, line, surviving line, and unbanked spend.", `<button>Filter project</button><button class="primary">Open commit receipt</button>`, `${filters()}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Change Ledger</div><div class="sub">Recent work is not reduced to one headline number.</div></div>${pill("current direction","green")}</div><div class="panel-body">${table([["Commit", "Cost", "Lines", "Surviving", "Unbanked"], ["a13f9c", "$8.41", "+184/-39", "72%", "$0.00"], ["c0ffee", "$3.12", "+0/-0", "-", "$3.12"], ["b17a22", "$11.04", "+43/-18", "needs 7d", "$0.00"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Commit Receipt</div><div class="sub">Post-commit hook explains what the change just cost.</div></div>${pill("observed","blue")}</div><div class="panel-body">${timeline([["Commit seen", "post-commit hook linked repo state to recent session.", "observed"], ["Cost", "$8.41 attached to commit window.", "observed"], ["Survival", "7/14/30 day checks pending or complete.", "inferred"], ["Privacy", "durable store uses hashes and metadata.", "verified"]])}</div></div></section>`);
+  if (state.page === "sessions") return shell("Sessions", "Depth for expensive asks, costliest step, timeline, and coaching.", `<button>Find Tuesday</button><button class="primary">Open timeline</button>`, `${filters()}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Session Review</div><div class="sub">Session remains the current anchor.</div></div>${pill("session_id","blue")}</div><div class="panel-body">${fields([["Session", "claude-8f3a"], ["Project", "auth-api"], ["Expensive ask", "$6.80"], ["Costliest step", "test loop"], ["Prompt worth tightening", "broad refactor"], ["Outcome", "needs confirmation"]])}${timeline(data.localItems.outcome.receipt)}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Event Timeline</div><div class="sub">Privacy-safe event sequence.</div></div>${pill("hashes","green")}</div><div class="panel-body">${table([["10:41", "prompt hash", "$0.12"], ["10:48", "tool calls", "$1.90"], ["11:02", "test loop", "$4.40"], ["11:13", "commit observed", "$8.41"]])}</div></div></section>`);
+  if (state.page === "receipts") return shell("Receipts", "Connect each intervention to the session, usage, risk change, and developer outcome.", `<button>Review outcome</button><button class="primary">Export receipts</button>`, `${filters()}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Intervention Receipts</div><div class="sub">A receipt is useful because it separates prediction, observation, inference, and verification.</div></div>${pill("current","green")}</div><div class="panel-body">${table([["Time", "Decision", "Result"], ["10:41", "safer brief added", "observed $8.41"], ["11:08", "Fresh Start suggested", "follow-up pending"], ["12:15", "command blocked", "verified no execution"], ["14:02", "prompt companion", "copied brief"]])}</div></div>${receiptPanel(item)}</section>`);
+  if (state.page === "insights") return shell("Insights", "Suggestions, journal, and weekly report turn local history into one better behavior.", `<button>Generate journal</button><button class="primary">Weekly report</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Local Suggestions</div><div class="sub">This is advice with evidence labels, not a hidden company scorecard.</div></div>${pill("current","green")}</div><div class="panel-body">${table([["Signal", "Action"], ["Concentrated spend", "review auth-api sessions"], ["Large context", "Fresh Start into a clean session"], ["Possible loop", "tighten prompt before retry"], ["Subscription-limited usage", "read as pressure, not invoice spend"], ["Unmarked outcome", "confirm useful/rework/abandoned"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Journal And Report</div><div class="sub">The product should feel like a private coach, not a surveillance report.</div></div>${pill("local","green")}</div><div class="panel-body">${fields([["Daily journal", "summary + one improvement"], ["Weekly report", "waste/risk/outcomes"], ["Decision log", "self-reported"], ["Evidence", "hashes + metadata"], ["Export", "user-controlled"], ["Enterprise", "additive only"]])}</div></div></section>`);
+  if (state.page === "gates") return shell("Gates", "Prompt gate and dangerous-command gate are different controls.", `<button onclick="state.gate='run original'; render()">Run original</button><button class="primary" onclick="state.gate='block command'; render()">Block command</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Prompt Gate</div><div class="sub">Before broad or risky work starts.</div></div>${pill(state.gate)}</div><div class="panel-body stack"><textarea class="prompt-box">Refactor the entire auth module and delete all old tests.</textarea><div class="brief">Preserve existing auth behavior and tests. First inspect current coverage. Avoid deleting legacy tests until replacement coverage passes.</div></div></div>${receiptPanel(data.localItems.command)}</section>`);
+  if (state.page === "coverage") return shell("Coverage", "Per-surface coverage instead of a single percentage.", `<button>Run doctor</button><button class="primary">Run hook-status</button>`, `<section class="panel"><div class="panel-head"><div><div class="panel-title">Surface Diagnostics</div><div class="sub">Automatic, limited, companion, history-only, or unverified.</div></div>${pill("honest coverage","blue")}</div><div class="panel-body">${table([["Surface", "State", "What it means"], ["Claude Code", "automatic", "prompt hook + command gate"], ["Codex CLI", "build-dependent", "verify with hook-status"], ["Cursor", "limited", "composer protection boundary"], ["Codex Desktop", "companion", "no hard desktop hook"], ["Browser chat", "unverified", "do not claim interception"]])}</div></section>`);
+  return shell("Settings", "Change privacy, hooks, exports, and local companion behavior.", `<button>Save</button><button class="primary">Export local evidence</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Privacy Controls</div><div class="sub">Make collection visible and reversible.</div></div>${pill("local first","green")}</div><div class="panel-body">${fields([["Prompt/source collection", "off"], ["Hash-only exports", "on"], ["Command text exception", "local only"], ["OS notifications", "on"], ["MCP server", "available"], ["Browser/VS Code extensions", "optional"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">More Local Tools</div><div class="sub">Represent shipped surfaces omitted by earlier prototype.</div></div>${pill("current","green")}</div><div class="panel-body">${table([["journal", "daily summary + one improvement"], ["report", "weekly report"], ["log-decision", "capture reasoning"], ["processes", "stale runtime hygiene"], ["export", "sessions/events JSON"], ["projects", "project-level usage"]])}</div></div></section>`);
+}
+function renderEnterprise() {
+  const item = data.enterpriseItems[state.enterpriseItem];
+  if (state.page === "overview") return shell("Home", "Company-wide control loop: same product language as OSS, broader scope and stronger evidence requirements.", `<button onclick="setPage('controls')">Open controls</button><button class="primary" onclick="setPage('evidence')">Review evidence</button>`, `${metrics(data.enterpriseMetrics)}${flow(enterpriseLoop)}${enterpriseFilters()}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Company Work Queue</div><div class="sub">Customer-facing, internal, and developer-agent work use the same evidence vocabulary.</div></div>${pill("planned","blue")}</div>${Object.entries(data.enterpriseItems).map(([id, row]) => itemButton("enterprise", id, row)).join("")}</div>${receiptPanel(item)}</section>`);
+  if (state.page === "controls") return shell("Controls", "Usage Rules, approvals, routing, and dry-run simulation in one decision workspace.", `<button onclick="state.policy='observe-only'; render()">Observe</button><button class="primary" onclick="state.policy='enforced route'; render()">Enforce route</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Usage Rule</div><div class="sub">Customer, plan, feature, allowance, workflow, and proposed model before execution.</div></div>${pill(state.policy)}</div><div class="panel-body">${fields(data.enterpriseItems.acme.fields)}${timeline(data.enterpriseItems.acme.receipt)}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Approvals And Simulation</div><div class="sub">Roll out controls by observing first, then enforcing narrowly.</div></div>${pill("planned","blue")}</div><div class="panel-body">${table([["Trigger", "Action"], ["Premium model over allowance", "route"], ["High-risk tool call", "require approval"], ["Runaway workflow", "pause"], ["Missing customer plan", "allow with insufficient-data receipt"], ["Policy conflict", "send to reviewer"]])}${fields([["Dry-run window", "30 days"], ["Events matched", "148"], ["Would route", "96"], ["False positives", "7"], ["Predicted avoided cost", "$9.4k"], ["Outcome delta", "insufficient data"]])}</div></div></section>`);
+  if (state.page === "setup") return shell("Setup", "Connect the company surfaces that can provide context, enforcement, and outcome evidence.", `<button>Run integration check</button><button class="primary" onclick="setPage('inputs')">Open Evidence Inputs</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Enterprise Checklist</div><div class="sub">Enterprise setup is not just install hooks; it is proving the control path.</div></div>${pill("planned","blue")}</div><div class="panel-body">${fields([["SSO/RBAC", "admin + reviewer roles"], ["SDK", "TypeScript/Python app path"], ["Gateway", "optional enforcement point"], ["Local endpoint", "developer evidence opt-in"], ["Billing import", "allowance context"], ["Outcome source", "accepted, edited, resolved, merged"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Trust Boundary</div><div class="sub">Enterprise should inherit OSS trust, not break it.</div></div>${pill("additive","green")}</div><div class="panel-body stack">${fields([["Developer content", "local by default"], ["Team reporting", "aggregate unless consented"], ["Sensitive prompts", "hash or redacted metadata"], ["Policy changes", "auditable"], ["Exports", "signed evidence"], ["Off switch", "per integration"]])}</div></div></section>`);
+  if (state.page === "usage") return shell("Usage Rules", "Evaluate customer, plan, feature, allowance, workflow, and proposed model before execution.", `<button onclick="state.policy='observe-only'; render()">Observe</button><button class="primary" onclick="state.policy='enforced route'; render()">Enforce route</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">${escapeHtml(data.enterpriseItems.acme.title)}</div><div class="sub">Standard Plan Premium-Model Entitlement.</div></div>${pill(state.policy)}</div><div class="panel-body">${fields(data.enterpriseItems.acme.fields)}${timeline(data.enterpriseItems.acme.receipt)}</div></div>${valuePanel(data.enterpriseItems.acme)}</section>`);
+  if (state.page === "spend") return shell("Spend", "Company spend is useful only when tied to customer, team, workflow, policy, and outcome.", `<button>Export finance view</button><button class="primary" onclick="setPage('evidence')">Open billing evidence</button>`, `${metrics([["Month", "$48.2k", "provider cost imported 14 min ago", "ink"], ["Under active control", "62%", "calls evaluated before execution", "blue"], ["Avoided cost", "$9.4k", "inferred from enforced routes", "amber"], ["Outcome held", "96.8%", "observed acceptance on controlled workflows", "green"]])}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Spend Breakdown</div><div class="sub">Finance, product, and platform see different cuts of the same evidence.</div></div>${pill("planned","blue")}</div><div class="panel-body">${table([["View", "Question"], ["Customer", "Which accounts drive AI cost?"], ["Plan", "Which tiers leak margin?"], ["Feature", "Which AI features need routing?"], ["Team", "Which internal workflows create rework?"], ["Model", "Which routes preserve outcomes?"], ["Rule", "Which controls are worth keeping?"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Pricing Honesty</div><div class="sub">Do not blend invoice spend, API-equivalent value, and inferred savings.</div></div>${pill("evidence labels","green")}</div><div class="panel-body">${fields([["Invoice cost", "observed"], ["Counterfactual premium cost", "predicted"], ["Avoided cost", "inferred"], ["Enforced route", "verified by SDK ack"], ["Outcome", "observed or insufficient"], ["Protected value", "never claimed without basis"]])}</div></div></section>`);
+  if (state.page === "teams") return shell("Teams", "Enterprise parity with Projects: aggregate usage by team, repo, app, and workflow without ranking individual developers.", `<button>Filter team</button><button class="primary" onclick="setPage('workflows')">Open workflows</button>`, `${enterpriseFilters()}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Team Usage</div><div class="sub">A company needs resource planning; developers need trust.</div></div>${pill("aggregate","green")}</div><div class="panel-body">${table([["Scope", "Cost", "Outcome"], ["Product AI platform", "$18.4k", "94% accepted"], ["Support ops", "$7.8k", "88% accepted"], ["Developer agents", "$5.1k", "71% merged/survived"], ["Finance ops", "$1.2k", "needs QA evidence"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">What Enterprise Adds</div><div class="sub">Same local pattern, different object model.</div></div>${pill("paid","blue")}</div><div class="panel-body">${fields([["OSS object", "session / project / commit"], ["Enterprise object", "team / app / workflow"], ["Policy context", "customer, plan, feature"], ["Outcome context", "accepted, resolved, merged"], ["Admin value", "budget + risk controls"], ["Brand rule", "coach teams, do not surveil people"]])}</div></div></section>`);
+  if (state.page === "workflows") return shell("Workflows", "The enterprise version of Sessions: a durable business or team task that can span tools, apps, and runs.", `<button onclick="selectItem('enterprise','internal')">Use internal case</button><button class="primary" onclick="setPage('controls')">Attach rule</button>`, `${enterpriseFilters()}<section class="grid-two">${receiptPanel(data.enterpriseItems.internal)}<div class="panel"><div class="panel-head"><div><div class="panel-title">Workflow Inventory</div><div class="sub">Lead with customer-facing AI economics, but preserve internal workflow expansion.</div></div>${pill("expansion","blue")}</div><div class="panel-body">${table([["Workflow", "Control state", "Outcome signal"], ["Advanced research", "route by plan", "accepted result"], ["Claims summaries", "allowance allocation", "edited/accepted"], ["Support case summary", "model route pilot", "QA pass"], ["AI code changes", "evidence only", "merged/survived"]])}<div class="callout"><strong>Expansion rule:</strong> internal workflows belong when the result is measurable and the control changes execution, not merely because usage exists.</div></div></div></section>`);
+  if (state.page === "receipts") return shell("Receipts", "Enterprise receipts are shared evidence for product, support, finance, platform, and compliance.", `<button>Export evidence</button><button class="primary" onclick="setPage('billing')">Resolve dispute</button>`, `${enterpriseFilters()}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Receipt Ledger</div><div class="sub">The same idea as OSS receipts, with customer and policy context added.</div></div>${pill("planned","blue")}</div><div class="panel-body">${table([["Receipt", "Decision", "Who uses it"], ["R-1042", "route after allowance", "product + finance"], ["R-1043", "allow Growth plan usage", "support"], ["R-1044", "require approval", "platform"], ["R-1045", "internal route pilot", "ops"]])}</div></div>${receiptPanel(item)}</section>`);
+  if (state.page === "evidence") return shell("Evidence", "Receipts, billing evidence, and integration health live together because trust depends on all three.", `<button onclick="selectItem('enterprise','dispute')">Use dispute case</button><button class="primary">Export evidence</button>`, `${enterpriseFilters()}<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Receipt Ledger</div><div class="sub">The OSS receipt idea with customer, team, workflow, policy, and billing context added.</div></div>${pill("planned","blue")}</div><div class="panel-body">${table([["Receipt", "Decision", "Who uses it"], ["R-1042", "route after allowance", "product + finance"], ["R-1043", "allow Growth plan usage", "support"], ["R-1044", "require approval", "platform"], ["R-1045", "internal route pilot", "ops"]])}${timeline(data.enterpriseItems.dispute.receipt)}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Billing And Input Health</div><div class="sub">Explain AI usage disputes without becoming the billing system.</div></div>${pill("boundary","blue")}</div><div class="panel-body">${fields([["AIWatcher owns", "allowance, policy, enforcement, execution, allocation, outcome"], ["Billing owns", "invoice, refund, tax, payment, contract"], ["SDK ack", "needed for verified enforcement"], ["Provider cost", "needed before protected value"], ["Outcome source", "accepted, edited, resolved, merged"], ["Missing data", "shown as insufficient"]])}</div></div></section>`);
+  if (state.page === "simulation") return shell("Simulation", "Preview one Usage Rule before enforcement.", `<button class="primary" onclick="state.policy='enforced route'; setPage('usage')">Enable route</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">30-Day Dry Run</div><div class="sub">One workflow family, one policy.</div></div>${pill("planned","blue")}</div><div class="panel-body">${fields([["Events matched", "148"], ["Would route", "96"], ["Review candidates", "11"], ["False positives", "7"], ["Predicted avoided cost", "$9.4k"], ["Measured outcome delta", "insufficient data"]])}<div class="callout"><strong>Rollout:</strong> observe first, inspect false positives, then enforce one route action.</div></div></div>${valuePanel(data.enterpriseItems.acme)}</section>`);
+  if (state.page === "billing") return shell("Billing Evidence", "Resolve AI usage disputes without becoming the billing system of record.", `<button onclick="selectItem('enterprise','dispute')">Use Brightpath case</button><button class="primary">Export evidence</button>`, `<section class="grid-two">${receiptPanel(data.enterpriseItems.dispute)}<div class="panel"><div class="panel-head"><div><div class="panel-title">Boundary</div><div class="sub">AIWatcher explains usage; billing systems own invoices and payments.</div></div>${pill("boundary","blue")}</div><div class="panel-body stack">${fields([["AIWatcher owns", "allowance, policy, enforcement, execution, allocation, outcome"], ["Billing owns", "invoice, refund, tax, payment, contract"], ["Support gets", "shared evidence receipt"], ["Finance gets", "AI allowance allocation"], ["Product gets", "workflow margin pressure"], ["Missing data", "shown as insufficient"]])}</div></div></section>`);
+  if (state.page === "gates") return shell("Approvals", "Enterprise controls include routing, blocking, throttling, approvals, and break-glass evidence.", `<button>Approve once</button><button class="primary">Require review</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Policy Gate</div><div class="sub">The enterprise parallel to prompt and command gates.</div></div>${pill("planned","blue")}</div><div class="panel-body">${table([["Trigger", "Action"], ["Premium model over allowance", "route"], ["High-risk tool call", "require approval"], ["Runaway workflow", "pause"], ["Missing customer plan", "allow with insufficient-data receipt"], ["Policy conflict", "send to reviewer"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Approval Receipt</div><div class="sub">Approvals matter only if execution and outcome are later attached.</div></div>${pill("receipt","green")}</div><div class="panel-body">${timeline([["Request", "Workflow requested premium model after allowance threshold.", "observed"], ["Reviewer", "Platform owner approved one run.", "observed"], ["Enforcement", "SDK acknowledged selected model and rule id.", "planned"], ["Outcome", "Customer accepted result.", "observed"]])}</div></div></section>`);
+  if (state.page === "inputs") return shell("Evidence Inputs", "Controls are credible only when metadata and acknowledgement are healthy.", `<button onclick="setPage('usage')">Open Usage Rules</button>`, `<section class="panel"><div class="panel-head"><div><div class="panel-title">Integration Health</div><div class="sub">Missing inputs produce insufficient-data labels, not guessed claims.</div></div>${pill("planned","blue")}</div><div class="panel-body">${table([["Input", "Health"], ["TypeScript SDK", "planned: evaluateControl and acknowledgeEnforcement"], ["Python SDK", "planned: matching control semantics"], ["Plan metadata", "needed: customer, plan, allowance, period"], ["Billing import", "later: invoice ids and billing-period context"], ["Provider cost import", "needed: do not claim protected value if stale"], ["Developer local evidence", "opt-in aggregate or signed export"], ["Outcome source", "accepted, edited, resolved, merged, survived"]])}</div></section>`);
+  return shell("Admin", "Enterprise settings manage licenses, roles, retention, integrations, and export policy.", `<button>Save policy</button><button class="primary">Export audit pack</button>`, `<section class="grid-two"><div class="panel"><div class="panel-head"><div><div class="panel-title">Licensing And Roles</div><div class="sub">Same brand, different audience and permission model.</div></div>${pill("enterprise","blue")}</div><div class="panel-body">${fields([["License", "team + production apps"], ["Roles", "admin, reviewer, finance, support"], ["Developer local", "free/private by default"], ["Managed endpoint", "optional add-on"], ["Retention", "configurable"], ["Evidence export", "signed"]])}</div></div><div class="panel"><div class="panel-head"><div><div class="panel-title">Product Boundary</div><div class="sub">Premium does not mean rebuilding billing, gateways, or HR analytics.</div></div>${pill("focused","green")}</div><div class="panel-body">${table([["Build", "control, evidence, outcomes"], ["Integrate", "billing, gateways, observability"], ["Avoid", "employee ranking"], ["Avoid", "invoice/refund/tax/payment ownership"], ["Preserve", "OSS trust and local utility"]])}</div></div></section>`);
+}
+function valuePanel(item) {
+  return `<div class="panel"><div class="panel-head"><div><div class="panel-title">Evidence Values</div><div class="sub">Predicted, inferred, observed, and verified stay separate.</div></div>${pill("receipt","green")}</div><div class="panel-body">${table(item.values || [])}</div></div>`;
+}
+function render() {
+  document.getElementById("root").innerHTML = state.product === "oss" ? renderOss() : renderEnterprise();
+}
+function setProduct(product) {
+  state.product = product;
+  state.page = product === "oss" ? "today" : "overview";
+  render();
+}
+function setPage(page) {
+  state.page = page;
+  render();
+}
+function selectItem(product, id) {
+  if (product === "oss") {
+    state.localItem = id;
+    if (id === "command") state.page = "control";
+    else if (id === "coverage") state.page = "settings";
+    else if (id === "handoff") state.page = "work";
+    else state.page = "evidence";
+  } else {
+    state.enterpriseItem = id;
+    if (id === "acme") state.page = "controls";
+    else if (id === "internal") state.page = "workflows";
+    else state.page = "evidence";
+  }
+  render();
+}
+render();
+</script>
+</body>
+</html>

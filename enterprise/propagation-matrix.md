@@ -70,7 +70,7 @@ policy decision, control applied, outcome, and measured impact.
 | S-17 | Loop detection offers stop | Adapt | Production and local runaway breaker with pause/stop/rescope. | P1 | Enterprise should enforce in SDK/runtime where possible. |
 | S-18 | Runaway velocity alert | Propagate | Cost velocity and usage velocity alerts across customers/features/agents. | P1 | Directly supports no-blow-up-cost promise. |
 | S-19 | Dangerous command gate | Adapt | Tool-call/action-class policy gate for local and production agents. | P1 | Enterprise value if paired with HITL and evidence. |
-| S-20 | Fresh-session handoff | Adapt | Work continuity across tools, teams, and incident handoff. | P2 | Useful for local sessions and production incident review. |
+| S-20 | Fresh Start continuity | Adapt | Work continuity across tools, teams, and incident restart. | P2 | Useful for local sessions and production incident review. |
 | S-21 | Low runway lane switch | Adapt | Model/tool routing based on quota, cost, plan, and customer entitlement. | P1 | Enterprise version is model routing + usage rules. |
 | S-22 | Session evidence links to code artifacts | Propagate | Local + production evidence graph linking session, artifacts, controls, and outcomes. | P0 | Moat foundation. |
 | S-23 | Cost per surviving change | Adapt | Cost per useful engineering/business outcome. | P1 | Enterprise should support customer/feature outcome equivalents too. |
@@ -82,6 +82,20 @@ policy decision, control applied, outcome, and measured impact.
 | S-29 | Prompt Companion fallback | OSS-only mostly | Enterprise can use a policy simulator, not manual prompt companion as primary UI. | P3 | Useful as fallback, not enterprise differentiator. |
 | S-30 | Passive evidence backfill | Propagate | Passive evidence snapshots for local/app sessions, capped and privacy-safe. | P0 | Flywheel data should accumulate without manual clicks. |
 | S-31 | Privacy contract validation | Propagate | Enterprise trust tests: metadata-only default, explicit content collection, RBAC. | P0 | Procurement and developer trust requirement. |
+| S-32 | Watch signals reach developer | Adapt | Enterprise Home/Inbox should deliver team/customer/workflow signals with snooze, owner, and escalation. | P1 | Same action-queue principle, different audience and routing. |
+| S-33 | Runtime hygiene | Adapt | Fleet-level stale local/runtime process health with privacy-safe metadata. | P2 | Useful for enterprise ops, but avoid process surveillance creep. |
+| S-34 | Vendor auto-compact awareness | Adapt | Treat compaction/continuation events as evidence-quality and Fresh Start signals across local and production agents. | P2 | Helps continuity and proof when agents summarize or restart. |
+| S-35 | Surface coverage diagnostics | Propagate | Enterprise integration health: automatic, companion-only, history-only, limited, unverified, missing. | P0 | Coverage honesty is a trust moat. |
+| S-38 | Host-generated payload classification | Propagate | Signed/issued control payloads and generated briefs must be distinguished from user/app proposals. | P1 | Prevents spoofed policy bypass and false receipt trust. |
+| S-39 | First-run setup | Adapt | Enterprise onboarding for SDK/local collector/integrations/evidence inputs with explicit trust boundaries. | P1 | Enterprise needs first value without false coverage claims. |
+| S-40 | Daily journal | Adapt | Daily Home summary for teams/customers/workflows with action items before charts. | P2 | Habit-forming, but only valuable if action-ranked. |
+| S-41 | Decision log feeds continuity | Propagate | Policy/approval/operator rationale flows into incident restart, support escalation, and next control recommendation. | P1 | Decision memory strengthens the intervention graph. |
+| S-42 | Timeline privacy safety | Propagate | Timeline/event exports remain metadata-first with explicit content collection. | P0 | Needed for procurement and developer trust. |
+| S-43 | Evidence action queue | Propagate | Enterprise Home/Inbox action queue ranked by controllability, business impact, evidence quality, and owner. | P0 | This is the shared product habit, not a dashboard. |
+| S-44 | Intervention identity | Propagate | Every enterprise item names customer/team/app/workflow/session identity and confidence before asking for action. | P0 | Wrong identity destroys trust in controls. |
+| S-45 | Fresh Start action bridge | Adapt | Team/incident/workflow restart actions with one primary CTA and safe runtime/workspace launch. | P1 | OSS Fresh Start becomes enterprise continuity. |
+| S-46 | Fresh Start proof receipt | Propagate | Enterprise receipts compare source and follow-up work with observed/inferred/measured/verified labels. | P0 | Receipts are the evidence moat. |
+| S-47 | Fast first paint | Propagate | Enterprise pages must show identity/action first and defer forensic enrichment. | P1 | Speed is part of trust during active incidents/workflows. |
 
 ## Enterprise-Only Scenarios
 
@@ -98,22 +112,30 @@ These do not belong in OSS except as personal/local analogs:
 | E-22 | Protected spend report | Revenue/renewal artifact for buyers. |
 | E-27 | SSO/RBAC | Enterprise procurement and governance. |
 | E-28 | SIEM/FinOps/billing export | Enterprise integration surface. |
+| E-30 | AI usage billing conflict receipt | Requires customer, plan, allowance, billing period, allocation, integration source, and finance/support workflow. |
+| E-31 | OSS intervention parity | Paid because it coordinates local and production action queues across teams, customers, and workflows. |
+| E-32 | Internal workflow optimization | Requires organization-level workflow ownership, outcomes, controls, and reporting beyond an individual developer. |
+| E-33 | Evidence input health | Enterprise trust surface for SDK/local collector/billing/outcome/enforcement integrations. |
+| E-34 | Team developer-agent action queue | Requires team ownership, admin disclosure, RBAC, retention, and privacy-preserving aggregation. |
 
 ## Recommended Sequencing
 
-1. Finish the Enterprise scenario suite and keep it private.
-2. Reconcile Enterprise navigation around Inbox, Controls, Work Ledger,
-   Evidence, Reports, and Settings.
+1. Keep the Enterprise scenario suite and root strategy private and current.
+2. Reconcile Enterprise navigation around Home, Controls, Workflows,
+   Evidence, Spend, and Admin.
 3. Implement shared parity primitives:
    - intervention receipts
    - outcome vocabulary
    - local/app surface metadata
    - evidence snapshots
    - policy decision records
+   - identity/confidence labels
+   - evidence input health
 4. Build Enterprise Usage Rules in observe-only/dry-run mode.
 5. Add SDK `evaluateControl` and runtime actions: route, throttle, block,
    require approval.
-6. Add protected-spend and outcome-impact reporting.
+6. Add enforcement acknowledgement, protected-spend receipts, and outcome-impact reporting.
+7. Expand to internal workflow optimization and team developer-agent action queues after the first Usage Rule loop is proven.
 
 ## Where The Existing Enterprise Specs Go
 

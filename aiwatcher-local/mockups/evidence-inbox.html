@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIWatcher Local Evidence Inbox Mockup</title>
+<style>
+:root {
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --ink: #18202a;
+  --muted: #5c6673;
+  --faint: #8d96a3;
+  --line: #d9dee6;
+  --green: #167a4a;
+  --blue: #2369c9;
+  --amber: #a76300;
+  --red: #b42635;
+  --violet: #6644bb;
+  --teal: #08756f;
+  --nav: #111821;
+  --soft: #eef3f7;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.45 var(--sans);
+}
+.shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+}
+.sidebar {
+  background: var(--nav);
+  color: #e8edf3;
+  padding: 18px 14px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.brand-title { font-weight: 800; letter-spacing: .01em; }
+.badge {
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 999px;
+  padding: 3px 8px;
+  font: 11px var(--mono);
+  color: #cbd6e3;
+}
+.nav-section {
+  margin: 18px 0 8px;
+  color: #8f9dad;
+  font: 11px var(--mono);
+  text-transform: uppercase;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  color: #c9d3df;
+}
+.nav-item.active { background: #243244; color: #fff; }
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: rgba(255,255,255,.1);
+  font: 700 11px var(--mono);
+}
+.main { padding: 18px 22px 30px; }
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+h1 {
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: 0;
+}
+.top-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+button {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  border-radius: 7px;
+  padding: 8px 11px;
+  font: 700 13px var(--sans);
+}
+button.primary { background: #18202a; color: #fff; border-color: #18202a; }
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.metric {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+}
+.metric-value {
+  font: 800 24px var(--mono);
+  margin-bottom: 2px;
+}
+.metric-label {
+  color: var(--muted);
+  font-size: 12px;
+}
+.metric small { color: var(--faint); display: block; margin-top: 5px; }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 43%) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfd;
+}
+.panel-title { font-weight: 800; }
+.panel-sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.tab {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--muted);
+  font: 12px var(--mono);
+}
+.tab.active { color: #fff; background: #18202a; border-color: #18202a; }
+.inbox-item {
+  display: grid;
+  grid-template-columns: 7px minmax(0, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+.inbox-item:last-child { border-bottom: 0; }
+.stripe.green { background: var(--green); }
+.stripe.blue { background: var(--blue); }
+.stripe.amber { background: var(--amber); }
+.stripe.red { background: var(--red); }
+.stripe.violet { background: var(--violet); }
+.item-body { padding: 12px 12px 12px 13px; }
+.item-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+.item-title { font-weight: 800; }
+.item-meta {
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.pill {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 2px 7px;
+  font: 700 11px var(--mono);
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+}
+.pill.green { color: var(--green); border-color: #abd7c2; background: #f0fbf5; }
+.pill.blue { color: var(--blue); border-color: #bed4f6; background: #f2f7ff; }
+.pill.amber { color: var(--amber); border-color: #efcf98; background: #fff8e9; }
+.pill.red { color: var(--red); border-color: #efb7bf; background: #fff3f5; }
+.pill.violet { color: var(--violet); border-color: #cfc2f1; background: #f7f4ff; }
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+}
+.tiny { padding: 5px 8px; font-size: 12px; }
+.receipt { padding: 14px; }
+.receipt-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.receipt h2 { margin: 0; font-size: 19px; }
+.receipt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.field {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 9px;
+  background: #fbfcfd;
+}
+.label {
+  color: var(--faint);
+  font: 11px var(--mono);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.value { font-weight: 750; }
+.timeline {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+.step {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr) 96px;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+}
+.step:last-child { border-bottom: 0; }
+.step-name { font-weight: 800; }
+.step-note { color: var(--muted); }
+.coverage {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.surface {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 9px;
+  background: #fbfcfd;
+}
+.surface strong { display: block; margin-bottom: 5px; }
+.privacy {
+  border-top: 1px solid var(--line);
+  padding: 12px 14px;
+  background: #f8faf9;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+}
+@media (max-width: 1050px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .layout, .metrics, .receipt-grid, .coverage { grid-template-columns: 1fr; }
+  .step { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-title">AIWatcher Local</div>
+      <span class="badge">local</span>
+    </div>
+    <div class="nav-section">Work</div>
+    <div class="nav-item"><span class="nav-icon">T</span>Today</div>
+    <div class="nav-item active"><span class="nav-icon">I</span>Evidence Inbox</div>
+    <div class="nav-item"><span class="nav-icon">S</span>Sessions</div>
+    <div class="nav-item"><span class="nav-icon">R</span>Receipts</div>
+    <div class="nav-section">Trust</div>
+    <div class="nav-item"><span class="nav-icon">C</span>Coverage</div>
+    <div class="nav-item"><span class="nav-icon">P</span>Privacy</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <h1>Evidence Inbox</h1>
+        <div class="panel-sub">Focused older mockup. Current OSS navigation and WorkUnit boundary live in ../../product-prototype/index.html.</div>
+      </div>
+      <div class="top-actions">
+        <button>Run hook-status</button>
+        <button>Export hashes</button>
+        <button class="primary">Open preflight</button>
+      </div>
+    </div>
+
+    <section class="metrics">
+      <div class="metric"><div class="metric-value">7</div><div class="metric-label">WorkUnits today</div><small>Claude 4, Codex 2, Cursor 1</small></div>
+      <div class="metric"><div class="metric-value" style="color:var(--amber)">3</div><div class="metric-label">Need action</div><small>Outcome, handoff, coverage</small></div>
+      <div class="metric"><div class="metric-value" style="color:var(--green)">$1.82</div><div class="metric-label">Cost per surviving change</div><small>Measured from 9 samples</small></div>
+      <div class="metric"><div class="metric-value" style="color:var(--blue)">91%</div><div class="metric-label">Hook evidence confidence</div><small>Codex Desktop is companion-only</small></div>
+    </section>
+
+    <section class="layout">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Ranked Actions</div>
+            <div class="panel-sub">Sorted by controllability, confidence, and expected next value.</div>
+          </div>
+          <span class="pill blue">no cloud sync</span>
+        </div>
+        <div class="tabs">
+          <span class="tab active">All</span>
+          <span class="tab">Confirm</span>
+          <span class="tab">Handoff</span>
+          <span class="tab">Verify</span>
+        </div>
+        <article class="inbox-item">
+          <div class="stripe amber"></div>
+          <div class="item-body">
+            <div class="item-top">
+              <div class="item-title">Confirm inferred useful outcome</div>
+              <span class="pill amber">inferred</span>
+            </div>
+            <div class="item-meta">
+              <span>WU-2408-auth-timeout</span><span>Claude Code</span><span>$8.41</span><span>2 commits</span><span>tests passed</span>
+            </div>
+            <div class="actions">
+              <button class="tiny primary">Confirm useful</button>
+              <button class="tiny">Mark rework</button>
+              <button class="tiny">Open receipt</button>
+            </div>
+          </div>
+        </article>
+        <article class="inbox-item">
+          <div class="stripe red"></div>
+          <div class="item-body">
+            <div class="item-top">
+              <div class="item-title">Context critical, create fresh-session handoff</div>
+              <span class="pill red">observed</span>
+            </div>
+            <div class="item-meta">
+              <span>WU-2408-billing-import</span><span>Codex CLI</span><span>128k context</span><span>loop pressure 2.4x</span>
+            </div>
+            <div class="actions">
+              <button class="tiny primary">Create handoff</button>
+              <button class="tiny">Resume in Claude</button>
+              <button class="tiny">Inspect loop</button>
+            </div>
+          </div>
+        </article>
+        <article class="inbox-item">
+          <div class="stripe blue"></div>
+          <div class="item-body">
+            <div class="item-top">
+              <div class="item-title">Hook coverage changed</div>
+              <span class="pill blue">verified</span>
+            </div>
+            <div class="item-meta">
+              <span>Codex Desktop</span><span>history-only</span><span>Prompt Companion recommended</span>
+            </div>
+            <div class="actions">
+              <button class="tiny primary">Open coverage</button>
+              <button class="tiny">Copy companion brief</button>
+            </div>
+          </div>
+        </article>
+        <article class="inbox-item">
+          <div class="stripe green"></div>
+          <div class="item-body">
+            <div class="item-top">
+              <div class="item-title">Command gate blocked destructive action</div>
+              <span class="pill green">verified</span>
+            </div>
+            <div class="item-meta">
+              <span>Claude Code</span><span>git push --force</span><span>blocked once</span><span>no retry</span>
+            </div>
+            <div class="actions">
+              <button class="tiny">Open receipt</button>
+              <button class="tiny">Add decision note</button>
+            </div>
+          </div>
+        </article>
+        <article class="inbox-item">
+          <div class="stripe violet"></div>
+          <div class="item-body">
+            <div class="item-top">
+              <div class="item-title">Outcome data insufficient</div>
+              <span class="pill violet">unknown</span>
+            </div>
+            <div class="item-meta">
+              <span>WU-2408-copy-review</span><span>non-code work</span><span>no proxy signal</span>
+            </div>
+            <div class="actions">
+              <button class="tiny primary">Mark outcome</button>
+              <button class="tiny">Dismiss</button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">WorkUnit Receipt</div>
+            <div class="panel-sub">Selected: WU-2408-auth-timeout</div>
+          </div>
+          <span class="pill green">prompt/source local</span>
+        </div>
+        <div class="receipt">
+          <div class="receipt-title">
+            <div>
+              <h2>Auth timeout hardening</h2>
+              <div class="panel-sub">Decision chain and durable outcome evidence.</div>
+            </div>
+            <span class="pill amber">needs confirmation</span>
+          </div>
+          <div class="receipt-grid">
+            <div class="field"><div class="label">Project</div><div class="value">aiwatcher-local</div></div>
+            <div class="field"><div class="label">Tool</div><div class="value">Claude Code</div></div>
+            <div class="field"><div class="label">Evidence</div><div class="value">Inferred, medium</div></div>
+            <div class="field"><div class="label">Cost</div><div class="value">$8.41 observed</div></div>
+            <div class="field"><div class="label">Survival</div><div class="value">7d checked</div></div>
+            <div class="field"><div class="label">Stored</div><div class="value">Hashes and metadata</div></div>
+          </div>
+
+          <div class="timeline">
+            <div class="step"><div class="step-name">Policy evaluated</div><div class="step-note">Broad auth change scored medium risk with safer execution brief.</div><span class="pill blue">observed</span></div>
+            <div class="step"><div class="step-name">Hook invoked</div><div class="step-note">Claude Code hook-status linked session id and prompt hash.</div><span class="pill green">verified</span></div>
+            <div class="step"><div class="step-name">Decision</div><div class="step-note">Developer added safer brief; original prompt hash retained locally.</div><span class="pill green">observed</span></div>
+            <div class="step"><div class="step-name">Execution</div><div class="step-note">2 commits, 4 files touched, tests passed, no durable file content stored.</div><span class="pill blue">observed</span></div>
+            <div class="step"><div class="step-name">Outcome</div><div class="step-note">Likely useful from commit survival and passing tests; waiting for one-click confirmation.</div><span class="pill amber">inferred</span></div>
+            <div class="step"><div class="step-name">Handoff</div><div class="step-note">Resume capsule available for Codex or Claude if follow-up work starts.</div><span class="pill blue">available</span></div>
+          </div>
+
+          <div class="coverage">
+            <div class="surface"><strong>Claude Code</strong><span class="pill green">automatic</span></div>
+            <div class="surface"><strong>Codex CLI</strong><span class="pill blue">automatic</span></div>
+            <div class="surface"><strong>Cursor</strong><span class="pill blue">limited</span></div>
+            <div class="surface"><strong>Codex Desktop</strong><span class="pill amber">companion</span></div>
+            <div class="surface"><strong>Browser chat</strong><span class="pill violet">unverified</span></div>
+          </div>
+        </div>
+        <div class="privacy">
+          <div>Network: none. API key: not required. Durable store: hashes, costs, decisions, timestamps, evidence labels.</div>
+          <strong>Content collection off</strong>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>
