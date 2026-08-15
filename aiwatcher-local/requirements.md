@@ -20,11 +20,11 @@
 | Breadth heuristic for multi-file product/UI work | Plan | Stops expensive broad refactors even without security words. | Done | S-04 |
 | Prompt Companion for non-hook surfaces | Plan | Same preflight logic where no lifecycle hook exists; defines the /api/preflight contract. | Done | S-29 |
 | Context health and compaction guidance | Watch | Warns when long sessions degrade and cost rises, for every session in the window. | Done | S-11 |
-| Fresh Start continuity | Watch | Restart bloated or looping work with an immediate task-first brief, safe workspace/tool opening, and proof-pending receipt. | To verify | S-20, S-45, S-46 |
+| Fresh Start continuity | Watch | Restart bloated or looping work with an immediate task-first brief, clipboard-safe copy, safe workspace/tool opening, and proof-pending receipt. | To verify | S-20, S-45, S-46 |
 | Quota runway and lane switching | Watch | Runway trigger built: names a concrete alternate tool and emits a ready resume command. | Done | S-21 |
-| Ambient watch delivery | Watch | Developers should see context/runway/loop warnings while working, without babysitting a terminal. Durable intervention record, native companion/dashboard delivery, identity strip, signal-specific actions, snooze/dismiss, and duplicate suppression are in bugbash scope; menu-bar/editor surfacing remain pending. | In progress | S-32 |
+| Ambient watch delivery | Watch | Developers see context/runway/loop warnings through the small Companion while working, without babysitting a terminal. Durable intervention record, signal-specific Companion actions, Scan, skip/continue quieting, identity strip, and duplicate suppression are in bugbash scope; native tray/editor packaging remains later. | In progress | S-32 |
 | Hard gate decisions | Control | User chooses original, safer brief, edit, or cancel — with timeout honesty. | Done | S-05, S-06, S-07 |
-| Cross-surface interception | Control | Protects work where hooks exist; verified boundary documented. | In progress | S-08, S-09, S-10, S-15 |
+| Cross-surface interception | Control | Protects work where hooks exist; desktop/manual fallback is honest, and hook-status must prove invocation before the UI claims automatic coverage. | In progress | S-08, S-09, S-10, S-15 |
 | Mid-session loop/runaway control | Control | Stops waste after the run starts. Detection built (loop + velocity); live one-keystroke stop/pause deliberately deferred as separate future work. | In progress | S-17, S-18 |
 | Dangerous command gate | Control | Tool-call-time protection for destructive commands. Reinstated, Claude Code only. | Done | S-19 |
 | Decision ledger and receipts | Prove | Links decision to observed usage, risk reduction, and outcome. | Done | S-12 |
@@ -41,15 +41,15 @@
 | Non-destructive install | Failsafe | Install adds only AIWatcher; uninstall removes only AIWatcher. | Done | S-14 |
 | Runtime hygiene for stale local AI runtimes | Watch | Finds orphaned or suspended AI tool runtimes that may waste CPU/RAM/battery or keep stale session state alive; no model-spend claim unless proven. `aiwatcher processes` ships in main; dashboard UI still pending. | In progress | S-33 |
 | Vendor auto-compact awareness and Fresh Start trigger | Watch | Treats Codex/Claude auto-compaction as a context event and recommends Fresh Start when work needs portability or proof. | In progress | S-34 |
-| Surface coverage diagnostics | Failsafe | Shows whether each surface is automatic, manual companion, history-only, limited, or unverified so users do not mistake logs for interception. | Done | S-28, S-35 |
+| Surface coverage diagnostics | Failsafe | Shows whether each surface is automatic, manual companion, history-only, limited, or unverified; desktop app support must not be inferred from CLI hooks or session logs. | Done | S-28, S-35 |
 | Host-generated payload classification | Control | Prevents a Prompt Gate bypass: host lifecycle text and AIWatcher's own generated briefs are told apart from user prompts by a live, single-use token, not spoofable static markers. | Done | S-38 |
 | First-run setup and onboarding | Plan | Guides a new user to first value (dashboard, coverage, hook install, hook-status, watch --notify smoke test) instead of requiring upfront knowledge of the CLI surface. | Done | S-39 |
 | Daily journal recap | Prove | Same-day rollup of sessions/cost/top project/costliest session/one improvement, distinct from the weekly digest. | Done | S-40 |
 | Decision log feeds Fresh Start continuity | Prove | Self-reported rationale for decisions that never produce a commit, carried into the next session's Fresh Start brief instead of being lost. | Done | S-41 |
 | Timeline privacy safety | Prove | Per-event session timeline exposes only metadata (timestamp, type, model, tokens, cost, hash) -- never prompt text, source, or raw output. | Done | S-42 |
-| Trusted intervention identity and delivery | Watch | No wrong/noisy popups: every intervention says exactly which session/tool/project it refers to and only interrupts for verified active work. | To verify | S-44 |
-| Fresh Start action bridge | Control | One primary action helps the developer continue in a fresh session instead of reading a report. | To verify | S-45 |
-| Fresh Start proof receipt | Prove | Shows whether the follow-up session was observed and how usage/outcome changed, without fake saved-token claims. | To verify | S-46 |
+| Trusted intervention identity and delivery | Watch | No wrong/noisy popups: the Companion and Console say which session/tool/project they refer to, only interrupt for verified active work, and quiet after a terminal user choice. | To verify | S-44 |
+| Fresh Start action bridge | Control | One primary action helps the developer continue in a fresh session, preserves clipboard intent, gives visible copied confirmation, and avoids duplicate handoff choices. | To verify | S-45 |
+| Fresh Start proof receipt | Prove | Shows proof pending or observed follow-up without nagging; viewed/skipped receipt states stop Companion attention until a new material signal appears. | To verify | S-46 |
 | Fast session and Fresh Start first paint | Failsafe | Session review and Fresh Start are usable during active work: identity/action first, forensic details afterward. | To verify | S-47 |
 
 ## Lifecycle Coverage
