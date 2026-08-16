@@ -2,7 +2,7 @@
 
 [Review Home](README.md) · [Scope](scope.md) · [Requirements](requirements.md) · [Platforms](platforms.md) · [Test Cases](test-cases.md) · [OSS Bug Bash](bug-bash.md) · [Evidence Inbox Mockup](mockups/evidence-inbox.html)
 
-Updated: `2026-08-10`
+Updated: `2026-08-15`
 
 AIWatcher Local is a private action loop for individual AI work, not another dashboard. It helps developers identify the exact local AI session that needs action, control prompts/tools before waste grows, restart bloated work with a Fresh Start brief, and prove whether the follow-up produced useful code without uploading prompt or source content.
 

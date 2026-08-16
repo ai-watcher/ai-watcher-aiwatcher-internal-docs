@@ -53,4 +53,12 @@ Action-first session identity: every popup, dashboard card, session drawer, Fres
 
 ### Fresh Start must be a bridge, not a report
 
-Fresh Start must be a bridge, not a report: copy a basic task-first brief immediately, open a supported workspace/tool only when runtime attachment is verified, save a receipt, then enrich with git/timeline/evidence in the background.
+Fresh Start must be a bridge, not a report: copy a basic task-first brief immediately, include fresh-chat/forked-chat/subagent continuation guidance, open or focus a supported workspace/tool only when runtime attachment is verified, save a receipt, then enrich with git/timeline/evidence in the background.
+
+### Companion is the live mode; Console is the evidence mode
+
+AIWatcher Local should start with a small draggable Companion that stays available during AI work without stealing focus. The Companion handles Plan, Control, Watch, Skip, and Console entry points; the dashboard Console holds deep history, receipts, settings, and evidence. Companion attention must be signal-specific and must quiet after skip, continue, copy, or viewed receipt decisions.
+
+### Fresh Start must protect user clipboard intent
+
+Fresh Start may copy an AIWatcher brief only after an intentional user action. If the clipboard already contains unrelated non-AIWatcher text, the Companion or drawer must ask for explicit Replace before overwriting it, then show a visible copied confirmation and proof-pending receipt without claiming savings until follow-up evidence exists.

@@ -28,7 +28,7 @@
 
 - Phase: `Setup`
 - Status: Done
-- Experience: Developer installs AIWatcher, runs start/status/today/ui, sees private local-only usage and supported tools without account signup. Validation script proves no API key and no network calls.
+- Experience: Developer installs AIWatcher, runs one start command, sees a small draggable AIW Companion plus the local Console, and can reach setup/doctor/hook-status without account signup.
 
 ### Low-risk work
 
@@ -52,7 +52,7 @@
 
 - Phase: `Plan + Control`
 - Status: Done
-- Experience: Non-hook surfaces (Claude Desktop general chat, Codex Desktop chat, claude.ai/other browser chat) use the local Prompt tab: draft, review risk, edit brief, copy. Widget copy now names these surfaces explicitly. Defines the /api/preflight contract for future thin extensions (S-29).
+- Experience: Non-hook surfaces use the Companion Plan action or Console Prompt tab: draft, review risk, edit brief, copy. The product labels this manual path honestly and does not claim desktop/browser interception without hook-status proof.
 
 ### Session review
 
@@ -75,8 +75,8 @@
 ### Fresh restart / lane switch
 
 - Phase: `Watch + Improve`
-- Status: Done
-- Experience: resume --target codex --copy generates a target-ready capsule today. watch now auto-triggers this at CRITICAL context (or severe loop), copies it to clipboard, and offers a runway-aware lane-switch prompt naming a concrete alternate tool with a ready-to-run resume command (S-20, S-21).
+- Status: To verify
+- Experience: Fresh Start is now a Control action: critical context or severe loop pressure recommends a restart, asks Replace before overwriting unrelated clipboard text, copies a structured continuation brief, opens/focuses a verified workspace/tool when safe, and records proof pending.
 
 ### Weekly reflection
 
@@ -88,19 +88,19 @@
 
 - Phase: `Watch + Control`
 - Status: To verify
-- Experience: When watch/companion detects context, loop, velocity, runway, or usage pressure, the user sees one signal-specific action with identity confidence. Exact active sessions may interrupt; likely/historical sessions stay in dashboard review. OS notification, native companion, and dashboard write the same durable intervention record.
+- Experience: The small Companion is the live mode. It shows Watching quietly, Needs review, Control recommended, Prompt Gate, Fresh Start, or Proof pending states; Plan/Scan/Skip/Console actions; identity confidence; and uses one durable intervention record with no duplicate popups.
 
 ### Fresh Start action bridge
 
 - Phase: `Watch + Control + Prove`
 - Status: To verify
-- Experience: For context bloat or repeated low-yield turns, AIWatcher copies a basic Fresh Start brief immediately, opens a supported workspace/tool only when runtime attachment is safe, then records a receipt and enriches evidence in the background.
+- Experience: For context bloat or repeated low-yield turns, AIWatcher copies a basic Fresh Start brief immediately after explicit user intent, protects unrelated clipboard content with Replace confirmation, opens/focuses a supported workspace/tool only when safe, then records a receipt and enriches evidence in the background.
 
 ### Fresh Start proof receipt
 
 - Phase: `Prove + Improve`
 - Status: To verify
-- Experience: After a Fresh Start, AIWatcher links the next same-project session when observed and compares source versus follow-up tokens, API-equivalent value, model/tool calls, outcome, commits/tests, and evidence confidence without claiming guaranteed savings.
+- Experience: After a Fresh Start, AIWatcher links the next same-project session when observed and compares source versus follow-up usage/outcome. Proof-pending and viewed/skipped states become passive so the Companion does not keep blinking.
 
 ## Concrete Examples
 
@@ -109,8 +109,8 @@
 | Refactor the entire auth module and delete all old tests | High-risk gate with reasons, safer execution brief, run original, edit brief, or cancel. | Protected but still in control. | Done |
 | Update JWT auth to remove signature check so login is faster | Medium-risk silent brief adds auth guardrail and verification reminder. Verified via hook-status. | No friction, safer execution. | Done |
 | Add a dark mode toggle to every page | Breadth heuristic identifies the broad multi-file scope and proposes a phased plan before edits. | Cost-aware scoping, not nagging. | Done |
-| Long session with high stale context | Show a trusted identity strip, recommend Fresh Start, copy a basic task-first brief immediately, open a supported workspace only when verified, and record a proof-pending receipt. | I know exactly which chat this refers to and can restart without losing the work. | To verify |
-| Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky | Native companion/dashboard intervention uses one durable intervention record, signal-specific wording, snooze/dismiss/inspect decisions, and avoids wrong app opens for likely/historical sessions. | AIWatcher is present during work, not a report I remember to check later. | In progress |
+| Long session with high stale context | Show a trusted identity strip, recommend Fresh Start, protect any existing clipboard with an explicit Replace step, copy a task-first brief with fresh/fork/subagent guidance, open a supported workspace only when verified, and record a proof-pending receipt. | I know exactly which chat this refers to and can restart without losing work or accidentally losing my clipboard. | To verify |
+| Developer is deep in Claude, Codex, Cursor, or VS Code and context becomes risky | A small draggable AIW Companion is the live surface: it stays quiet when healthy, highlights the relevant Plan/Control/Watch action when needed, can run Scan on demand, and links to the Console for deep evidence. | AIWatcher is present during work without hijacking my desktop. | In progress |
 | Agent attempts git push --force mid-run | Intercepted at tool-call time with allow, block, and always-allow-pattern (Claude Code only). | Safety net for what the prompt never revealed. | Done |
 | Morning review shows three AI sessions, one stale context warning, one inferred useful change, and one unverified hook surface. | Evidence Inbox ranks current OSS anchors: sessions, projects, commits, receipts, hook coverage, and evidence gaps. It offers one-click outcome confirm, Fresh Start, inspect receipt, or hook-status without claiming WorkUnit grouping. | A short daily control loop instead of a dashboard to interpret. | Gap |
 
@@ -123,7 +123,7 @@
 
 ### Partial
 
-- `S-32` Watch - [Watch signals reach the developer without manual CLI polling](#s-32): One durable intervention record drives notification/companion/dashboard delivery. Copy varies by signal: context -> Fresh Start, loop -> inspect/stop, velocity -> narrow current task, runway -> switch lane. Duplicate visible delivery is suppressed unless severity worsens or snooze expires.
+- `S-32` Watch - [Watch signals reach the developer without manual CLI polling](#s-32): One durable intervention record drives Companion/dashboard delivery. The Companion stays small and draggable, highlights the relevant Plan/Control/Watch action, shows one primary action plus Skip/Console, and quiets after skip, continue, copy, or viewed receipt. Duplicate visible delivery is suppressed unless severity worsens or snooze expires.
 - `S-33` Watch - [Runtime hygiene identifies stale local AI runtimes](#s-33): Read-only process metadata only: PID, age, state, runtime label, RSS/CPU, session/workdir flags, and stale reason. No prompt text, source, process memory, raw command line, upload, or auto-kill. `aiwatcher processes` (with --stale-only, --json) is implemented in main and matches this field list exactly. Still missing: dashboard UI surfacing -- no Coverage/Today card shows runtime hygiene yet, CLI-only today.
 - `S-34` Watch - [Vendor auto-compact is recorded as context event](#s-34): AIWatcher labels the event as Context compacted, stores confidence/evidence source, and recommends Fresh Start when the work is risky, multi-file, failing tests, or ready to switch tools. Fresh Start continuity exists today; missing: auto-compact event detection and UI badge/action.
 - `S-17` Control - [Loop detection offers stop](#s-17): Done: watch polling detects repeated identical tool-call content (content-hash matching), shows tokens/cost burned across the repeats, and at severe repeat counts (5+) prepares a Fresh Start brief seeded with the loop diagnosis as the leading warning. Still missing: a true one-keystroke live stop of an actively-running session -- watch re-scans local logs on a timer, it does not hook into or interrupt a running agent process. That would need genuinely different plumbing (live process hooking, not periodic log scanning) and is deliberately deferred as separate, explicitly-scoped future work, not attempted as part of this batch.
@@ -132,15 +132,15 @@
 
 ### To test
 
-- `S-20` Watch - [Critical context opens Fresh Start continuation](#s-20): AIWatcher recommends Fresh Start for critical context/severe loop pressure, shows identity confidence, makes a basic task-first brief copyable immediately, and opens a workspace/tool only when runtime attachment is verified. Full evidence enrichment can load afterward.
+- `S-20` Watch - [Critical context opens Fresh Start continuation](#s-20): AIWatcher recommends Fresh Start only for credible context/severe loop pressure, shows identity confidence, asks Replace before overwriting unrelated clipboard content, then copies a task-first brief and shows a visible copied/proof-pending confirmation. Workspace/tool opens only when runtime attachment is verified; full evidence enrichment can load afterward.
 - `S-08` Control - [Web prompt interception — OPEN DECISION](#s-08): Option A: overlay before send with brief replacing textarea. Option B: S-08 becomes a Companion flow + future extension scenario.
 - `S-09` Control - [Codex prompt receives brief](#s-09): hook-status records invocation; Codex receives execution brief as additional context (or gate with --gate). Note: Codex Desktop chat verified NOT invoking — CLI/TUI only, host-build-dependent.
 - `S-15` Control - [MCP soft preflight presents options](#s-15): Claude calls preflight tool, shows risk, safer brief, predicted impact, and waits for A/B/C choice.
 - `S-31` Prove - [Privacy contract validation](#s-31): No API key requested. No network calls. Installed tools detected; limited-data tools honestly labeled, not guessed. JSON/event exports contain metadata, aggregates, and hashes — never prompt text or source. Real project folders, not parents. Time-window selector visibly updates.
-- `S-44` Watch - [Intervention identifies the exact session before asking for action](#s-44): Every surface shows tool, surface, active/recent/historical state, project/worktree, last activity, short session id, and identity confidence. Only exact/active work interrupts. Likely or historical sessions appear as dashboard review items. A likely app attachment never opens the wrong app automatically.
-- `S-45` Control - [Fresh Start provides one primary continuation action](#s-45): There is one primary CTA: copy the Fresh Start brief, and open the workspace/tool only when runtime attachment is verified. The brief is task-first, privacy-safe by default, and available before git/timeline enrichment finishes. Duplicate New chat / Copy handoff actions are not shown.
-- `S-46` Prove - [Fresh Start receipt proves follow-up shape without overclaiming savings](#s-46): Receipt shows proof status, correlation confidence, source -> follow-up tokens, API-equivalent value, model calls, tool calls, per-call metrics, outcome, commits/tests evidence, and notes that the comparison is observed so far, not a final savings claim. If no follow-up exists, it says proof pending.
-- `S-47` Failsafe - [Session review and Fresh Start first paint stay usable on large local logs](#s-47): Identity, usage, reason, and copyable basic Fresh Start brief appear before full timeline/git/prompt enrichment. Windowed scanner paths avoid parsing obviously old/oversized nonessential Codex rows. Slow enrichment fails soft instead of blocking action.
+- `S-44` Watch - [Intervention identifies the exact session before asking for action](#s-44): Every surface shows tool, surface, active/recent/historical state, project/worktree, last activity, short session id, and identity confidence. Only exact/active work interrupts. Likely or historical sessions appear as dashboard review items. App/workspace return is allowed only when verified; exact chat return remains unavailable unless the host provides a verified deep link or runtime handle.
+- `S-45` Control - [Fresh Start provides one primary continuation action](#s-45): There is one primary CTA: copy the Fresh Start brief, with explicit Replace confirmation before overwriting unrelated clipboard content. The brief is task-first, privacy-safe by default, includes fresh-chat/forked-chat/subagent continuation guidance, and is available before git/timeline enrichment finishes. Duplicate New chat / Copy handoff actions are not shown, and copied confirmation tells the user to paste into a fresh chat.
+- `S-46` Prove - [Fresh Start receipt proves follow-up shape without overclaiming savings](#s-46): Receipt shows proof status, correlation confidence, source -> follow-up tokens, API-equivalent value, model calls, tool calls, per-call metrics, outcome, commits/tests evidence, and notes that the comparison is observed so far, not a final savings claim. If no follow-up exists, it says proof pending and explains the missing evidence. Viewing or skipping the receipt quiets Companion attention until a new material signal appears.
+- `S-47` Failsafe - [Session review and Fresh Start first paint stay usable on large local logs](#s-47): Identity, usage, reason, and copyable basic Fresh Start brief appear before full timeline/git/prompt enrichment. The user can copy the basic brief without waiting; enrichment labels explain what is still loading. Windowed scanner paths avoid parsing obviously old/oversized nonessential Codex rows. Slow enrichment fails soft instead of blocking action.
 
 ## Open Decisions
 
@@ -234,7 +234,7 @@
 - Platform: Dashboard Prompt tab
 - Go to: Run aiwatcher ui, open the Prompt tab.
 - Do: Paste a risky prompt intended for Claude Desktop chat or Codex Desktop.
-- Expected: Same preflight logic in a local widget: risk, reasons, expected impact, editable brief, copy brief or original. POST /api/preflight serves the same contract for future extensions. Widget copy now names the actual non-hook surfaces (Claude Desktop general chat, Codex Desktop chat, claude.ai/other browser chat) instead of vague 'some surfaces', and clarifies CLI/Codex/Cursor already get this via hook.
+- Expected: Same preflight logic in a local Companion/Prompt widget: risk, reasons, expected impact, editable brief, copy brief or original. POST /api/preflight serves the same contract for future extensions. Widget copy names actual non-hook surfaces and hook-status is required before claiming automatic desktop/browser coverage.
 - User value: Honest coverage for surfaces with no lifecycle hook — useful on its own, not pretend interception.
 - Why it matters: Missing per README step 1: copy/paste ergonomics polish after beta feedback. That polish is now done; underlying widget/endpoint predates this and was unchanged.
 
@@ -246,7 +246,7 @@
 - Platform: CLI + Dashboard
 - Go to: Install AIWatcher Local for the first time with no existing local state.
 - Do: Run aiwatcher setup, or open the dashboard's Setup tab.
-- Expected: A short checklist walks through: opening the dashboard, running doctor/coverage to see what's actually detected, the hook install commands for the surfaces present, hook-status to confirm a hook actually fired, watch --notify, and a risky-prompt smoke test -- the same checklist rendered identically by both the CLI and the dashboard Setup tab.
+- Expected: A short checklist walks through: starting the Companion, opening the Console, running doctor/coverage, installing hooks for detected surfaces, using hook-status to confirm a hook actually fired, running watch/scan, and doing a risky-prompt plus Fresh Start smoke test.
 - User value: Replaces guesswork about which of ~20+ CLI subcommands to try first with one guided pass to first value.
 - Why it matters: Before this, a new developer had to already know AIWatcher's command surface to get any value from it -- defeating the point of a desktop-first, zero-config local tool.
 
@@ -270,10 +270,10 @@
 
 - Status: To verify
 - Platform: CLI + Dashboard
-- Go to: Run aiwatcher watch --once (or --interval) against a CRITICAL-context session, or open session review / run aiwatcher resume --target claude --copy manually.
-- Do: Open the Fresh Start action for a recent costly/long session.
-- Expected: AIWatcher recommends Fresh Start for critical context/severe loop pressure, shows identity confidence, makes a basic task-first brief copyable immediately, and opens a workspace/tool only when runtime attachment is verified. Full evidence enrichment can load afterward.
-- User value: Restart without losing state and without trusting a vague handoff blob.
+- Go to: Run the Companion/watch against a CRITICAL-context or severe-loop session, or open session review / Fresh Start manually from the Console.
+- Do: Put unrelated text on the clipboard, then click Fresh Start from the Companion or session drawer.
+- Expected: AIWatcher recommends Fresh Start only for credible context/severe loop pressure, shows identity confidence, asks Replace before overwriting unrelated clipboard content, then copies a task-first brief and shows a visible copied/proof-pending confirmation. Workspace/tool opens only when runtime attachment is verified; full evidence enrichment can load afterward.
+- User value: Restart without losing state, hijacking the wrong app, or accidentally replacing a user clipboard.
 - Why it matters: Same continuity engine powers restart, lane switch, and receipt proof.
 
 <a id="s-21"></a>
@@ -294,10 +294,10 @@
 
 - Status: In progress
 - Platform: Local notifications + dashboard + editor companions
-- Go to: Run AIWatcher once as a background watcher or local companion while working in Claude, Codex, Cursor, or VS Code.
-- Do: Continue a session until context health, runway, or loop pressure crosses warning/critical thresholds.
-- Expected: One durable intervention record drives notification/companion/dashboard delivery. Copy varies by signal: context -> Fresh Start, loop -> inspect/stop, velocity -> narrow current task, runway -> switch lane. Duplicate visible delivery is suppressed unless severity worsens or snooze expires.
-- User value: AIWatcher is present during work without becoming noisy.
+- Go to: Run AIWatcher with the small Companion while working in Claude, Codex, Cursor, or VS Code.
+- Do: Use Scan on demand and continue a session until context health, runway, loop, velocity, or prompt-gate pressure appears.
+- Expected: One durable intervention record drives Companion/dashboard delivery. The Companion stays small and draggable, highlights the relevant Plan/Control/Watch action, shows one primary action plus Skip/Console, and quiets after skip, continue, copy, or viewed receipt. Duplicate visible delivery is suppressed unless severity worsens or snooze expires.
+- User value: AIWatcher is present during work without becoming a noisy second dashboard.
 - Why it matters: PR23 built the CLI Watch engine; PR37 (closes issue #31) delivered the OS-notification + dashboard-deep-link half. Daily OSS value needs delivery in the user's workflow, while staying honest about platform limits.
 
 <a id="s-33"></a>
@@ -332,7 +332,7 @@
 - Platform: Dashboard + Native Companion + watch
 - Go to: Run aiwatcher watch --notify/--overlay while multiple Claude/Codex/Desktop sessions exist in the same project.
 - Do: Trigger context, loop, velocity, or runway pressure and inspect the companion popup, dashboard Fresh Start bubble, session drawer, and Fresh Start drawer.
-- Expected: Every surface shows tool, surface, active/recent/historical state, project/worktree, last activity, short session id, and identity confidence. Only exact/active work interrupts. Likely or historical sessions appear as dashboard review items. A likely app attachment never opens the wrong app automatically.
+- Expected: Every surface shows tool, surface, active/recent/historical state, project/worktree, last activity, short session id, and identity confidence. Only exact/active work interrupts. Likely or historical sessions appear as dashboard review items. App/workspace return is allowed only when verified; exact chat return remains unavailable unless the host provides a verified deep link or runtime handle.
 - User value: The user trusts the intervention because it names the work precisely and does not hijack the wrong chat.
 - Why it matters: This is the first OSS moat layer: AIWatcher must know which live AI work is drifting before it can control or prove anything.
 
@@ -477,9 +477,9 @@
 - Status: To verify
 - Platform: Dashboard + Native Companion + Fresh Start drawer
 - Go to: Open a critical-context session from the popup, Today Fresh Start bubble, or session drawer.
-- Do: Click the primary Fresh Start action.
-- Expected: There is one primary CTA: copy the Fresh Start brief, and open the workspace/tool only when runtime attachment is verified. The brief is task-first, privacy-safe by default, and available before git/timeline enrichment finishes. Duplicate New chat / Copy handoff actions are not shown.
-- User value: The user continues the work with less context drag instead of deciding among confusing buttons.
+- Do: Click the primary Fresh Start action with both an empty clipboard and a clipboard containing unrelated text.
+- Expected: There is one primary CTA: copy the Fresh Start brief, with explicit Replace confirmation before overwriting unrelated clipboard content. The brief is task-first, privacy-safe by default, includes fresh-chat/forked-chat/subagent continuation guidance, and is available before git/timeline enrichment finishes. Duplicate New chat / Copy handoff actions are not shown, and copied confirmation tells the user to paste into a fresh chat.
+- User value: The user continues work with less context drag while preserving clipboard intent.
 - Why it matters: Fresh Start is the signature OSS experience: action bridge first, forensic detail second.
 
 ## Prove
@@ -623,8 +623,8 @@
 - Status: To verify
 - Platform: Receipts + Session review
 - Go to: Copy a Fresh Start brief, start a later same-project session, then open Receipts.
-- Do: Inspect the latest Fresh Start receipt and the next-session link.
-- Expected: Receipt shows proof status, correlation confidence, source -> follow-up tokens, API-equivalent value, model calls, tool calls, per-call metrics, outcome, commits/tests evidence, and notes that the comparison is observed so far, not a final savings claim. If no follow-up exists, it says proof pending.
+- Do: Inspect the latest Fresh Start receipt, click View receipt from the Companion, then Skip or close it.
+- Expected: Receipt shows proof status, correlation confidence, source -> follow-up tokens, API-equivalent value, model calls, tool calls, per-call metrics, outcome, commits/tests evidence, and notes that the comparison is observed so far, not a final savings claim. If no follow-up exists, it says proof pending and explains the missing evidence. Viewing or skipping the receipt quiets Companion attention until a new material signal appears.
 - User value: The user can see whether the intervention helped without being asked to believe a counterfactual.
 - Why it matters: Receipts turn AIWatcher from advice into evidence.
 
@@ -712,6 +712,6 @@
 - Platform: Dashboard + CLI scanner
 - Go to: Use a machine with large Codex/Claude histories and open a heavy session or run aiwatcher sessions --days 1.
 - Do: Measure first visible content for session review and Fresh Start, then wait for detailed evidence enrichment.
-- Expected: Identity, usage, reason, and copyable basic Fresh Start brief appear before full timeline/git/prompt enrichment. Windowed scanner paths avoid parsing obviously old/oversized nonessential Codex rows. Slow enrichment fails soft instead of blocking action.
+- Expected: Identity, usage, reason, and copyable basic Fresh Start brief appear before full timeline/git/prompt enrichment. The user can copy the basic brief without waiting; enrichment labels explain what is still loading. Windowed scanner paths avoid parsing obviously old/oversized nonessential Codex rows. Slow enrichment fails soft instead of blocking action.
 - User value: The product is usable during real work, not only on small demo histories.
 - Why it matters: Speed is part of trust; a popup that leads to a slow blank drawer breaks the control loop.
