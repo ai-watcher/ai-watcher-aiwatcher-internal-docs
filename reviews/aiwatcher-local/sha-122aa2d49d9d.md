@@ -1,0 +1,30 @@
+# Product Docs Review: AIWatcher Local
+
+Source: `ai-watcher/aiwatcher-local@122aa2d49d9d`
+Source repo: `ai-watcher/aiwatcher-local`
+Source ref: `main`
+Source SHA: `122aa2d49d9d54d3ae602882647dbf256bfcb02e`
+Source event: `push`
+Recorded: `2026-08-11 22:19 UTC`
+
+Source URL: https://github.com/ai-watcher/aiwatcher-local/commit/122aa2d49d9d54d3ae602882647dbf256bfcb02e
+Source run: https://github.com/ai-watcher/aiwatcher-local/actions/runs/31541858865
+
+## Review Prompt
+
+Check local scenario status, product scope, and whether the OSS change should propagate to Enterprise.
+
+## Checklist
+
+- [ ] Does the product scenario source need a status or wording update?
+- [ ] Are generated Markdown/HTML docs refreshed from `scenarios.json`?
+- [ ] Does code behavior still match the product scenario/spec?
+- [ ] Does `enterprise/propagation-matrix.md` need Propagate / Adapt / OSS-only / Enterprise-only updates?
+- [ ] Does `enterprise/scenarios.json` need a corresponding scenario or status update?
+
+## Decision
+
+- [ ] `docs-impact:none`
+- [ ] `docs-impact:local`
+- [ ] `docs-impact:enterprise`
+- [ ] `docs-impact:local-and-enterprise`
