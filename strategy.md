@@ -6,6 +6,8 @@
 
 **Date:** August 10th 2026
 
+**Last updated:** September 7th 2026 - two-ramp Enterprise moat validation against current AIWatcher Local `main`
+
 **Scope:** AIWatcher Local, Enterprise endpoint controls, production SDK, control plane, and evidence system
 
 ---
@@ -78,6 +80,17 @@ It creates direct user value, developer trust, adapter coverage, and development
 
 Enterprise scope is broader than customer-facing AI economics: it can eventually cover internal AI workflows across teams, projects, operations, support, sales, finance, and product development. The first paid wedge remains customer-facing AI economics because it has the clearest budget owner, allowance context, outcome signal, and urgency. Internal workflow optimization becomes an expansion path after the control/evidence loop is proven.
 
+## Enterprise entry ramps
+
+AIWatcher Enterprise should support two entry ramps into one Enterprise-owned control and evidence backbone:
+
+1. **Direct Enterprise SDK onboarding** - the primary paid wedge. A production application integrates an AIWatcher app key, evaluates a Usage Rule before a model call, acknowledges the enforced action, records execution and cost, attaches a workflow outcome, and receives a receipt.
+2. **Local evidence enrollment** - the bottom-up trust and development-evidence ramp. Existing AIWatcher Local users join or are invited into an Enterprise organization, enroll their local install or workspace, and share signed metadata/hash-only evidence by default.
+
+These ramps must not become two products. Both should converge into the same Work, Evidence, Spend, and Admin surfaces. Direct Enterprise proves production control and business outcomes. Local evidence enrollment contributes privacy-preserving developer, project, session, Fresh Start, prompt/command gate, optimizer, commit, and outcome evidence.
+
+Do not position Local evidence enrollment as Enterprise enforcement until an Enterprise-managed endpoint policy or production SDK enforcement point is actually in the path. Local evidence explains and improves organizational AI work; SDK/app-key integration controls production AI work before execution.
+
 ## Critical strategic distinction
 
 Customers do not primarily buy “lineage.”
@@ -138,6 +151,7 @@ Pitch points:
 - Agent governance and runtime control are becoming expected platform capabilities.
 - AI activity metrics alone do not establish useful engineering or business outcomes.
 - AIWatcher Local already demonstrates meaningful portions of a private plan–watch–control–prove–improve loop.
+- Current AIWatcher Local `main` now includes the concrete bottom-up evidence primitives Enterprise can build on: Prompt Gate, Claude command gate, Prompt Companion, Fresh Start briefs and decisions, local receipts, outcome correction, commit/test/survival evidence, runtime/process hygiene, optional AI Assist with explicit source-access settings, privacy-safe session/event JSON export, and content-free companion/dashboard state.
 
 The OSS implementation includes normalized local sessions and events, prompt preflight, prompt gating, local receipts, cross-process-safe state, session-health analysis, Fresh Start continuity, and code-outcome evidence.
 
@@ -146,6 +160,9 @@ The OSS implementation includes normalized local sessions and events, prompt pre
 - That companies will pay specifically for outcome-aware Usage Rules
 - That customer outcome data will be available and reliable
 - That AIWatcher can integrate into model-call paths without unacceptable friction
+- That the direct SDK event chain can be integrated into a real customer model-call path with API-key auth, live execution records, and live outcome callbacks
+- That AIWatcher Local's current JSON export schemas can be mapped into Enterprise enrollment without weakening the Local privacy boundary
+- That enrolled Local evidence changes an Enterprise buyer decision before managed endpoint policy is installed
 - That development-to-production lineage is sufficiently valuable to affect a purchase
 - That AIWatcher can capture evidence competitors cannot obtain
 - That accumulated history materially improves future controls
@@ -519,8 +536,8 @@ The top-level product experience should be organized around user jobs, not every
 | Job | AIWatcher Local - free OSS | AIWatcher Enterprise - paid |
 | --- | --- | --- |
 | Home | Private daily loop: what happened, what needs attention, and what to do next | Company control loop: customer, team, workflow, and policy items needing action |
-| Control / Controls | Prompt preflight, Prompt Companion, prompt gate, dangerous-command gate, Fresh Start controls | Usage Rules, routing, throttling, blocking, approvals, observe-only mode, dry-run simulation |
-| Work / Workflows | Sessions, projects, expensive asks, Fresh Starts, commits, surviving lines, unbanked spend | Teams, apps, customers, features, production workflows, internal workflows, developer-agent work |
+| Control | Prompt preflight, Prompt Companion, prompt gate, dangerous-command gate, Fresh Start controls | Usage Rules, routing, throttling, blocking, approvals, observe-only mode, dry-run simulation |
+| Work | Sessions, projects, expensive asks, Fresh Starts, commits, surviving lines, unbanked spend | Teams, apps, customers, features, production workflows, internal workflows, developer-agent work |
 | Evidence | Local receipts, outcome confirmation, commit/test evidence, journal, weekly report, hash-only export | Receipts with customer/team/workflow context, billing evidence, enforcement acknowledgement, evidence health, signed export |
 | Spend | API-equivalent value, API-priced versus subscription-limited usage, live statusline, projected month | Spend by customer, plan, feature, team, workflow, model, rule, outcome, and protected-value basis |
 | Settings / Admin | Setup, doctor, hook-status, privacy, coverage diagnostics, local extensions, export controls | SSO/RBAC, integrations, SDKs, retention, disclosure, policy versions, evidence exports, billing-system imports |
@@ -533,6 +550,13 @@ Control → Evidence → Outcome
 
 Feature names such as Prompt Companion, Receipts, Usage Rules, Billing Evidence, and Evidence Inputs should remain visible inside the relevant job page, but they should not all compete as top-level navigation.
 
+Enterprise should show two lanes inside the same product system:
+
+- **Production apps** - SDK/app-key traffic, Usage Rule decisions, enforcement acknowledgements, execution, outcome, billing/allocation context, and protected-value evidence.
+- **Local teams** - enrolled Local installs and workspaces, metadata/hash-only exports, Fresh Start and optimizer evidence, prompt/command gate receipts, local outcome confidence, and surface coverage.
+
+The lanes share the lifecycle and receipt vocabulary, but they have different trust boundaries. Production app traffic can be controlled before execution. Local evidence enrollment is privacy-preserving organizational evidence unless and until an Enterprise-managed endpoint policy is installed and verified.
+
 ## AIWatcher Local
 
 ### Core experience
@@ -540,33 +564,48 @@ Feature names such as Prompt Companion, Receipts, Usage Rules, Billing Evidence,
 > **A private personal control loop that helps developers prevent bad AI runs and learn which agent work produces durable results.**
 > 
 
-Recommended navigation:
+Current Local `main` can expose the lifecycle more directly than Enterprise: Home, Plan, Watch, Control, Prove, Improve, plus Projects, Sessions, and Settings. That is acceptable because Local is a single-user workbench where the user is actively planning, watching, controlling, proving, and improving one machine's AI work.
+
+Enterprise should not copy every Local navigation item one-for-one. Enterprise should keep the same lifecycle language inside job surfaces while using buyer-oriented top-level jobs: Home, Control, Work, Evidence, Spend, Admin. In practice, Local **Plan/Watch/Control/Prove/Improve** maps to Enterprise **Control/Work/Evidence/Spend** rather than requiring identical menus.
+
+Recommended current Local navigation:
 
 1. **Home**
     - What AI work happened?
     - What needs attention now?
     - Which action should I take next?
-2. **Control**
+2. **Plan**
+    - Is this work broad, destructive, risky, or likely to become expensive?
+    - What narrower execution brief preserves the intent?
+    - Should a surface without reliable hooks be preflighted manually?
+3. **Watch**
+    - Which sessions are active, stale, bloated, looping, waiting, or nearing a checkpoint?
+    - Is a Fresh Start likely to preserve momentum?
+4. **Control**
     - Is this work broad, destructive, risky, or likely to become expensive?
     - What narrower execution brief preserves the intent?
     - Did a dangerous command need to be blocked?
-3. **Work**
-    - Which sessions, projects, prompts, Fresh Starts, and commits drove the work?
-    - Is context health degrading or stale?
-    - What changed, survived, or had no commit behind it?
-4. **Evidence**
+    - Which gate, Fresh Start, Optimize, or local review action is available now?
+5. **Prove**
     - What decision was made?
     - What session resulted?
     - Did commits, tests, or changes appear?
     - Did the change survive?
     - What should I do differently next time?
-5. **Spend**
-    - What is live, daily, weekly, monthly, and projected API-equivalent value?
-    - Which numbers are API-priced versus subscription-limited?
-6. **Settings**
+6. **Improve**
+    - Which local pattern should be repeated, avoided, restarted, or reviewed?
+    - Which prompt, command, session, or outcome deserves correction?
+7. **Changes ledger**
+    - Which commits, changes, survival signals, and API-equivalent value belong to the work?
+    - What AI spend remains unbanked to a durable artifact?
+8. **Projects / Sessions**
+    - Which sessions, projects, prompts, Fresh Starts, and commits drove the work?
+    - Is context health degrading or stale?
+    - What changed, survived, or had no commit behind it?
+9. **Settings**
     - What is installed, verified, covered, private, exported, or disabled?
 
-Current OSS reality: AIWatcher Local is session, project, commit, and evidence based. It should not present WorkUnit as a shipped abstraction. WorkUnit-style grouping is a future shared-core direction that can be introduced only after it reconciles with the existing session/commit ledger.
+Current OSS reality: AIWatcher Local is session, project, commit, receipt, lifecycle, and evidence based. Spend is visible through API-equivalent value, subscription/limited labels, receipts, and the changes ledger rather than as a separate top-level tab. Local should not present WorkUnit as a shipped abstraction. WorkUnit-style grouping is a future shared-core direction that can be introduced only after it reconciles with the existing session/commit ledger.
 
 ### Fresh Start as the main OSS "during work" action
 
@@ -583,6 +622,8 @@ Fresh Start should include:
 - A Fresh Start Receipt that labels what was observed, inferred, predicted, measured, and verified.
 
 This feature fits the OSS moat because it is useful without signup, depends on local context competitors usually do not have, and creates an evidence loop rather than a generic summary. It should not claim guaranteed savings. The honest claim is that AIWatcher preserved the right context at the moment a restart was likely to be better.
+
+For Enterprise evidence enrollment, Fresh Start also needs an explicit follow-up confirmation mechanism. Current Local behavior can infer likely follow-up sessions from same-project activity, but Enterprise should not depend only on inference. Local should eventually issue a short receipt or enrollment token in the copied Fresh Start brief, let the next session echo or redeem it, and let the developer confirm or correct the follow-up session when multiple candidates exist. Until then, Fresh Start rollups should remain labeled proof-pending or inferred.
 
 ### Current OSS readiness focus
 
@@ -613,7 +654,7 @@ Recommended navigation:
     - Approvals
     - Evidence gaps
     - Billing and allocation conflicts
-2. **Controls**
+2. **Control**
     - Usage Rules
     - Allowance and entitlement policies
     - Routing
@@ -621,7 +662,7 @@ Recommended navigation:
     - Blocking
     - Approvals
     - Observe-only and dry-run simulation
-3. **Workflows**
+3. **Work**
     - Customers
     - Features
     - Applications
@@ -663,7 +704,7 @@ Enterprise should mirror OSS where the mental model helps adoption, but it shoul
 | Core job | Make local AI work safer, smaller, more resumable, and more measurable | Control AI work across customer-facing and internal workflows with policy, evidence, and outcomes |
 | First value | Private Evidence Inbox, prompt/command gates, session health, Fresh Start, local receipts | One controlled workflow with customer/plan/feature/team/workflow/allowance context, enforcement acknowledgement, outcome, and receipt |
 | Evidence | Local metadata, hashes, decisions, cost, surface coverage, code survival, manual outcome correction | Organization-retained receipts, customer/workflow context, policy versions, enforcement, outcomes, protected value, exports |
-| Controls | Personal prompt gates, command gates, preflight, Fresh Start, local watch signals | Usage Rules, routing, throttling, blocking, approvals, signed policy distribution, retention, RBAC |
+| Control | Personal prompt gates, command gates, preflight, Fresh Start, local watch signals | Usage Rules, routing, throttling, blocking, approvals, signed policy distribution, retention, RBAC |
 | Privacy stance | Prompt/source local by default; useful without account signup | Metadata/evidence by default; content collection explicit; developer-visible collection disclosure |
 | Not included | SSO, central admin policy, customer entitlements, org retention, compliance exports | Billing system of record, hidden employee surveillance, generic gateway replacement, broad GRC as the first wedge |
 
@@ -1280,7 +1321,7 @@ flowchart TB
 
     subgraph Edge["Endpoint and Runtime Layer"]
         LocalPDP["Local policy decision point"]
-        SDK["Python and TypeScript SDK"]
+        SDK["TypeScript/JavaScript SDK now; Python parity target"]
         Context["Identity and business-context resolver"]
         PEP["Policy enforcement point"]
         Buffer["Durable local buffer"]
@@ -1308,7 +1349,7 @@ flowchart TB
     subgraph Experience["Product Experiences"]
         Developer["Developer experience"]
         Inbox["Inbox"]
-        Controls["Controls"]
+        ControlUX["Control"]
         Work["Work ledger"]
         Reports["Outcome economics"]
         Leadership["Leadership rollups"]
@@ -1351,7 +1392,7 @@ flowchart TB
 
     Adapters --> Developer
     Graph --> Inbox
-    Policies --> Controls
+    Policies --> ControlUX
     Ledger --> Work
     Impact --> Reports
     Reports --> Leadership
@@ -1390,7 +1431,7 @@ Important implementation boundary:
 
 - AIWatcher Local does not ship WorkUnit today. Current OSS surfaces are anchored on session id, project, commit, evidence snapshots, receipts, and local outcomes.
 - The shared-core WorkUnit model should be introduced only after it can reconcile multiple sessions, commits, Fresh Starts, and production executions without losing the current local ledger value.
-- Enterprise may present Workflows or controlled work as the paid product abstraction, but any UI or documentation must distinguish shipped local session evidence from planned cross-session WorkUnit grouping.
+- Enterprise may present Work and controlled workflows as the paid product abstraction, but any UI or documentation must distinguish shipped local session evidence from planned cross-session WorkUnit grouping.
 
 ## Essential entities
 
@@ -1420,8 +1461,9 @@ PolicyEvaluation
 Decision
 Intervention
 Approval
-EnforcementResult
+EnforcementAcknowledgement
 Execution
+ExecutionResult
 Artifact
 Build
 Deployment
@@ -1439,10 +1481,11 @@ InterventionImpact
 ProposedAction
 → PolicyEvaluation
 → Decision
-→ EnforcementResult
+→ EnforcementAcknowledgement
 → Execution
 → ExecutionResult
 → Outcome
+→ Receipt
 ```
 
 These must not be collapsed into a generic event.
@@ -1500,31 +1543,56 @@ Recommended shipped UX grouping:
 
 ---
 
-## 18.2 Enterprise endpoint
+## 18.2 Local evidence enrollment
 
 ### Purpose
 
-Extend trusted local controls across managed teams.
+Let existing AIWatcher Local users join or be invited into an Enterprise organization and share privacy-safe development evidence.
 
-Enterprise should feel like AIWatcher Local scaled from one developer to teams, customers, apps, and workflows, with paid controls layered on top. It should not become a generic AI governance, billing, gateway, or employee-surveillance product.
+Local evidence enrollment should feel like AIWatcher Local scaled from one developer to teams and projects without breaking the local privacy contract. It contributes evidence to Enterprise Work, Evidence, and Spend surfaces, but it is not production enforcement.
 
 ### Scope
 
 - Endpoint enrollment and identity
 - Shared-core adapters
-- Signed policy distribution
-- Local evaluation
 - Privacy transformation
-- Evidence upload
+- Signed metadata/hash-only evidence upload
+- Prompt/command gate receipts
+- Fresh Start receipts and follow-up confirmation
+- Optimizer findings and human review decisions
+- Session, project, commit, test, survival, and outcome evidence
 - Integration-health verification
-- Team, app, workflow, and project aggregation
+- Team, workflow, repository, and project aggregation
+- Developer-visible collection disclosure
+
+Current implementation note: Enterprise has a Local metadata-export ingest path and optimizer-review recording path, but AIWatcher Local `main` still exports `aiwatcher.local_sessions.v0` and `aiwatcher.local_events.v0`. The Enterprise ingest contract currently expects `2026-08-local-export-v1`, so Local enrollment requires an adapter or new Local export mode before it is a real end-to-end customer path.
+
+### Not enforcement yet
+
+Local evidence enrollment should not claim organization enforcement unless a managed endpoint policy is installed and verified. Imported Local evidence can show what happened, what was gated locally, what was inferred, and what remains proof-pending. It cannot prove that an organization policy controlled a local action unless the endpoint control path acknowledges enforcement.
+
+## 18.2b Managed Enterprise endpoint controls
+
+### Purpose
+
+Extend trusted local controls across managed teams after observe-only measurement, developer disclosure, and verified endpoint enforcement.
+
+### Scope
+
+- Enterprise-managed endpoint enrollment and identity
+- Signed policy distribution
+- Local policy evaluation
+- Verified endpoint enforcement acknowledgement
+- Auditable temporary overrides
+- Privacy-aware retention
+- Team, workflow, repository, and project aggregation
 - Developer-visible collection disclosure
 
 Recommended paid UX grouping:
 
 - Home
-- Controls
-- Workflows
+- Control
+- Work
 - Evidence
 - Spend
 - Admin
@@ -1542,10 +1610,25 @@ Control customer-facing and internal production AI applications.
 
 ### Initial languages
 
-- Python
+Current workspace state: TypeScript/JavaScript-shaped SDK calls and Next.js API routes exist for the receipt sequence. Python parity remains a target before AIWatcher claims equivalent two-language SDK support.
+
+Target initial languages:
+
 - TypeScript/JavaScript
+- Python
 
 Additional languages follow only after parity.
+
+Current direct SDK onboarding path:
+
+1. `evaluateUsageRule` -> `POST /api/usage-rules/evaluate`
+2. `acknowledgeEnforcement` -> `POST /api/enforcement-acknowledgements`
+3. `recordExecution` -> `POST /api/executions`
+4. `recordExecutionResult` -> `POST /api/execution-results`
+5. `attachOutcome` -> `POST /api/outcomes`
+6. `GET /api/receipts/:id`
+
+Implementation caveat: the current SDK path is still alpha/demo until app-key authentication, tenant-bound app identity, idempotency, acknowledgement binding, and real HTTP SDK transport are implemented.
 
 ### SDK sequence
 
@@ -1753,6 +1836,16 @@ One:
 
 Do not build the broad Enterprise platform before this loop is validated.
 
+The initial pilot can be reached through either entry ramp, but the paid validation sequence should prioritize the direct Enterprise SDK path:
+
+1. Instrument one production AI workflow with app-key authenticated SDK calls.
+2. Evaluate one Usage Rule before execution.
+3. Bind the SDK enforcement acknowledgement to the server-issued decision.
+4. Attach execution, result, and outcome evidence.
+5. Use Local evidence enrollment only as supporting development-side context unless the buyer's first problem is explicitly team developer-agent visibility.
+
+A bottom-up company path is still important: a VP or founder may discover AIWatcher after a few developers use Local. In that case, the lightweight motion should be: create Enterprise org, invite users or verify the company domain, enroll Local installs, show privacy-safe team/project evidence, then instrument one production workflow. Do not require heavy SSO or a broad platform rollout for a one-digit startup team.
+
 ---
 
 # 22. Pricing hypothesis
@@ -1845,19 +1938,22 @@ Every proposed feature can state:
 
 ### Current recommended OSS next steps
 
-1. Bugbash Phase 1 - Trust the intervention: exact/likely/historical identity, signal-specific copy/actions, no duplicate notification/overlay delivery, no wrong app auto-open, and POST-only runtime return.
-2. Bugbash Phase 2 - Make Fresh Start useful: one primary CTA, immediate copyable basic brief, safe workspace/tool opening only when verified, prompt/source privacy opt-in, and no duplicate handoff actions.
-3. Bugbash Phase 3 - Prove Fresh Start: receipts link source and follow-up sessions where observed, compare tokens/cost/calls/outcome/evidence, and label proof pending or insufficient data honestly.
-4. Bugbash Phase 4 - Speed and polish: session summary and Fresh Start first paint show identity/action quickly; timeline/git/prompt enrichment is deferred; large local logs fail soft; setup/coverage states remain explicit.
-5. Replace any single coverage percentage with per-surface states: automatic, limited, companion-only, history-only, or unverified.
-6. Keep the local UI grouped around Home, Control, Work, Evidence, Spend, and Settings; surface feature depth inside those jobs.
-7. Keep execution-brief language honest: it can reduce scope and preserve intent, but savings are measured only after outcome evidence appears.
+1. Polish Prompt Gate and Prompt Companion after beta feedback: command-host quirks, copy/paste ergonomics, and clear action routing from Home/Watch into Control.
+2. Improve intervention-to-session matching across concurrent sessions, with explicit Fresh Start follow-up confirmation when inference is ambiguous.
+3. Move watch from periodic summaries toward reliable active-session loop and context-growth alerts, with developer-controlled pause, continue, or Fresh Start actions.
+4. Improve outcome inference from tests, commits, rework, survival, and manual correction while keeping all claims honestly labeled.
+5. Keep coverage as per-surface states such as automatic, limited, companion-only, history-only, unverified, unsupported, or not detected.
+6. Preserve the current Local lifecycle workbench shape: Home, Plan, Watch, Control, Prove, Improve, Projects, Sessions, and Settings. Do not force Enterprise's buyer-oriented menu back into Local.
+7. Keep execution-brief and Optimize language honest: they can reduce scope and focus review, but savings are measured only after outcome or post-action evidence appears.
+8. Add an Enterprise-ready local evidence export mode only after preview, explicit enrollment, signing, schema validation, and no prompt/source upload by default are preserved.
 
 ---
 
 ## Phase 2: Validate Enterprise concurrently
 
 This phase runs while OSS improves.
+
+Current Enterprise foundation already includes the Next.js route surface, DB-backed service path, Drizzle schema, receipt state machine, Local export ingest endpoint, billing import, evidence health, audit log, and signed export checks. Remaining validation work is live API-key authentication, real SDK traffic, real outcome callbacks, real Local app upload, production key/retention hardening, and database-layer tenant tests.
 
 ### Build only
 
@@ -1873,6 +1969,18 @@ This phase runs while OSS improves.
 - Evidence receipt
 - Evidence input health for SDK, local collector, billing/plan metadata, and outcome callbacks
 - A narrow internal-workflow control scenario using the same policy/evidence/outcome loop
+
+### Checkpoint PR order
+
+1. **SDK/app-key ingress** - route auth for `Authorization: Bearer aw_live...`, hashed key lookup, active app checks, tenant and workflow binding, SDK-scoped permissions, idempotency, and audit of key use.
+2. **Enterprise SDK HTTP transport** - replace in-process actor/transport-only SDK usage with a real HTTP client for evaluate, acknowledge, execution, result, outcome, and receipt reads.
+3. **Signed enforcement acknowledgement** - server-issued decision hash/nonce, acknowledgement binding to receipt id, app id, selected action/model, timestamp, replay protection, and proof-pending UI when acknowledgement is missing or mismatched.
+4. **Shared Local evidence export contract** - define `local-evidence-export-v2` or an adapter from current `aiwatcher.local_sessions.v0` and `aiwatcher.local_events.v0` into Enterprise's enrollment contract, including session/event hashes, coverage, outcomes, command decisions, commit receipt summaries, redacted project identity, and receipt links.
+5. **Local evidence enrollment and upload** - Enterprise-issued enrollment tokens, signed Local metadata exports, installation/workspace identity, strict schema validation, replay protection, provenance, source trust tiers, dry-run preview, no-network-by-default behavior, and developer-visible disclosure of what the organization receives.
+6. **Enterprise Local ingest normalization** - store normalized Local sessions, events, evidence snapshots, command decisions, and receipt links instead of only opaque JSON batches; attach Local evidence to receipt projections by receipt hash, session id, project, repository, and workflow mapping.
+7. **Outcome and billing evidence** - workflow-specific outcome callback templates, billing/plan metadata import, protected-value claim gates, and evidence labels for observed, inferred, measured, verified, pending, and insufficient data.
+8. **Unified Work/Evidence UI** - `Production apps` and `Local teams` lanes under Work, shared receipt timeline, evidence health by source, and clear distinction between controlled production work and enrolled Local evidence.
+9. **Evidence hardening** - HMAC signatures, replay protection, retention controls, DB-backed tenant isolation tests, key rotation/revocation, and disclosure/audit views.
 
 ### Do not build yet
 
@@ -1947,7 +2055,17 @@ aiwatcher-enterprise-agent
 ├── signed policy sync
 ├── evidence upload
 └── collection disclosure
+
+aiwatcher-enterprise-sdk
+├── app-key authentication
+├── pre-execution Usage Rule evaluation
+├── decision nonce/hash handling
+├── enforcement acknowledgement
+├── execution/result capture
+└── outcome callback helpers
 ```
+
+Shared core must not erase product boundaries. Local owns private developer control and local evidence. The Enterprise SDK owns production pre-call control. The Enterprise agent/enrollment path owns privacy-safe organizational evidence and, later, managed endpoint policy rollout.
 
 ---
 
@@ -2250,6 +2368,22 @@ OSS users and AI-product economic buyers may not naturally overlap.
 Treat OSS as a product and technical distribution advantage—not as a guaranteed Enterprise funnel.
 
 Test the conversion path rather than assuming it.
+
+Support the conversion path without letting it define the paid product:
+
+- A few Local users in a company should be able to join an Enterprise organization, enroll their installs, and contribute signed metadata/hash-only evidence.
+- A VP, founder, or platform lead should see team/project/workflow evidence quickly, with prompt/source privacy and collection disclosure visible to developers.
+- The same account should then be guided toward the paid wedge: instrument one production AI workflow with SDK/app-key control and outcome receipts.
+- A direct Enterprise buyer should not have to understand or install Local first; their first value should be one controlled production workflow.
+
+The moat ranking is:
+
+1. Direct Enterprise SDK/app-key decision path.
+2. Signed enforcement and outcome receipt graph.
+3. Customer/workflow-specific learning.
+4. Local trust, privacy, and developer-side evidence distribution.
+
+Local evidence enrollment strengthens the moat only when it feeds the signed evidence graph, deployment/artifact linkage, policy learning, and privacy-safe organizational rollout. A plain metadata export/import dashboard is not enough.
 
 ---
 
